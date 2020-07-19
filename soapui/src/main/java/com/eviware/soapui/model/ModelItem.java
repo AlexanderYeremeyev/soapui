@@ -58,4 +58,11 @@ public interface ModelItem extends PropertyChangeNotifier {
      * @throws UnsupportedOperationException If this model item is not the descendant of a project
      */
     public Project getProject();
+
+    /**
+     * to fast work with model item it must return simple value which correctly determine this item.
+     */
+    default int getTypeId() {
+        return ModelItemType.UNKNOWN.getId();
+    }
 }

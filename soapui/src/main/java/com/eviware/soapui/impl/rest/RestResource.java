@@ -27,6 +27,7 @@ import com.eviware.soapui.impl.support.AbstractHttpOperation;
 import com.eviware.soapui.impl.wsdl.AbstractWsdlModelItem;
 import com.eviware.soapui.impl.wsdl.MutableTestPropertyHolder;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Attachment.AttachmentEncoding;
 import com.eviware.soapui.model.iface.MessagePart;
 import com.eviware.soapui.model.iface.Request;
@@ -116,6 +117,11 @@ public class RestResource extends AbstractWsdlModelItem<RestResourceConfig> impl
         result.addAll(getChildResourceList());
 
         return result;
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.REST_RESOURCE.getId();
     }
 
     public MessagePart[] getDefaultRequestParts() {

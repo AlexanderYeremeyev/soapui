@@ -30,6 +30,7 @@ import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestSuiteRunner;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStep;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.support.ModelSupport;
 import com.eviware.soapui.model.testsuite.TestCase;
 import com.eviware.soapui.model.testsuite.TestSuite;
@@ -101,6 +102,11 @@ public class WsdlTestSuite extends AbstractTestPropertyHolderWsdlModelItem<TestS
             addTestSuiteRunListener(listener);
         }
 
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.TEST_SUITE.getId();
     }
 
     public WsdlTestCase buildTestCase(TestCaseConfig testCaseConfig, boolean forLoadTest) {
