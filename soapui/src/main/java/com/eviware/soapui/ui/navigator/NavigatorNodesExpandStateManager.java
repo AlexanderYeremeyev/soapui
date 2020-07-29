@@ -69,4 +69,11 @@ class NavigatorNodesExpandStateManager {
     void setExpandedState(ModelItem modelItem, boolean expand) {
         navigatorNodesExpandStateProvider.setExpandedState(modelItem, expand);
     }
+
+    public void restoreNodeExpansion() {
+        if (jTree == null) {
+            return;
+        }
+        restoreNodeExpansion(jTree);
+    }
 }

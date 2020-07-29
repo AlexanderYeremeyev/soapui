@@ -18,11 +18,18 @@ package com.eviware.soapui.ui.navigator;
 
 import com.eviware.soapui.model.ModelItem;
 import com.eviware.soapui.model.project.Project;
-import com.eviware.soapui.model.tree.SoapUITreeModel;
+import com.eviware.soapui.model.tree.SoapUIFilteredTreeModel;
 import com.eviware.soapui.model.tree.SoapUITreeNode;
 import com.eviware.soapui.model.tree.SoapUITreeNodeRenderer;
 import com.eviware.soapui.model.tree.nodes.ProjectTreeNode;
 import com.eviware.soapui.model.workspace.Workspace;
+import com.eviware.soapui.plugins.interfaces.controls.ExternalTreeFilter;
+import com.eviware.soapui.plugins.interfaces.controls.TreeType;
+import com.eviware.soapui.plugins.interfaces.margin.ExtendedWindowMargin;
+import com.eviware.soapui.plugins.interfaces.margin.WindowType;
+import com.eviware.soapui.plugins.storage.GlobalFiltersStorage;
+import com.eviware.soapui.plugins.storage.GlobalWindowMarginsStorage;
+import com.eviware.soapui.plugins.tools.ExtendedMarginsTools;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.action.swing.ActionList;
 import com.eviware.soapui.support.action.swing.ActionListBuilder;
@@ -70,7 +77,7 @@ public class Navigator extends JPanel {
     public static final String NAVIGATOR = "navigator";
     private Workspace workspace;
     private JTree mainTree;
-    private SoapUITreeModel treeModel;
+    private SoapUIFilteredTreeModel treeModel;
     private Set<NavigatorListener> listeners = new HashSet<NavigatorListener>();
     private NavigatorNodesExpandStateManager navigatorNodesExpandStateManager;
 
@@ -83,7 +90,11 @@ public class Navigator extends JPanel {
     }
 
     private void buildUI() {
-        treeModel = new SoapUITreeModel(workspace);
+        treeModel = new SoapUIFilteredTreeModel(workspace);
+        List<ExternalTreeFilter> filters = GlobalFiltersStorage.getTreeFilters(TreeType.MAIN_NAVIGATOR);
+        for (ExternalTreeFilter filter : filters) {
+            treeModel.addFilter(filter);
+        }
         mainTree = new NavigatorTree(treeModel);
         navigatorNodesExpandStateManager = new NavigatorNodesExpandStateManager();
         navigatorNodesExpandStateManager.initialize(mainTree);
@@ -99,8 +110,14 @@ public class Navigator extends JPanel {
         mainTree.addKeyListener(new TreeKeyListener());
         JScrollPane sp = new JScrollPane(mainTree);
         sp.setBorder(BorderFactory.createEmptyBorder());
-        add(sp, BorderLayout.CENTER);
-        add(buildToolbar(), BorderLayout.NORTH);
+        List<ExtendedWindowMargin> extendersList = GlobalWindowMarginsStorage.getMarginsList(WindowType.MAIN_NAVIGATOR);
+        JPanel pluginsPanel = new JPanel(new BorderLayout());
+        pluginsPanel.add(sp, BorderLayout.CENTER);
+        pluginsPanel.add(buildToolbar(), BorderLayout.NORTH);
+        pluginsPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pluginsPanel = ExtendedMarginsTools.createExtendedMarginsComponent(pluginsPanel, extendersList);
+        add(pluginsPanel);
+
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
     }
 
@@ -156,6 +173,10 @@ public class Navigator extends JPanel {
 
     public JTree getMainTree() {
         return mainTree;
+    }
+
+    public void restoreNodeExpansion() {
+        navigatorNodesExpandStateManager.restoreNodeExpansion();
     }
 
     public ModelItem getSelectedItem() {
