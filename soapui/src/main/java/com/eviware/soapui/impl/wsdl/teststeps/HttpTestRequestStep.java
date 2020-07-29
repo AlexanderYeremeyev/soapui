@@ -35,6 +35,7 @@ import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.TestAssertionRegistry.AssertableType;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Interface;
 import com.eviware.soapui.model.iface.Request.SubmitException;
 import com.eviware.soapui.model.iface.Submit;
@@ -199,6 +200,11 @@ public class HttpTestRequestStep extends WsdlTestStepWithProperties implements H
     @Override
     public ImageIcon getIcon() {
         return testRequest == null ? null : testRequest.getIcon();
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.HTTP_REQUEST_TEST_STEP.getId();
     }
 
     public HttpTestRequest getTestRequest() {

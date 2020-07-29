@@ -30,6 +30,7 @@ import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlContext;
 import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlUtils;
 import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlUtils.SoapHeader;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Attachment.AttachmentEncoding;
 import com.eviware.soapui.model.iface.MessagePart;
 import com.eviware.soapui.model.iface.MessagePart.FaultPart;
@@ -96,6 +97,11 @@ public class WsdlOperation extends AbstractWsdlModelItem<OperationConfig> implem
         oneWayIcon = UISupport.createImageIcon("/onewayoperation.gif");
         notificationIcon = UISupport.createImageIcon("/notificationoperation.gif");
         solicitResponseIcon = UISupport.createImageIcon("/solicitresponseoperation.gif");
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.WSDL_OPERATION.getId();
     }
 
     public String getAction() {

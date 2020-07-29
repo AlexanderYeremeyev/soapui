@@ -44,6 +44,7 @@ import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.TestAssertionRegistry;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.TestAssertionRegistry.AssertableType;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Interface;
 import com.eviware.soapui.model.iface.Operation;
 import com.eviware.soapui.model.iface.SubmitContext;
@@ -161,6 +162,11 @@ public class WsdlMockResponseTestStep extends WsdlTestStepWithProperties impleme
 
         testCase.addTestRunListener(testRunListener);
         testCase.addPropertyChangeListener(this);
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.SOAP_MOCK_RESPONSE_TEST_STEP.getId();
     }
 
     @Override

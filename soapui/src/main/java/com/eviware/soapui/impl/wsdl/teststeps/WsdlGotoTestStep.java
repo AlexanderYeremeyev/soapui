@@ -22,6 +22,7 @@ import com.eviware.soapui.config.GotoStepConfig;
 import com.eviware.soapui.config.TestStepConfig;
 import com.eviware.soapui.impl.support.http.HttpRequestTestStep;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpander;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpansion;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpansionContainer;
@@ -70,6 +71,11 @@ public class WsdlGotoTestStep extends WsdlTestStepWithProperties implements XPat
         if (!forLoadTest) {
             setIcon(UISupport.createImageIcon("/conditional_goto_step.png"));
         }
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.GOTO_TEST_STEP.getId();
     }
 
     @Override

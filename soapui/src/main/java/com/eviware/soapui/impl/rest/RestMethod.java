@@ -28,6 +28,7 @@ import com.eviware.soapui.impl.rest.support.XmlBeansRestParamsTestPropertyHolder
 import com.eviware.soapui.impl.wsdl.AbstractWsdlModelItem;
 import com.eviware.soapui.impl.wsdl.MutableTestPropertyHolder;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Attachment;
 import com.eviware.soapui.model.iface.Request;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpansion;
@@ -374,6 +375,11 @@ public class RestMethod extends AbstractWsdlModelItem<RestMethodConfig> implemen
         params.release();
 
         removeTestPropertyListener(testPropertyListener);
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.REST_METHOD.getId();
     }
 
     public List<TestProperty> getPropertyList() {

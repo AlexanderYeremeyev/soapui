@@ -41,6 +41,7 @@ import com.eviware.soapui.impl.wsdl.teststeps.BeanPathPropertySupport;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestRequest;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestRequestStep;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Operation;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpander;
 import com.eviware.soapui.settings.WsaSettings;
@@ -109,6 +110,11 @@ public class WsdlInterface extends AbstractInterface<WsdlInterfaceConfig> {
         }
 
         definitionProperty = new BeanPathPropertySupport(this, "definition");
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.WSDL_SERVICE.getId();
     }
 
     public WsdlOperation getOperationAt(int index) {

@@ -32,6 +32,7 @@ import com.eviware.soapui.impl.wsdl.support.assertions.AssertionsSupport;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.TestAssertionRegistry.AssertableType;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Interface;
 import com.eviware.soapui.model.iface.Request.SubmitException;
 import com.eviware.soapui.model.iface.Submit;
@@ -124,6 +125,11 @@ public class AMFRequestTestStep extends WsdlTestStepWithProperties implements As
                 SoapUI.logError(e);
             }
         }
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.AMF_REQUEST_TEST_STEP.getId();
     }
 
     private void addResponseAsXmlVirtualProperty() {

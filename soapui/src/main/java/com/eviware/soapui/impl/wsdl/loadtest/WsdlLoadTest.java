@@ -38,6 +38,7 @@ import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCaseRunner;
 import com.eviware.soapui.impl.wsdl.teststeps.SimplePathPropertySupport;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStep;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.support.LoadTestRunListenerAdapter;
 import com.eviware.soapui.model.testsuite.LoadTest;
 import com.eviware.soapui.model.testsuite.LoadTestRunContext;
@@ -201,6 +202,11 @@ public class WsdlLoadTest extends AbstractWsdlModelItem<LoadTestConfig> implemen
             getSettings().setBoolean(HttpSettings.CLOSE_CONNECTIONS,
                     SoapUI.getSettings().getBoolean(HttpSettings.CLOSE_CONNECTIONS));
         }
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.LOADUI_TEST.getId();
     }
 
     public LoadTestStatistics getStatisticsModel() {

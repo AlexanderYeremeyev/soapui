@@ -39,6 +39,7 @@ import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.TestAssertionRegistry.AssertableType;
 import com.eviware.soapui.impl.wsdl.teststeps.registry.RestRequestStepFactory.ItemDeletedException;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Interface;
 import com.eviware.soapui.model.iface.Operation;
 import com.eviware.soapui.model.iface.Request.SubmitException;
@@ -238,6 +239,11 @@ public class RestTestRequestStep extends WsdlTestStepWithProperties implements R
         if (getRestMethod() != null) {
             getRestMethod().addPropertyChangeListener(this);
         }
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.REST_REQUEST_TEST_STEP.getId();
     }
 
     private void refreshRequestProperties() {

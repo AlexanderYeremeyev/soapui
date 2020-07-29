@@ -23,6 +23,7 @@ import com.eviware.soapui.impl.support.AbstractInterface;
 import com.eviware.soapui.impl.wadl.WadlDefinitionContext;
 import com.eviware.soapui.impl.wsdl.WsdlProject;
 import com.eviware.soapui.impl.wsdl.support.Constants;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Operation;
 import com.eviware.soapui.support.StringUtils;
 
@@ -52,6 +53,11 @@ public class RestService extends AbstractInterface<RestServiceConfig> implements
         if (!serviceConfig.isSetWadlVersion()) {
             serviceConfig.setWadlVersion(serviceConfig.isSetDefinitionUrl() ? Constants.WADL10_NS : Constants.WADL11_NS);
         }
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.REST_SERVICE.getId();
     }
 
     public String getWadlVersion() {

@@ -28,6 +28,7 @@ import com.eviware.soapui.impl.wsdl.support.XmlBeansPropertiesTestPropertyHolder
 import com.eviware.soapui.impl.wsdl.support.XmlBeansPropertiesTestPropertyHolder.PropertiesStepProperty;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCaseRunner;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpander;
 import com.eviware.soapui.model.support.ModelSupport;
 import com.eviware.soapui.model.support.TestPropertyListenerAdapter;
@@ -91,6 +92,11 @@ public class WsdlRunTestCaseTestStep extends WsdlTestStep {
         setIcon(UISupport.createImageIcon("/run_test_case_step.png"));
 
         propertyHolderSupport = new XmlBeansPropertiesTestPropertyHolder(this, stepConfig.getProperties());
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.RUN_TESTCASE_TEST_STEP.getId();
     }
 
     /**

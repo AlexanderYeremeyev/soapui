@@ -23,6 +23,7 @@ import com.eviware.soapui.impl.wsdl.support.ExternalDependency;
 import com.eviware.soapui.impl.wsdl.support.PathPropertyExternalDependency;
 import com.eviware.soapui.impl.wsdl.support.XmlBeansPropertiesTestPropertyHolder;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpander;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpansionUtils;
 import com.eviware.soapui.model.testsuite.TestCaseRunContext;
@@ -91,6 +92,11 @@ public class WsdlPropertiesTestStep extends WsdlTestStep implements MutableTestP
         propertyHolderSupport = new XmlBeansPropertiesTestPropertyHolder(this, propertiesStepConfig.getProperties());
         sourceProperty = new BeanPathPropertySupport(this, propertiesStepConfig, "source");
         targetProperty = new BeanPathPropertySupport(this, propertiesStepConfig, "target");
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.PROPERTIES_TEST_STEP.getId();
     }
 
     public TestStepResult run(TestCaseRunner testRunner, TestCaseRunContext testRunContext) {

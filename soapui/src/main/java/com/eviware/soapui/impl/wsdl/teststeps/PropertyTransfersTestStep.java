@@ -21,6 +21,7 @@ import com.eviware.soapui.config.PropertyTransfersStepConfig;
 import com.eviware.soapui.config.TestStepConfig;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
 import com.eviware.soapui.impl.wsdl.teststeps.actions.ShowTransferValuesResultsAction;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpansion;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpansionUtils;
 import com.eviware.soapui.model.support.XPathReference;
@@ -64,6 +65,11 @@ public class PropertyTransfersTestStep extends WsdlTestStepWithProperties implem
             failedIcon = UISupport.createImageIcon("/failed_property_transfer_step.png");
             setIcon(okIcon);
         }
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.PROPERTY_TRANSFERS_TEST_STEP.getId();
     }
 
     @Override

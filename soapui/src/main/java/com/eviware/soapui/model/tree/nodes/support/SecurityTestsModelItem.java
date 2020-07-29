@@ -16,6 +16,7 @@
 
 package com.eviware.soapui.model.tree.nodes.support;
 
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.settings.Settings;
 import com.eviware.soapui.model.support.TestSuiteListenerAdapter;
 import com.eviware.soapui.model.testsuite.TestCase;
@@ -55,6 +56,11 @@ public class SecurityTestsModelItem extends BaseTestsModelItem {
     @Override
     public String getName() {
         return createLabel(testCase);
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.SECURITY_TESTS.getId();
     }
 
     public void updateLabel() {

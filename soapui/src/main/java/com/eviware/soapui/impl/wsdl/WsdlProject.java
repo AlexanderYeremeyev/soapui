@@ -51,6 +51,7 @@ import com.eviware.soapui.impl.wsdl.support.wss.DefaultWssContainer;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlProjectRunner;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStep;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.environment.DefaultEnvironment;
 import com.eviware.soapui.model.environment.Environment;
 import com.eviware.soapui.model.environment.EnvironmentListener;
@@ -623,6 +624,11 @@ public class WsdlProject extends AbstractTestPropertyHolderWsdlModelItem<Project
         } else {
             return super.getIcon();
         }
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.PROJECT.getId();
     }
 
     private String getNameFromPath() {

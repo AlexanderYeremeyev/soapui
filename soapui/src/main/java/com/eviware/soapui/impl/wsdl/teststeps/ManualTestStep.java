@@ -21,6 +21,7 @@ import com.eviware.soapui.config.ManualTestStepConfig;
 import com.eviware.soapui.config.TestStepConfig;
 import com.eviware.soapui.impl.wsdl.support.HelpUrls;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpansion;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpansionContainer;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpansionUtils;
@@ -83,6 +84,11 @@ public class ManualTestStep extends WsdlTestStepWithProperties implements Proper
         }, this));
 
         addProperty(new TestStepBeanProperty("ExpectedResult", false, this, "expectedResult", this));
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.MANUAL_TEST_STEP.getId();
     }
 
     protected ManualTestStepResult getLastResult() {

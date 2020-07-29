@@ -37,6 +37,7 @@ import com.eviware.soapui.impl.wsdl.teststeps.registry.HttpRequestStepFactory;
 import com.eviware.soapui.impl.wsdl.teststeps.registry.WsdlTestStepFactory;
 import com.eviware.soapui.impl.wsdl.teststeps.registry.WsdlTestStepRegistry;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.security.SecurityScan;
 import com.eviware.soapui.model.support.ModelSupport;
 import com.eviware.soapui.model.testsuite.LoadTest;
@@ -170,6 +171,11 @@ public class WsdlTestCase extends AbstractTestPropertyHolderWsdlModelItem<TestCa
 
         addTestRunListener(wsrmListener);
         addTestRunListener(new AMFTestRunListener());
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.TEST_CASE.getId();
     }
 
     public boolean isForLoadTest() {

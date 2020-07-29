@@ -28,6 +28,7 @@ import com.eviware.soapui.impl.wsdl.WsdlProject;
 import com.eviware.soapui.impl.wsdl.WsdlProjectFactory;
 import com.eviware.soapui.impl.wsdl.support.PathUtils;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.project.Project;
 import com.eviware.soapui.model.project.ProjectFactoryRegistry;
 import com.eviware.soapui.model.project.SaveStatus;
@@ -94,6 +95,11 @@ public class WorkspaceImpl extends AbstractModelItem implements Workspace {
         for (WorkspaceListener listener : SoapUI.getListenerRegistry().getListeners(WorkspaceListener.class)) {
             addWorkspaceListener(listener);
         }
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.WORKSPACE.getId();
     }
 
     public void switchWorkspace(File file) throws SoapUIException {
