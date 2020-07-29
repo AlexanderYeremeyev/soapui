@@ -23,6 +23,10 @@ import com.eviware.soapui.model.tree.SoapUITreeNode;
 import com.eviware.soapui.model.tree.SoapUITreeNodeRenderer;
 import com.eviware.soapui.model.tree.nodes.ProjectTreeNode;
 import com.eviware.soapui.model.workspace.Workspace;
+import com.eviware.soapui.plugins.interfaces.margin.ExtendedWindowMargin;
+import com.eviware.soapui.plugins.interfaces.margin.WindowType;
+import com.eviware.soapui.plugins.storage.GlobalWindowMarginsStorage;
+import com.eviware.soapui.plugins.tools.ExtendedMarginsTools;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.action.swing.ActionList;
 import com.eviware.soapui.support.action.swing.ActionListBuilder;
@@ -99,8 +103,14 @@ public class Navigator extends JPanel {
         mainTree.addKeyListener(new TreeKeyListener());
         JScrollPane sp = new JScrollPane(mainTree);
         sp.setBorder(BorderFactory.createEmptyBorder());
-        add(sp, BorderLayout.CENTER);
-        add(buildToolbar(), BorderLayout.NORTH);
+        List<ExtendedWindowMargin> extendersList = GlobalWindowMarginsStorage.getMarginsList(WindowType.MAIN_NAVIGATOR);
+        JPanel pluginsPanel = new JPanel(new BorderLayout());
+        pluginsPanel.add(sp, BorderLayout.CENTER);
+        pluginsPanel.add(buildToolbar(), BorderLayout.NORTH);
+        pluginsPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pluginsPanel = ExtendedMarginsTools.createExtendedMarginsComponent(pluginsPanel, extendersList);
+        add(pluginsPanel);
+
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
     }
 
