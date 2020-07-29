@@ -1,17 +1,17 @@
 /*
  * SoapUI, Copyright (C) 2004-2019 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.model.tree;
@@ -67,11 +67,13 @@ public class SoapUITreeModel implements TreeModel {
         return treeNode.getChildCount();
     }
 
+    @Override
     public boolean isLeaf(Object node) {
         SoapUITreeNode treeNode = (SoapUITreeNode) node;
         return treeNode.isLeaf();
     }
 
+    @Override
     public void valueForPathChanged(TreePath path, Object newValue) {
         SoapUITreeNode treeNode = (SoapUITreeNode) path.getLastPathComponent();
         if (treeNode.valueChanged(newValue)) {
@@ -79,15 +81,18 @@ public class SoapUITreeModel implements TreeModel {
         }
     }
 
+    @Override
     public int getIndexOfChild(Object parent, Object child) {
         SoapUITreeNode treeNode = (SoapUITreeNode) parent;
         return treeNode.getIndexOfChild(child);
     }
 
+    @Override
     public void addTreeModelListener(TreeModelListener l) {
         listeners.add(l);
     }
 
+    @Override
     public void removeTreeModelListener(TreeModelListener l) {
         listeners.remove(l);
     }
@@ -242,5 +247,9 @@ public class SoapUITreeModel implements TreeModel {
             this.showProperties = showProperties;
             notifyStructureChanged(new TreeModelEvent(this, getPath(workspaceNode)));
         }
+    }
+
+    public void updateUI() {
+        notifyStructureChanged(new TreeModelEvent(this, new TreePath(workspaceNode)));
     }
 }

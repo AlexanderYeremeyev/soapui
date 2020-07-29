@@ -18,13 +18,16 @@ package com.eviware.soapui.ui.navigator;
 
 import com.eviware.soapui.model.ModelItem;
 import com.eviware.soapui.model.project.Project;
-import com.eviware.soapui.model.tree.SoapUITreeModel;
+import com.eviware.soapui.model.tree.SoapUIFilteredTreeModel;
 import com.eviware.soapui.model.tree.SoapUITreeNode;
 import com.eviware.soapui.model.tree.SoapUITreeNodeRenderer;
 import com.eviware.soapui.model.tree.nodes.ProjectTreeNode;
 import com.eviware.soapui.model.workspace.Workspace;
+import com.eviware.soapui.plugins.interfaces.controls.ExternalTreeFilter;
+import com.eviware.soapui.plugins.interfaces.controls.TreeType;
 import com.eviware.soapui.plugins.interfaces.margin.ExtendedWindowMargin;
 import com.eviware.soapui.plugins.interfaces.margin.WindowType;
+import com.eviware.soapui.plugins.storage.GlobalFiltersStorage;
 import com.eviware.soapui.plugins.storage.GlobalWindowMarginsStorage;
 import com.eviware.soapui.plugins.tools.ExtendedMarginsTools;
 import com.eviware.soapui.support.UISupport;
@@ -74,7 +77,7 @@ public class Navigator extends JPanel {
     public static final String NAVIGATOR = "navigator";
     private Workspace workspace;
     private JTree mainTree;
-    private SoapUITreeModel treeModel;
+    private SoapUIFilteredTreeModel treeModel;
     private Set<NavigatorListener> listeners = new HashSet<NavigatorListener>();
     private NavigatorNodesExpandStateManager navigatorNodesExpandStateManager;
 
@@ -87,7 +90,11 @@ public class Navigator extends JPanel {
     }
 
     private void buildUI() {
-        treeModel = new SoapUITreeModel(workspace);
+        treeModel = new SoapUIFilteredTreeModel(workspace);
+        List<ExternalTreeFilter> filters = GlobalFiltersStorage.getTreeFilters(TreeType.MAIN_NAVIGATOR);
+        for (ExternalTreeFilter filter : filters) {
+            treeModel.addFilter(filter);
+        }
         mainTree = new NavigatorTree(treeModel);
         navigatorNodesExpandStateManager = new NavigatorNodesExpandStateManager();
         navigatorNodesExpandStateManager.initialize(mainTree);
@@ -166,6 +173,10 @@ public class Navigator extends JPanel {
 
     public JTree getMainTree() {
         return mainTree;
+    }
+
+    public void restoreNodeExpansion() {
+        navigatorNodesExpandStateManager.restoreNodeExpansion();
     }
 
     public ModelItem getSelectedItem() {
