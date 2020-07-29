@@ -1,4 +1,11 @@
-﻿# SoapUI Open Source 5.6.0
+﻿# SoapUI Open Source 5.7.0-SHADOW-EDITION
+
+### Overall improvements ###
+
+* support plugin to save navigator tree node states.
+https://github.com/AlexanderYeremeyev/soapui-os-navigator-state-storage.git
+
+# SoapUI Open Source 5.6.0
 
 #### Released on 07-09-2020 ####
 
