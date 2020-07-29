@@ -1,17 +1,17 @@
 /*
  * SoapUI, Copyright (C) 2004-2019 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.ui.navigator;
@@ -49,10 +49,6 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.dnd.Autoscroll;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -76,6 +72,7 @@ public class Navigator extends JPanel {
     private JTree mainTree;
     private SoapUITreeModel treeModel;
     private Set<NavigatorListener> listeners = new HashSet<NavigatorListener>();
+    private NavigatorNodesExpandStateManager navigatorNodesExpandStateManager;
 
     public Navigator(Workspace workspace) {
         super(new BorderLayout());
@@ -88,6 +85,8 @@ public class Navigator extends JPanel {
     private void buildUI() {
         treeModel = new SoapUITreeModel(workspace);
         mainTree = new NavigatorTree(treeModel);
+        navigatorNodesExpandStateManager = new NavigatorNodesExpandStateManager();
+        navigatorNodesExpandStateManager.initialize(mainTree);
         mainTree.setRootVisible(true);
         mainTree.setExpandsSelectedPaths(true);
         mainTree.setScrollsOnExpand(true);
