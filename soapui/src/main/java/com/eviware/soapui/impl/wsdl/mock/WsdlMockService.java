@@ -26,6 +26,7 @@ import com.eviware.soapui.impl.wsdl.WsdlInterface;
 import com.eviware.soapui.impl.wsdl.WsdlOperation;
 import com.eviware.soapui.impl.wsdl.support.HelpUrls;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Operation;
 import com.eviware.soapui.model.mock.MockDispatcher;
 import com.eviware.soapui.model.mock.MockOperation;
@@ -163,6 +164,11 @@ public class WsdlMockService extends AbstractMockService<WsdlMockOperation, Mock
     @Override
     public String getIconName() {
         return ICON_NAME;
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.WSDL_MOCK_SERVICE.getId();
     }
 
     @Override

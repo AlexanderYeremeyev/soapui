@@ -26,6 +26,7 @@ import com.eviware.soapui.impl.support.AbstractMockService;
 import com.eviware.soapui.impl.wsdl.mock.WsdlMockRunContext;
 import com.eviware.soapui.impl.wsdl.support.HelpUrls;
 import com.eviware.soapui.model.ModelItem;
+import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.iface.Operation;
 import com.eviware.soapui.model.mock.MockDispatcher;
 import com.eviware.soapui.model.mock.MockOperation;
@@ -65,6 +66,11 @@ public class RestMockService extends AbstractMockService<RestMockAction, RESTMoc
     @Override
     public String getIconName() {
         return ICON_NAME;
+    }
+
+    @Override
+    public int getTypeId() {
+        return ModelItemType.REST_MOCK_SERVICE.getId();
     }
 
     @Override
