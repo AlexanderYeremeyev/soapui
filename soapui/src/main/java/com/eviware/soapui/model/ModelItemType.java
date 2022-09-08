@@ -7,36 +7,40 @@ public enum ModelItemType {
 
     WSDL_SERVICE(3, "wsdl service", "traditional wsdl service node."),
     REST_SERVICE(4, "rest service", "rest service node."),
+    UNKNOWN_SERVICE(5, "unknown service", "unknown service mode. it may be customer service"),
 
-    TEST_SUITE(5, "test suite", "test suite node."),
-    TEST_CASE(6, "test case", "test case node"),
-    TEST_STEPS(7, "test steps", "test steps is a pseudo node between testcase and usual test steps"),
-    LOAD_TESTS(8, "load tests", "load tests is a pseudo node between testcase and load test items"),
-    SECURITY_TESTS(9, "security tests", "security tests is a pseudo node between testcase and security test items"),
-    SECURE_TEST(10, "secure test", "secure test node."),
-    LOADUI_TEST(11, "loadui test", "loadui test node."),
+    TEST_SUITE(6, "test suite", "test suite node."),
+    TEST_CASE(7, "test case", "test case node"),
+    TEST_STEPS(8, "test steps", "test steps is a pseudo node between testcase and usual test steps"),
+    LOAD_TESTS(9, "load tests", "load tests is a pseudo node between testcase and load test items"),
+    SECURITY_TESTS(10, "security tests", "security tests is a pseudo node between testcase and security test items"),
+    SECURE_TEST(11, "secure test", "secure test node."),
+    LOADUI_TEST(12, "loadui test", "loadui test node."),
 
-    WSDL_OPERATION(12, "WSDL operation", "wsdl interface may have a few wsdl operations as children."),
-    REST_RESOURCE(13, "REST resource", "rest interface may have a few rest resources as children."),
-    REST_METHOD(14, "REST method", "rest resource has rest method child."),
+    WSDL_OPERATION(13, "WSDL operation", "wsdl interface may have a few wsdl operations as children."),
+    REST_RESOURCE(14, "REST resource", "rest interface may have a few rest resources as children."),
+    UNKNOWN_CHANNEL(15, "Unknown channel", "Unknown channel. For example customer kafka implementation."),
+    REST_METHOD(16, "REST method", "rest resource has rest method child."),
 
-    WSDL_MOCK_SERVICE(15, "wsdl mock service", "wsdl mock service"),
-    REST_MOCK_SERVICE(16, "rest mock service", "rest mock service"),
+    WSDL_MOCK_SERVICE(17, "wsdl mock service", "wsdl mock service"),
+    REST_MOCK_SERVICE(18, "rest mock service", "rest mock service"),
+    UNKNOWN_MOCK_SERVICE(19, "unknown mock service", "unknown mock service. for example customer JMS implementation"),
 
-    SOAP_REQUEST_TEST_STEP(17, "SOAP request test step", "SOAP request test step"),
-    REST_REQUEST_TEST_STEP(18, "Rest test request step", "Rest test request step"),
-    HTTP_REQUEST_TEST_STEP(19, "Http test request test step", "Http test request test step"),
-    AMF_REQUEST_TEST_STEP(20, "AMF request test step", "AMF request test step"),
-    JDBC_REQUEST_TEST_STEP(21, "Jdbc request test step", "Jdbc request test step"),
-    PROPERTIES_TEST_STEP(22, "Properties test step", "Properties test step"),
-    PROPERTY_TRANSFERS_TEST_STEP(23, "Property transfers test step", "Property transfers test step"),
-    GOTO_TEST_STEP(24, "Wsdl goto test step", "Wsdl goto test step"),
-    RUN_TESTCASE_TEST_STEP(25, "Run testcase test step", "Run testcase test step"),
-    GROOVY_SCRYPT_TEST_STEP(26, "Debuggable wsdl groovy scrypt test step", "Debuggable wsdl groovy scrypt test step"),
-    DELAY_TEST_STEP(27, "Wsdl delay test step", "Wsdl delay test step"),
-    SOAP_MOCK_RESPONSE_TEST_STEP(28, "SOAP mock response test step", "SOAP mock response test step"),
-    MANUAL_TEST_STEP(29, "Manual test step", "Manual test step");
-    // LAST ID = 29
+    UNKNOWN_TEST_STEP(20, "Unknown test step", "Any kind of test step"),
+    SOAP_REQUEST_TEST_STEP(21, "SOAP request test step", "SOAP request test step"),
+    REST_REQUEST_TEST_STEP(22, "Rest test request step", "Rest test request step"),
+    HTTP_REQUEST_TEST_STEP(23, "Http test request test step", "Http test request test step"),
+    AMF_REQUEST_TEST_STEP(24, "AMF request test step", "AMF request test step"),
+    JDBC_REQUEST_TEST_STEP(25, "Jdbc request test step", "Jdbc request test step"),
+    PROPERTIES_TEST_STEP(26, "Properties test step", "Properties test step"),
+    PROPERTY_TRANSFERS_TEST_STEP(27, "Property transfers test step", "Property transfers test step"),
+    GOTO_TEST_STEP(28, "Wsdl goto test step", "Wsdl goto test step"),
+    RUN_TESTCASE_TEST_STEP(29, "Run testcase test step", "Run testcase test step"),
+    GROOVY_SCRYPT_TEST_STEP(30, "Debuggable wsdl groovy scrypt test step", "Debuggable wsdl groovy scrypt test step"),
+    DELAY_TEST_STEP(31, "Wsdl delay test step", "Wsdl delay test step"),
+    SOAP_MOCK_RESPONSE_TEST_STEP(32, "SOAP mock response test step", "SOAP mock response test step"),
+    MANUAL_TEST_STEP(33, "Manual test step", "Manual test step");
+    // LAST ID = 33
 
     private int id;
     private String name;
