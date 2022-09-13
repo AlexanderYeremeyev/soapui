@@ -16,8 +16,6 @@
 
 package com.eviware.soapui.support.components;
 
-import com.eviware.soapui.SoapUI;
-
 /**
  * @author joel.jonsson
  */
@@ -31,10 +29,8 @@ public class WebViewBasedBrowserComponentFactory {
     }
 
     public static WebViewBasedBrowserComponent createBrowserComponent(boolean addNavigationBar, WebViewBasedBrowserComponent.PopupStrategy popupStrategy) {
-        if (SoapUI.isBrowserDisabled()) {
+        //if (SoapUI.isBrowserDisabled()) {
             return new DisabledWebViewBasedBrowserComponent();
-        } else {
-            return new EnabledWebViewBasedBrowserComponent(addNavigationBar, popupStrategy);
-        }
+        //}
     }
 }
