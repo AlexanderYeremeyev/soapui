@@ -126,7 +126,6 @@ import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.looks.HeaderStyle;
 import com.jgoodies.looks.Options;
 import com.smartbear.analytics.AnalyticsManager;
-import javafx.application.Platform;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.PosixParser;
@@ -295,12 +294,7 @@ public class SoapUI {
     public static final String BACKUP_STARTER_PAGE_URL = "/starter-page/starter-page.html";
 
     static {
-        try {
-            Platform.setImplicitExit(false);
-        } catch (NoClassDefFoundError e) {
-            log.warn("Could not find jfxrt.jar. Internal browser will be disabled.");
-            System.setProperty(BROWSER_DISABLED_SYSTEM_PROPERTY, Boolean.TRUE.toString());
-        }
+        System.setProperty(BROWSER_DISABLED_SYSTEM_PROPERTY, Boolean.TRUE.toString());
     }
 
     // --------------------------- CONSTRUCTORS ---------------------------

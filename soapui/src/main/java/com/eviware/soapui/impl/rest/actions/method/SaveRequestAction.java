@@ -12,20 +12,13 @@ import com.eviware.soapui.model.workspace.Workspace;
 import com.eviware.soapui.support.MessageSupport;
 import com.eviware.soapui.support.ModelItemNamer;
 import com.eviware.soapui.support.UISupport;
-import com.eviware.soapui.tools.JavaFXTools;
 import com.eviware.x.form.XFormDialog;
 import com.eviware.x.form.support.ADialogBuilder;
 import com.eviware.x.form.support.AField;
 import com.eviware.x.form.support.AForm;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 
 import javax.swing.AbstractAction;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -79,7 +72,8 @@ public class SaveRequestAction extends AbstractAction {
 
     private JPanel getProjectListComponent() {
         Workspace workspace = SoapUI.getWorkspace();
-        ObservableList<String> projectNames = FXCollections.observableArrayList();
+        //TODO:
+        /*ObservableList<String> projectNames = FXCollections.observableArrayList();
         projectNames.add(NEW_PROJECT_OPTION);
         for (Project project : workspace.getProjectList()) {
             if (project.isOpen()) {
@@ -101,9 +95,10 @@ public class SaveRequestAction extends AbstractAction {
             public void run() {
                 panel.setScene(scene);
             }
-        });
+        });*/
         JPanel container = new JPanel(new BorderLayout());
-        container.add(panel, BorderLayout.CENTER);
+        //container.add(panel, BorderLayout.CENTER);
+        container.add(new JLabel("TODO: javafx delete results"), BorderLayout.CENTER);
         return container;
     }
 
