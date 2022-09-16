@@ -249,4 +249,9 @@ public class SoapUITreeModel implements TreeModel {
             notifyStructureChanged(new TreeModelEvent(this, getPath(workspaceNode)));
         }
     }
+
+    public void updateUI() {
+        notifyStructureChanged(new TreeModelEvent(this, new TreePath(workspaceNode)));
+    }
+
 }

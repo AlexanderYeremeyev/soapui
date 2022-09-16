@@ -18,7 +18,6 @@ package com.eviware.soapui.ui.navigator;
 
 import com.eviware.soapui.model.ModelItem;
 import com.eviware.soapui.model.project.Project;
-import com.eviware.soapui.model.tree.SoapUITreeModel;
 import com.eviware.soapui.model.tree.SoapUITreeNode;
 import com.eviware.soapui.model.tree.SoapUITreeNodeRenderer;
 import com.eviware.soapui.model.tree.nodes.ProjectTreeNode;
@@ -30,6 +29,9 @@ import com.eviware.soapui.support.action.swing.ActionSupport;
 import com.eviware.soapui.support.components.JXToolBar;
 import com.eviware.soapui.support.swing.MenuBuilderHelper;
 import com.eviware.soapui.ui.navigator.state.NavigatorNodesExpandStateEngine;
+import com.yeremeyev.apiservant.model.tree.ApiServantFilteredTreeModel;
+import com.yeremeyev.apiservant.plugins.interfaces.margins.WindowMargin;
+import com.yeremeyev.apiservant.plugins.tools.MarginsTools;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -71,7 +73,7 @@ public class Navigator extends JPanel {
     public static final String NAVIGATOR = "navigator";
     private Workspace workspace;
     private JTree mainTree;
-    private SoapUITreeModel treeModel;
+    private ApiServantFilteredTreeModel treeModel;
     private Set<NavigatorListener> listeners = new HashSet<NavigatorListener>();
     private NavigatorNodesExpandStateEngine navigatorNodesExpandStateEngine;
 
@@ -85,7 +87,7 @@ public class Navigator extends JPanel {
     }
 
     private void buildUI() {
-        treeModel = new SoapUITreeModel(workspace);
+        treeModel = new ApiServantFilteredTreeModel(workspace);
         mainTree = new NavigatorTree(treeModel);
         navigatorNodesExpandStateEngine = new NavigatorNodesExpandStateEngine();
         navigatorNodesExpandStateEngine.initialize(mainTree);
@@ -101,8 +103,13 @@ public class Navigator extends JPanel {
         mainTree.addKeyListener(new TreeKeyListener());
         JScrollPane sp = new JScrollPane(mainTree);
         sp.setBorder(BorderFactory.createEmptyBorder());
-        add(sp, BorderLayout.CENTER);
-        add(buildToolbar(), BorderLayout.NORTH);
+        List<WindowMargin> extendersList = null; // TODO:
+        JPanel pluginsPanel = new JPanel(new BorderLayout());
+        pluginsPanel.add(sp, BorderLayout.CENTER);
+        pluginsPanel.add(buildToolbar(), BorderLayout.NORTH);
+        pluginsPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        pluginsPanel = MarginsTools.createExtendedMarginsComponent(pluginsPanel, extendersList);
+        add(pluginsPanel);
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
     }
 
@@ -167,6 +174,10 @@ public class Navigator extends JPanel {
         }
 
         return ((SoapUITreeNode) path.getLastPathComponent()).getModelItem();
+    }
+
+    public void restoreNodeExpansion() {
+        navigatorNodesExpandStateEngine.restoreNodeExpansion();
     }
 
     private final class TreeKeyListener extends KeyAdapter {

@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.util.List;
 
-public class ExtendedMarginsTools {
+public class MarginsTools {
 
     private static String getMarginPosition(WindowMargin margin) {
         WindowAlignment windowAlignment = margin.getWindowAlignment();
