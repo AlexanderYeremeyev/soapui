@@ -16,12 +16,14 @@
 
 package com.eviware.soapui.ui.navigator;
 
+import com.eviware.soapui.SoapUI;
 import com.eviware.soapui.model.ModelItem;
 import com.eviware.soapui.model.project.Project;
 import com.eviware.soapui.model.tree.SoapUITreeNode;
 import com.eviware.soapui.model.tree.SoapUITreeNodeRenderer;
 import com.eviware.soapui.model.tree.nodes.ProjectTreeNode;
 import com.eviware.soapui.model.workspace.Workspace;
+import com.eviware.soapui.plugins.factories.navigator.NavigatroNodeExpandStateProviderFactory;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.action.swing.ActionList;
 import com.eviware.soapui.support.action.swing.ActionListBuilder;
@@ -30,7 +32,12 @@ import com.eviware.soapui.support.components.JXToolBar;
 import com.eviware.soapui.support.swing.MenuBuilderHelper;
 import com.eviware.soapui.ui.navigator.state.NavigatorNodesExpandStateEngine;
 import com.yeremeyev.apiservant.model.tree.ApiServantFilteredTreeModel;
+import com.yeremeyev.apiservant.plugins.interfaces.controls.common.tree.TreeFilter;
+import com.yeremeyev.apiservant.plugins.interfaces.controls.common.tree.TreeType;
+import com.yeremeyev.apiservant.plugins.interfaces.factories.TreeFilterFactory;
+import com.yeremeyev.apiservant.plugins.interfaces.factories.WindowMarginsFactory;
 import com.yeremeyev.apiservant.plugins.interfaces.margins.WindowMargin;
+import com.yeremeyev.apiservant.plugins.interfaces.margins.WindowType;
 import com.yeremeyev.apiservant.plugins.tools.MarginsTools;
 
 import javax.swing.AbstractAction;
@@ -86,8 +93,31 @@ public class Navigator extends JPanel {
         buildUI();
     }
 
-    private void buildUI() {
+    private void initializeTreeModel() {
         treeModel = new ApiServantFilteredTreeModel(workspace);
+        List<TreeFilterFactory> treeFilterFactoryList = SoapUI.getFactoryRegistry().getFactories(TreeFilterFactory.class);
+        for (TreeFilterFactory treeFilterFactory : treeFilterFactoryList) {
+            if (treeFilterFactory.isAvailable(TreeType.MAIN_NAVIGATOR)) {
+                treeModel.addFilter(treeFilterFactory.create(TreeType.MAIN_NAVIGATOR));
+                break;
+            }
+        }
+    }
+
+    private List<WindowMargin> getNavigatorMarginsList() {
+        List<WindowMargin> result = new ArrayList<>();
+        List<WindowMarginsFactory> windowMarginFactoryList = SoapUI.getFactoryRegistry().getFactories(WindowMarginsFactory.class);
+        for (WindowMarginsFactory windowMarginFactory : windowMarginFactoryList) {
+            if (windowMarginFactory.isAvailable(WindowType.MAIN_NAVIGATOR)) {
+                result.add(windowMarginFactory.create(WindowType.MAIN_NAVIGATOR));
+                break;
+            }
+        }
+        return result;
+    }
+
+    private void buildUI() {
+        initializeTreeModel();
         mainTree = new NavigatorTree(treeModel);
         navigatorNodesExpandStateEngine = new NavigatorNodesExpandStateEngine();
         navigatorNodesExpandStateEngine.initialize(mainTree);
@@ -103,7 +133,7 @@ public class Navigator extends JPanel {
         mainTree.addKeyListener(new TreeKeyListener());
         JScrollPane sp = new JScrollPane(mainTree);
         sp.setBorder(BorderFactory.createEmptyBorder());
-        List<WindowMargin> extendersList = null; // TODO:
+        List<WindowMargin> extendersList = getNavigatorMarginsList();
         JPanel pluginsPanel = new JPanel(new BorderLayout());
         pluginsPanel.add(sp, BorderLayout.CENTER);
         pluginsPanel.add(buildToolbar(), BorderLayout.NORTH);

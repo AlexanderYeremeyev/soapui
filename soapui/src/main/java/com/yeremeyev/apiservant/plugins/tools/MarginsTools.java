@@ -31,7 +31,7 @@ public class MarginsTools {
     }
 
     /**
-     * @param basePanel         target panel which we want to extend
+     * @param basePanel     target panel which we want to extend
      * @param extendersList extended margins list
      * @return composition of basePanel and extendersList
      */
