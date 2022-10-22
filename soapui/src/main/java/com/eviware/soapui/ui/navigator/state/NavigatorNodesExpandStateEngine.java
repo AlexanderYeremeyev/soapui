@@ -121,4 +121,11 @@ public class NavigatorNodesExpandStateEngine {
             restoreNodeHistoricalState(node);
         }
     }
+
+    public void restoreNodeExpansion() {
+        if (navigatorTree == null) {
+            return;
+        }
+        restoreExpandedState(navigatorTree);
+    }
 }
