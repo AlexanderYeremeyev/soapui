@@ -1,8 +1,11 @@
-﻿# SoapUI Open Source 5.7.1
+﻿# SoapUI Open Source 5.7.1-SHADOW-EDITION
 
-#### RELEASE_ME_ON ####
+#### on Released on 25-03-2023 ####
 
 ### Overall improvements ###
+* small module item improvements. add model item id
+* remove javafx
+* add navigator extensions for plugins
 
 -------------------------------------------------------------------------------
 
