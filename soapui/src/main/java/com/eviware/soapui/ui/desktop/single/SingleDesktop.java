@@ -22,7 +22,7 @@ public class SingleDesktop extends AbstractSoapUIDesktop {
         super(workspace);
 
         noImplementationComponent = new NoImplementationComponent();
-        desktopsCache = new DesktopsCache();
+        desktopsCache = new DesktopsCache(item -> item.onClose(true));
         mainPanel = new SingleMainPanel();
         mainPanel.add(noImplementationComponent);
     }
@@ -82,21 +82,6 @@ public class SingleDesktop extends AbstractSoapUIDesktop {
             addToMainPanel(noImplementationComponent);
             Toolkit.getDefaultToolkit().beep();
         }
-
-        //TODO:
-        /*final DesktopPanel currentPanelFinal = currentPanel;
-        UISupport.invokeAndWaitIfNotInEDT(new Runnable() {
-                                              @Override
-                                              public void run() {
-                                                  mainPanel.invalidate();
-                                                  mainPanel.repaint();
-                                                  mainPanel.updateUI();
-                                              }
-                                          });
-*/
-
-        //enableWindowActions();
-
         return currentPanel;
     }
 
@@ -107,7 +92,7 @@ public class SingleDesktop extends AbstractSoapUIDesktop {
 
     @Override
     public DesktopPanel[] getDesktopPanels() {
-        return new DesktopPanel[0];
+        return desktopsCache.getItems();
     }
 
     @Override

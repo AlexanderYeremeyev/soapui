@@ -8,23 +8,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class DesktopsCache implements Releasable {
     private static final int DEFAULT_CACHE_SIZE = 10;
     private Map<ModelItem, DesktopPanel> modelItemsMap;
     private List<ModelItem> modelItemsList;
     private int cacheSize;
+    private Consumer<DesktopPanel> onClearItemEvent;
 
-    public DesktopsCache() {
+    public DesktopsCache(Consumer<DesktopPanel> onClearItemEvent) {
         modelItemsMap = new HashMap<>();
         modelItemsList = new ArrayList<>();
         cacheSize = DEFAULT_CACHE_SIZE;
+        this.onClearItemEvent = onClearItemEvent;
     }
 
     @Override
     public void release() {
         for (DesktopPanel panel : modelItemsMap.values()) {
-            panel.onClose(true);
+            onClearItemEvent.accept(panel);
         }
         modelItemsMap.clear();
         modelItemsList.clear();
@@ -44,7 +47,7 @@ public class DesktopsCache implements Releasable {
 
         ModelItem modelItem = modelItemsList.get(modelItemsList.size() - 1);
         if (modelItemsMap.containsKey(modelItem)) {
-            modelItemsMap.get(modelItem).onClose(true);
+            onClearItemEvent.accept(modelItemsMap.get(modelItem));
             modelItemsMap.remove(modelItem);
         }
         modelItemsList.remove(modelItem);
@@ -74,5 +77,10 @@ public class DesktopsCache implements Releasable {
             return modelItemsMap.get(modelItem);
         }
         return null;
+    }
+
+    public DesktopPanel[] getItems() {
+        DesktopPanel[] array = new DesktopPanel[modelItemsList.size()];
+        return modelItemsList.toArray(array);
     }
 }
