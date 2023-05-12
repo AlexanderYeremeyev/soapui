@@ -213,6 +213,7 @@ import static com.eviware.soapui.settings.UISettings.SHOW_STAY_TUNED_DIALOG;
 public class SoapUI {
     // ------------------------------ CONSTANTS ------------------------------
     public static final String DEFAULT_DESKTOP = "Default";
+    public static final String SINGLE_DESKTOP = "Single";
     public static final String CURRENT_SOAPUI_WORKSPACE = SoapUI.class.getName() + "@workspace";
     public final static Logger log = LogManager.getLogger(SoapUI.class);
     public final static String SOAPUI_VERSION = getVersion(SoapUISystemProperties.VERSION);
