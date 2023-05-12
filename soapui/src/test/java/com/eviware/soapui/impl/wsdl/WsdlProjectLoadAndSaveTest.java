@@ -36,9 +36,9 @@ import java.util.UUID;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.isA;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -142,11 +142,11 @@ public class WsdlProjectLoadAndSaveTest extends StubbedDialogsTestBase {
     }
 
     private void cancelWhenTheSaveAsFileDialogIsShown() {
-        when(mockedFileDialogs.saveAs(anyObject(), anyString(), anyString(), anyString(), isA(File.class))).thenReturn(null);
+        when(mockedFileDialogs.saveAs(any(), anyString(), anyString(), anyString(), isA(File.class))).thenReturn(null);
     }
 
     private void verifyThatTheSaveAsDialogIsShown() {
-        verify(mockedFileDialogs).saveAs(anyObject(), anyString(), anyString(), anyString(), isA(File.class));
+        verify(mockedFileDialogs).saveAs(any(), anyString(), anyString(), anyString(), isA(File.class));
     }
 
     private File createTemporaryProjectFile() {

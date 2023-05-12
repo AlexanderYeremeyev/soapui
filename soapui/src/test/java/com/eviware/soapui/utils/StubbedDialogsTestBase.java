@@ -27,9 +27,9 @@ import org.mockito.MockitoAnnotations;
 import java.io.File;
 import java.io.IOException;
 
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.isA;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 
 /**
@@ -67,7 +67,7 @@ public abstract class StubbedDialogsTestBase {
 
     private void addSaveAsBehaviour(XFileDialogs mockedFileDialogs) throws IOException {
         File savedFile = File.createTempFile(SAVED_PROJECT_FILE_NAME, SAVED_PROJECT_FILE_EXTENSION);
-        when(mockedFileDialogs.saveAs(anyObject(), anyString(), anyString(), anyString(), isA(File.class))).thenReturn(savedFile);
+        when(mockedFileDialogs.saveAs(any(), anyString(), anyString(), anyString(), isA(File.class))).thenReturn(savedFile);
     }
 
     private void setMockedDialogsTemporary() {
