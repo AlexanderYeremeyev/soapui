@@ -19,7 +19,7 @@ package com.eviware.soapui;
 import com.eviware.soapui.settings.UISettings;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.ui.desktop.DesktopRegistry;
-import com.eviware.soapui.ui.desktop.single.SingleDesctopFactory;
+import com.eviware.soapui.ui.desktop.single.SingleDesktopFactory;
 import com.eviware.soapui.ui.desktop.standalone.StandaloneDesktopFactory;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.SkyBluer;
@@ -59,7 +59,7 @@ public class StandaloneSoapUICore extends SwingSoapUICore {
 
         initSoapUILookAndFeel();
         DesktopRegistry.getInstance().addDesktop(SoapUI.DEFAULT_DESKTOP, new StandaloneDesktopFactory());
-        DesktopRegistry.getInstance().addDesktop(SoapUI.SINGLE_DESKTOP, new SingleDesctopFactory());
+        DesktopRegistry.getInstance().addDesktop(SoapUI.SINGLE_DESKTOP, new SingleDesktopFactory());
 
         ToolTipManager.sharedInstance().setEnabled(!getSettings().getBoolean(UISettings.DISABLE_TOOLTIPS));
     }

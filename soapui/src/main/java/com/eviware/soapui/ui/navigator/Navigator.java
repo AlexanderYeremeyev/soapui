@@ -24,6 +24,7 @@ import com.eviware.soapui.model.tree.SoapUITreeNodeRenderer;
 import com.eviware.soapui.model.tree.nodes.ProjectTreeNode;
 import com.eviware.soapui.model.workspace.Workspace;
 import com.eviware.soapui.plugins.factories.navigator.NavigatroNodeExpandStateProviderFactory;
+import com.eviware.soapui.settings.UISettings;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.action.swing.ActionList;
 import com.eviware.soapui.support.action.swing.ActionListBuilder;
@@ -342,10 +343,16 @@ public class Navigator extends JPanel {
 
         private ActionList actions;
 
+        private boolean isSingleDesktopMode() {
+            String desktopType = SoapUI.getSoapUICore().getSettings().getString(UISettings.DESKTOP_TYPE, SoapUI.DEFAULT_DESKTOP);
+            return desktopType.equals(SoapUI.SINGLE_DESKTOP);
+        }
+
         public void mouseClicked(MouseEvent e) {
             if (e.isPopupTrigger()) {
                 showPopup(e);
-            } else if (e.getClickCount() < 2) {
+            }
+            if (e.getClickCount() < 2 && !isSingleDesktopMode()) {
                 return;
             }
             if (mainTree.getSelectionCount() == 1) {

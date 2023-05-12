@@ -49,10 +49,8 @@ public class SingleDesktop extends AbstractSoapUIDesktop {
         UISupport.invokeAndWaitIfNotInEDT(() -> {
             mainPanel.add(component);
 
-            mainPanel.invalidate();
-            mainPanel.repaint();
-            component.invalidate();
-            component.repaint();
+            mainPanel.revalidate();
+            component.requestFocus();
         });
     }
 

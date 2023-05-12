@@ -1083,8 +1083,7 @@ public class SoapUI {
     private void show(Workspace workspace) {
         SoapUI.workspace = workspace;
 
-        //String desktopType = soapUICore.getSettings().getString(UISettings.DESKTOP_TYPE, SoapUI.DEFAULT_DESKTOP);
-        String desktopType = SoapUI.SINGLE_DESKTOP;
+        String desktopType = soapUICore.getSettings().getString(UISettings.DESKTOP_TYPE, SoapUI.DEFAULT_DESKTOP);
         desktop = DesktopRegistry.getInstance().createDesktop(desktopType, workspace);
 
         if (desktop == null) {
