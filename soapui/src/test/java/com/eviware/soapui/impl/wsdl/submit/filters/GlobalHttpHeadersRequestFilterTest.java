@@ -54,7 +54,7 @@ public class GlobalHttpHeadersRequestFilterTest {
 
         globalHttpHeadersRequestFilter.filterAbstractHttpRequest(context, request);
 
-        Mockito.verifyZeroInteractions(request);
+        Mockito.verifyNoInteractions(request);
     }
 
     @Test
