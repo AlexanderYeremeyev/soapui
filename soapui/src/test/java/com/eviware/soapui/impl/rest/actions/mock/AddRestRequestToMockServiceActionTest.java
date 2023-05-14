@@ -38,20 +38,18 @@ import com.eviware.x.dialogs.XDialogs;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Assert;
 
 import java.util.List;
 
 import static com.eviware.soapui.impl.rest.RestRequestInterface.HttpMethod.GET;
 import static java.lang.Boolean.FALSE;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.internal.matchers.NotNull.NOT_NULL;
-import static org.mockito.internal.matchers.Null.NULL;
 
 public class AddRestRequestToMockServiceActionTest {
     private static final String ONE_HEADER = "oneHeader";
@@ -112,10 +110,10 @@ public class AddRestRequestToMockServiceActionTest {
     public void shouldSaveRestMockWithSetNameToProject() {
         action.perform(restRequest, notUsed);
         List<RestMockService> serviceList = project.getRestMockServiceList();
-        assertThat(serviceList.size(), is(1));
+        Assert.assertThat(serviceList.size(), is(1));
 
         RestMockService service = project.getRestMockServiceByName(mockServiceName);
-        assertThat(service.getName(), is(mockServiceName));
+        Assert.assertThat(service.getName(), is(mockServiceName));
     }
 
     @Test
@@ -123,7 +121,7 @@ public class AddRestRequestToMockServiceActionTest {
         action.perform(restRequest, notUsed);
 
         RestMockService service = project.getRestMockServiceByName(mockServiceName);
-        assertThat(service.getMockOperationByName(requestPath), is(NOT_NULL));
+        Assert.assertTrue(service.getMockOperationByName(requestPath) != null);
     }
 
     @Test
@@ -141,7 +139,7 @@ public class AddRestRequestToMockServiceActionTest {
 
         int mockResponseCount = getFirstMockOperation().getMockResponseCount();
 
-        assertThat(mockResponseCount, is(2));
+        Assert.assertThat(mockResponseCount, is(2));
     }
 
     @Test
@@ -152,8 +150,8 @@ public class AddRestRequestToMockServiceActionTest {
 
         int mockResponseCount = getFirstMockOperation().getMockResponseCount();
 
-        assertThat(mockResponseCount, is(1));
-        assertThat(getFirstRestMockService().getMockOperationCount(), is(2));
+        Assert.assertThat(mockResponseCount, is(1));
+        Assert.assertThat(getFirstRestMockService().getMockOperationCount(), is(2));
     }
 
     public RestMockAction getFirstMockOperation() {
@@ -168,12 +166,12 @@ public class AddRestRequestToMockServiceActionTest {
     public void shouldCreateNewOperationForDifferentVerb() {
         action.perform(restRequest, notUsed);
         int mockOperationCount = getFirstRestMockService().getMockOperationCount();
-        assertThat(mockOperationCount, is(1));
+        Assert.assertThat(mockOperationCount, is(1));
 
         restRequest.setMethod(RestRequestInterface.HttpMethod.TRACE);
         action.perform(restRequest, notUsed);
         mockOperationCount = getFirstRestMockService().getMockOperationCount();
-        assertThat(mockOperationCount, is(2));
+        Assert.assertThat(mockOperationCount, is(2));
     }
 
     @Test
@@ -181,8 +179,8 @@ public class AddRestRequestToMockServiceActionTest {
         action.perform(restRequest, notUsed);
 
         StringToStringsMap responseHeaders = getActualResponseHeaders();
-        assertThat(responseHeaders.get(ONE_HEADER).get(0), is("oneValue"));
-        assertThat(responseHeaders.get(ANOTHER_HEADER).get(0), is("anotherValue"));
+        Assert.assertThat(responseHeaders.get(ONE_HEADER).get(0), is("oneValue"));
+        Assert.assertThat(responseHeaders.get(ANOTHER_HEADER).get(0), is("anotherValue"));
     }
 
     public StringToStringsMap getActualResponseHeaders() {
@@ -198,7 +196,7 @@ public class AddRestRequestToMockServiceActionTest {
         StringToStringsMap responseHeaders = getActualResponseHeaders();
 
         for (String header : headersNotToSave) {
-            assertThat(responseHeaders.get(header), is(NULL));
+            Assert.assertTrue(responseHeaders.get(header) == null);
         }
     }
 
@@ -207,7 +205,7 @@ public class AddRestRequestToMockServiceActionTest {
         restRequest.setResponse(null, null);
         action.perform(restRequest, notUsed);
 
-        assertThat(getFirstMockOperation().getMockResponseCount(), is(1));
+        Assert.assertThat(getFirstMockOperation().getMockResponseCount(), is(1));
     }
 
     @Test
@@ -222,7 +220,7 @@ public class AddRestRequestToMockServiceActionTest {
 
         action.perform(anotherRestRequest, notUsed);
 
-        assertThat(getFirstMockOperation().getResourcePath(), is("/template/42/path"));
+        Assert.assertThat(getFirstMockOperation().getResourcePath(), is("/template/42/path"));
     }
 
     @Test
@@ -238,8 +236,8 @@ public class AddRestRequestToMockServiceActionTest {
 
         action.perform(anotherRestRequest, notUsed);
 
-        assertThat(getFirstMockOperation().getResourcePath(), is("/template/42/path/3.1"));
-        assertThat(getFirstMockOperation().getName(), is("/template/42/path/3.1"));
+        Assert.assertThat(getFirstMockOperation().getResourcePath(), is("/template/42/path/3.1"));
+        Assert.assertThat(getFirstMockOperation().getName(), is("/template/42/path/3.1"));
     }
 
     @Test
@@ -250,7 +248,7 @@ public class AddRestRequestToMockServiceActionTest {
 
         action.perform(restRequest, notUsed);
 
-        assertThat(restRequest.getOperation().getService().getEndpoints().length, is(expectedEndPointCount));
+        Assert.assertThat(restRequest.getOperation().getService().getEndpoints().length, is(expectedEndPointCount));
     }
 
     private RestRequest createRestRequest(RestMethod restMethod, String path) {

@@ -81,7 +81,7 @@ public class RestParamsTableModelUnitTest {
         restParamsTableModel.setParams(params);
         restParamsTableModel.release();
         verify(params, times(1)).addTestPropertyListener(any(TestPropertyListener.class));
-        verify(params, times(1)).removeTestPropertyListener(any(TestPropertyListener.class));
+        verify(params, times(1)).removeTestPropertyListener(any());
 
     }
 

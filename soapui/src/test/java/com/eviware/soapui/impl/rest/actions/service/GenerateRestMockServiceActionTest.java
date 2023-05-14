@@ -83,8 +83,8 @@ public class GenerateRestMockServiceActionTest {
         action.perform(restService, null);
 
         RestMockService restMockService = getResultingRestMockService();
-        assertThat(restMockService, is(NotNull.NOT_NULL));
-        assertThat(restMockService.getName(), is(restMockServiceName));
+        assertTrue(NotNull.NOT_NULL.matches(restMockService));
+        assertTrue(restMockServiceName.equals(restMockService.getName()));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class GenerateRestMockServiceActionTest {
         action.perform(restService, null);
 
         RestMockService restMockService = getResultingRestMockService();
-        assertThat(restMockService.getMockRunner(), is(Null.NULL));
+        assertTrue(Null.NULL.matches(restMockService.getMockRunner()));
     }
 
     public RestMockService getResultingRestMockService() {

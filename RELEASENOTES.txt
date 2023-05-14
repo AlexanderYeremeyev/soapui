@@ -3,7 +3,7 @@
 #### on Released on **** ####
 
 ### Overall improvements ###
-* TODO:
+* update mockito to support java 17.
 
 -------------------------------------------------------------------------------
 

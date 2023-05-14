@@ -56,8 +56,8 @@ import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 /**
@@ -124,8 +124,8 @@ public class AutomaticSAMLEntryTest {
         createCrypto();
 
         when(outgoingWssMock.getWssContainer()).thenReturn(wssContainerMock);
-        when(wssContainerMock.getCryptoByName(anyString(), anyBoolean())).thenReturn(wssCryptoMock);
-        when(wssContainerMock.getCryptoByName(anyString())).thenReturn(wssCryptoMock);
+        when(wssContainerMock.getCryptoByName(any(), anyBoolean())).thenReturn(wssCryptoMock);
+        when(wssContainerMock.getCryptoByName(any())).thenReturn(wssCryptoMock);
         when(wssCryptoMock.getCrypto()).thenReturn(crypto);
         when(outgoingWssMock.getUsername()).thenReturn(ALIAS);
         when(outgoingWssMock.getPassword()).thenReturn(KEY_PASSWORD);
