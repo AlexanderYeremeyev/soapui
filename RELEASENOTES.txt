@@ -4,6 +4,7 @@
 
 ### Overall improvements ###
 * update mockito to support java 17.
+* implement single window mode
 
 -------------------------------------------------------------------------------
 
