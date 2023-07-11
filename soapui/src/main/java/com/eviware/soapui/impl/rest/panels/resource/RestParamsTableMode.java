@@ -5,7 +5,7 @@ import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder;
 /**
  * @author alex-tula
  */
-public enum RestParamsTableModelMode {
+public enum RestParamsTableMode {
     MINIMAL(new String[]{RestParamsTableModelData.NAME, RestParamsTableModelData.VALUE},
             new Class[]{String.class, String.class}),
     MEDIUM(new String[]{RestParamsTableModelData.NAME, RestParamsTableModelData.VALUE, RestParamsTableModelData.STYLE},
@@ -16,7 +16,7 @@ public enum RestParamsTableModelMode {
 
     private final Class[] columnTypes;
 
-    private RestParamsTableModelMode(String[] columnNames, Class[] columnTypes) {
+    private RestParamsTableMode(String[] columnNames, Class[] columnTypes) {
         this.columnNames = columnNames;
         this.columnTypes = columnTypes;
     }

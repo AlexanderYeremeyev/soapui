@@ -31,9 +31,9 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
     public static final int STYLE_COLUMN_INDEX = 2;
     public static final int LOCATION_COLUMN_INDEX = 3;
 
-    private RestParamsTableModelMode mode;
+    private RestParamsTableMode mode;
 
-    public RestParamsTableModel(RestParamsPropertyHolder params, RestParamsTableModelMode mode) {
+    public RestParamsTableModel(RestParamsPropertyHolder params, RestParamsTableMode mode) {
         super(params);
         this.mode = mode;
 
@@ -43,11 +43,11 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
     }
 
     public RestParamsTableModel(RestParamsPropertyHolder params) {
-        this(params, RestParamsTableModelMode.FULL);
+        this(params, RestParamsTableMode.FULL);
     }
 
     public boolean isInMinimalMode() {
-        return mode == RestParamsTableModelMode.MINIMAL;
+        return mode == RestParamsTableMode.MINIMAL;
     }
 
     @Override
@@ -95,9 +95,9 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
             case VALUE_COLUMN_INDEX:
                 return prop.getValue();
             case STYLE_COLUMN_INDEX:
-                return mode == RestParamsTableModelMode.MINIMAL ? null : prop.getStyle();
+                return mode == RestParamsTableMode.MINIMAL ? null : prop.getStyle();
             case LOCATION_COLUMN_INDEX:
-                return mode != RestParamsTableModelMode.FULL ? null : prop.getParamLocation();
+                return mode != RestParamsTableMode.FULL ? null : prop.getParamLocation();
         }
 
         return null;
@@ -123,12 +123,12 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
                 prop.setValue(value.toString());
                 return;
             case STYLE_COLUMN_INDEX:
-                if (mode != RestParamsTableModelMode.MINIMAL) {
+                if (mode != RestParamsTableMode.MINIMAL) {
                     prop.setStyle((ParameterStyle) value);
                 }
                 return;
             case LOCATION_COLUMN_INDEX:
-                if (mode == RestParamsTableModelMode.FULL) {
+                if (mode == RestParamsTableMode.FULL) {
                     if (params.getModelItem() != null && params.getModelItem() instanceof RestRequest) {
                         this.isLastChangeParameterLevelChange = true;
                     }

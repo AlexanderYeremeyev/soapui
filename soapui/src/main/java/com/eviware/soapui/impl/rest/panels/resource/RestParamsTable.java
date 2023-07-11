@@ -86,7 +86,7 @@ public class RestParamsTable extends JPanel {
 
     public RestParamsTable(RestParamsPropertyHolder params, boolean showInspector, ParamLocation defaultParamLocation,
                            boolean showEditableButtons, boolean showDefaultParamsButton) {
-        this(params, showInspector, new RestParamsTableModel(params, RestParamsTableModelMode.MEDIUM), defaultParamLocation, showEditableButtons,
+        this(params, showInspector, new RestParamsTableModel(params, RestParamsTableMode.MEDIUM), defaultParamLocation, showEditableButtons,
                 showDefaultParamsButton);
     }
 
