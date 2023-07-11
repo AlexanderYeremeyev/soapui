@@ -54,16 +54,16 @@ public class RestParamsTableModelColumnsNamesAndTypesUnitTest {
                 {
                         -1, null, null
                 }, {
-                0, RestParamsTableModel.COLUMN_NAMES[0], RestParamsTableModel.COLUMN_TYPES[0]
+                0, RestParamsTableModelData.COLUMN_NAMES[0], RestParamsTableModelData.COLUMN_TYPES[0]
         },
                 {
-                        1, RestParamsTableModel.COLUMN_NAMES[1], RestParamsTableModel.COLUMN_TYPES[1]
+                        1, RestParamsTableModelData.COLUMN_NAMES[1], RestParamsTableModelData.COLUMN_TYPES[1]
                 },
                 {
-                        2, RestParamsTableModel.COLUMN_NAMES[2], RestParamsTableModel.COLUMN_TYPES[2]
+                        2, RestParamsTableModelData.COLUMN_NAMES[2], RestParamsTableModelData.COLUMN_TYPES[2]
                 },
                 {
-                        3, RestParamsTableModel.COLUMN_NAMES[3], RestParamsTableModel.COLUMN_TYPES[3]
+                        3, RestParamsTableModelData.COLUMN_NAMES[3], RestParamsTableModelData.COLUMN_TYPES[3]
                 },
                 {
                         4, null, null
