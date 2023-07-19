@@ -228,6 +228,16 @@ abstract public class WsdlTestStepWithProperties extends WsdlTestStep {
         }
     }
 
+    public void firePropertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+        if (oldValue == newValue) {
+            return;
+        }
+        TestPropertyListener[] array = listeners.toArray(new TestPropertyListener[listeners.size()]);
+        for (TestPropertyListener listener : array) {
+            listener.propertyEnableStateChanged(name, oldValue, newValue);
+        }
+    }
+
     @Override
     public Map<String, TestProperty> getProperties() {
         Map<String, TestProperty> result = new HashMap<String, TestProperty>();

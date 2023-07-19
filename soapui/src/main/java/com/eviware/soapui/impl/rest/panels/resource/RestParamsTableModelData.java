@@ -8,10 +8,23 @@ import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder;
  */
 public class RestParamsTableModelData {
 
+    public static final String ENABLE = "Enable";
     public static final String NAME = "Name";
     public static final String VALUE = "Value";
     public static final String STYLE = "Style";
 
-    public static String[] COLUMN_NAMES = new String[]{NAME, "Default value", STYLE, "Level"};
-    public static Class[] COLUMN_TYPES = new Class[]{String.class, String.class, RestParamsPropertyHolder.ParameterStyle.class, NewRestResourceActionBase.ParamLocation.class};
+    public static String[] COLUMN_NAMES = new String[]{
+            ENABLE,
+            NAME,
+            "Default value",
+            STYLE,
+            "Level"
+    };
+    public static Class[] COLUMN_TYPES = new Class[]{
+            Boolean.class,
+            String.class,
+            String.class,
+            RestParamsPropertyHolder.ParameterStyle.class,
+            NewRestResourceActionBase.ParamLocation.class
+    };
 }

@@ -86,8 +86,9 @@ public class RestRequest extends AbstractHttpRequest<RestRequestConfig> implemen
         }
 
         StringToStringMap paramValues = StringToStringMap.fromXml(requestConfig.getParameters());
-        params = new RestRequestParamsPropertyHolder(method.getOverlayParams(), this, paramValues);
-        paramUpdater = new ParamUpdater(paramValues);
+        StringToStringMap paramEnableStates = StringToStringMap.fromXml(requestConfig.getParametersEnable());
+        params = new RestRequestParamsPropertyHolder(method.getOverlayParams(), this, paramValues, paramEnableStates);
+        paramUpdater = new ParamUpdater(paramValues, paramEnableStates);
         params.addTestPropertyListener(paramUpdater);
 
         method.addPropertyChangeListener(this);
@@ -490,6 +491,9 @@ public class RestRequest extends AbstractHttpRequest<RestRequestConfig> implemen
         StringToStringMap paramValues = StringToStringMap.fromXml(getConfig().getParameters());
         params.reset(getRestMethod().getOverlayParams(), paramValues);
         paramUpdater.setValues(paramValues);
+        StringToStringMap paramEnableStates = StringToStringMap.fromXml(getConfig().getParametersEnable());
+        paramUpdater.setEnableStates(paramEnableStates);
+
     }
 
     public boolean hasEndpoint() {
@@ -498,19 +502,26 @@ public class RestRequest extends AbstractHttpRequest<RestRequestConfig> implemen
 
     private class ParamUpdater implements TestPropertyListener {
         private StringToStringMap values;
+        private StringToStringMap paramEnableStates;
 
-        public ParamUpdater(StringToStringMap paramValues) {
+        public ParamUpdater(StringToStringMap paramValues, StringToStringMap paramEnableStates) {
             values = paramValues;
+            this.paramEnableStates = paramEnableStates;
         }
 
         public void setValues(StringToStringMap paramValues) {
             values = paramValues;
         }
 
+        public void setEnableStates(StringToStringMap paramEnableStates) {
+            this.paramEnableStates = paramEnableStates;
+        }
+
         private void sync() {
             try {
                 RestRequestConfig requestConfig = getConfig();
                 requestConfig.setParameters(StringToStringMapConfig.Factory.parse(values.toXml()));
+                requestConfig.setParametersEnable(StringToStringMapConfig.Factory.parse(paramEnableStates.toXml()));
             } catch (XmlException e) {
                 e.printStackTrace();
             }
@@ -532,6 +543,11 @@ public class RestRequest extends AbstractHttpRequest<RestRequestConfig> implemen
         }
 
         public void propertyValueChanged(String name, String oldValue, String newValue) {
+            sync();
+        }
+
+        @Override
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
             sync();
         }
 

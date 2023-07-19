@@ -78,6 +78,11 @@ public class DirectAccessPropertyHolderTableModel<T extends TestPropertyHolder>
         public void propertyMoved(String name, int oldIndex, int newIndex) {
             fireTableDataChanged();
         }
+
+        @Override
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+            fireTableDataChanged();
+        }
     }
 
 }

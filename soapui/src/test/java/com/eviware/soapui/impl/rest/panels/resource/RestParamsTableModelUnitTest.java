@@ -43,10 +43,11 @@ import static org.mockito.Mockito.when;
  * Unit tests for the RestParamsTableModel class
  */
 public class RestParamsTableModelUnitTest {
-    private static final int NAME_COLUMN_INDEX = 0;
-    public static final int VALUE_COLUMN_INDEX = 1;
-    private static final int STYLE_COLUMN_INDEX = 2;
-    private static final int LOCATION_COLUMN_INDEX = 3;
+    private static final int ENABLE_COLUMN_INDEX = 0;
+    private static final int NAME_COLUMN_INDEX = 1;
+    public static final int VALUE_COLUMN_INDEX = 2;
+    private static final int STYLE_COLUMN_INDEX = 3;
+    private static final int LOCATION_COLUMN_INDEX = 4;
     public static final String PARAM_NAME_1 = "ParamName1";
     public static final String PARAM_NAME_2 = "ParamName2";
 

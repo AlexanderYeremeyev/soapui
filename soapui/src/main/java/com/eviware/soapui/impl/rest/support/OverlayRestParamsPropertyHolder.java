@@ -260,6 +260,13 @@ public class OverlayRestParamsPropertyHolder implements RestParamsPropertyHolder
         }
     }
 
+    private void firePropertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+        TestPropertyListener[] listenersArray = listeners.toArray(new TestPropertyListener[listeners.size()]);
+        for (TestPropertyListener listener : listenersArray) {
+            listener.propertyEnableStateChanged(name, oldValue, newValue);
+        }
+    }
+
     public void addTestPropertyListener(TestPropertyListener listener) {
         listeners.add(listener);
     }
@@ -300,6 +307,13 @@ public class OverlayRestParamsPropertyHolder implements RestParamsPropertyHolder
         public void propertyValueChanged(String name, String oldValue, String newValue) {
             if (!overlay.hasProperty(name)) {
                 firePropertyValueChanged(name, oldValue, newValue);
+            }
+        }
+
+        @Override
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+            if (!overlay.hasProperty(name)) {
+                firePropertyEnableStateChanged(name, oldValue, newValue);
             }
         }
     }
@@ -347,6 +361,11 @@ public class OverlayRestParamsPropertyHolder implements RestParamsPropertyHolder
 
         public void propertyValueChanged(String name, String oldValue, String newValue) {
             firePropertyValueChanged(name, oldValue, newValue);
+        }
+
+        @Override
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+            firePropertyEnableStateChanged(name, oldValue, newValue);
         }
     }
 

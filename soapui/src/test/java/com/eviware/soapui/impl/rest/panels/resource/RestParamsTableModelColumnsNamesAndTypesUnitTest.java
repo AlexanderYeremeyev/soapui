@@ -66,7 +66,10 @@ public class RestParamsTableModelColumnsNamesAndTypesUnitTest {
                         3, RestParamsTableModelData.COLUMN_NAMES[3], RestParamsTableModelData.COLUMN_TYPES[3]
                 },
                 {
-                        4, null, null
+                        4, RestParamsTableModelData.COLUMN_NAMES[4], RestParamsTableModelData.COLUMN_TYPES[4]
+                },
+                {
+                        5, null, null
                 }
         });
     }
@@ -81,7 +84,7 @@ public class RestParamsTableModelColumnsNamesAndTypesUnitTest {
 
     @Test
     public void verifyColumnCountNamesColumnTypesAndThatAllColumnsAreEditable() {
-        assertThat(restParamsTableModel.getColumnCount(), Is.is(4));
+        assertThat(restParamsTableModel.getColumnCount(), Is.is(5));
         assertThat(restParamsTableModel.getColumnName(this.columnIndex), IsEqual.equalTo(this.columnName));
         assertThat(restParamsTableModel.getColumnClass(this.columnIndex), IsEqual.equalTo(this.columnType));
 

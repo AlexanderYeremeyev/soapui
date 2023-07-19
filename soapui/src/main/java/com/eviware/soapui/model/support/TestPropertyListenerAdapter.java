@@ -39,4 +39,7 @@ public class TestPropertyListenerAdapter implements TestPropertyListener {
 
     public void propertyMoved(String name, int oldIndex, int newIndex) {
     }
+
+    public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+    }
 }

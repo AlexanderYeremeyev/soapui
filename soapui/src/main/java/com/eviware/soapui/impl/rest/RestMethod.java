@@ -412,6 +412,9 @@ public class RestMethod extends AbstractWsdlModelItem<RestMethodConfig> implemen
             getProperty(name).setDefaultValue(newValue);
         }
 
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+            getProperty(name).setDefaultEnable(newValue);
+        }
     }
 
 }

@@ -26,4 +26,6 @@ public interface TestPropertyListener {
     public void propertyValueChanged(String name, String oldValue, String newValue);
 
     public void propertyMoved(String name, int oldIndex, int newIndex);
+
+    public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue);
 }

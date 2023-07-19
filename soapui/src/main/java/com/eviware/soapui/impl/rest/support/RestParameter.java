@@ -62,4 +62,12 @@ public interface RestParameter {
     String getPath();
 
     void setPath(String path);
+
+    void setEnable(boolean enable);
+
+    boolean isEnable();
+
+    void setDefaultEnable(boolean enable);
+
+    boolean isDefaultEnable();
 }

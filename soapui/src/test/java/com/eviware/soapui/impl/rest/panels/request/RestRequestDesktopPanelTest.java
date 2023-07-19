@@ -60,6 +60,11 @@ import static org.junit.matchers.JUnitMatchers.containsString;
  * Unit tests for RestRequestDesktopPanel.
  */
 public class RestRequestDesktopPanelTest {
+    private static final int ENABLE_COLUMN_INDEX = 0;
+    private static final int NAME_COLUMN_INDEX = 1;
+    public static final int VALUE_COLUMN_INDEX = 2;
+    private static final int STYLE_COLUMN_INDEX = 3;
+    private static final int LOCATION_COLUMN_INDEX = 4;
 
     public static final String PARAMETER_NAME = "jsessionid";
     public static final String PARAMETER_VALUE = "Da Value";
@@ -97,8 +102,8 @@ public class RestRequestDesktopPanelTest {
     @Test
     public void retainsParameterValueWhenChangingItsLevel() throws Exception {
         JTable paramsTable = getRestParameterTable();
-        paramsTable.setValueAt(NewRestResourceActionBase.ParamLocation.METHOD, 0, 3);
-        paramsTable.setValueAt(NewRestResourceActionBase.ParamLocation.RESOURCE, 0, 3);
+        paramsTable.setValueAt(NewRestResourceActionBase.ParamLocation.METHOD, 0, LOCATION_COLUMN_INDEX);
+        paramsTable.setValueAt(NewRestResourceActionBase.ParamLocation.RESOURCE, 0, LOCATION_COLUMN_INDEX);
 
         RestParamProperty returnedParameter = restRequest.getParams().getProperty(PARAMETER_NAME);
         assertThat(returnedParameter.getValue(), is(PARAMETER_VALUE));
@@ -109,8 +114,8 @@ public class RestRequestDesktopPanelTest {
         JTable restParameterTable = getRestParameterTable();
         new AddParamAction(restParameterTable, restRequest.getParams(), "").actionPerformed(new ActionEvent(restParameterTable, 1, "Add"));
         String newParamName = "newParamName";
-        restParameterTable.setValueAt(newParamName, 1, 0);
-        restParameterTable.setValueAt("newParamValue", 1, 1);
+        restParameterTable.setValueAt(newParamName, 1, NAME_COLUMN_INDEX);
+        restParameterTable.setValueAt("newParamValue", 1, VALUE_COLUMN_INDEX);
 
         assertThat(restRequest.getRestMethod().hasProperty(newParamName), is(false));
         assertThat(restRequest.getResource().hasProperty(newParamName), is(true));
@@ -119,9 +124,9 @@ public class RestRequestDesktopPanelTest {
     @Test
     public void retainsParameterOrderWhenChangingItsLevel() throws Exception {
         restRequest.getParams().addProperty("Param2");
-        getRestParameterTable().setValueAt(NewRestResourceActionBase.ParamLocation.METHOD, 0, 3);
+        getRestParameterTable().setValueAt(NewRestResourceActionBase.ParamLocation.METHOD, 0, LOCATION_COLUMN_INDEX);
 
-        assertThat((String) getRestParameterTable().getValueAt(0, 0), is(PARAMETER_NAME));
+        assertThat((String) getRestParameterTable().getValueAt(0, NAME_COLUMN_INDEX), is(PARAMETER_NAME));
     }
 
     @Test
@@ -302,11 +307,11 @@ public class RestRequestDesktopPanelTest {
     @Test
     public void allowsRemovalOfParameterAfterParameterLevelChange() throws Exception {
         restRequest.getParams().addProperty("Param2");
-        getRestParameterTable().setValueAt(NewRestResourceActionBase.ParamLocation.METHOD, 0, 3);
+        getRestParameterTable().setValueAt(NewRestResourceActionBase.ParamLocation.METHOD, 0, LOCATION_COLUMN_INDEX);
 
         String paramNameAtRow0;
         restRequest.getParams().removeProperty(PARAMETER_NAME);
-        paramNameAtRow0 = (String) getRestParameterTable().getValueAt(0, 0);
+        paramNameAtRow0 = (String) getRestParameterTable().getValueAt(0, NAME_COLUMN_INDEX);
         assertThat(paramNameAtRow0, is("Param2"));
     }
 

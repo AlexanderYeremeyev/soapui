@@ -218,6 +218,10 @@ public class DefaultPropertyHolderTableModel<T extends TestPropertyHolder> exten
         public void propertyMoved(String name, int oldIndex, int newIndex) {
             fireTableDataChanged();
         }
+
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+            fireTableDataChanged();
+        }
     }
 
 }

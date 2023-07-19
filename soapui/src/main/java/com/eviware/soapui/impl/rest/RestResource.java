@@ -567,6 +567,11 @@ public class RestResource extends AbstractWsdlModelItem<RestResourceConfig> impl
         }
 
         @Override
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+
+        }
+
+        @Override
         public void propertyMoved(String name, int oldIndex, int newIndex) {
 
         }

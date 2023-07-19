@@ -26,10 +26,11 @@ import static com.eviware.soapui.impl.rest.actions.support.NewRestResourceAction
 
 public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<RestParamsPropertyHolder> {
 
-    public static final int NAME_COLUMN_INDEX = 0;
-    public static final int VALUE_COLUMN_INDEX = 1;
-    public static final int STYLE_COLUMN_INDEX = 2;
-    public static final int LOCATION_COLUMN_INDEX = 3;
+    public static final int ENABLE_COLUMN_INDEX = 0;
+    public static final int NAME_COLUMN_INDEX = 1;
+    public static final int VALUE_COLUMN_INDEX = 2;
+    public static final int STYLE_COLUMN_INDEX = 3;
+    public static final int LOCATION_COLUMN_INDEX = 4;
 
     private RestParamsTableMode mode;
 
@@ -90,6 +91,8 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
         RestParamProperty prop = getParameterAt(rowIndex);
 
         switch (columnIndex) {
+            case ENABLE_COLUMN_INDEX:
+                return prop.isEnable();
             case NAME_COLUMN_INDEX:
                 return prop.getName();
             case VALUE_COLUMN_INDEX:
@@ -108,6 +111,10 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
         RestParamProperty prop = getParameterAt(rowIndex);
 
         switch (columnIndex) {
+            case ENABLE_COLUMN_INDEX: {
+                prop.setEnable(Boolean.valueOf(value.toString()));
+            }
+            return;
             case NAME_COLUMN_INDEX:
                 if (propertyExists(value, prop)) {
                     return;
