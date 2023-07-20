@@ -16,7 +16,7 @@ public class RestParamsTableModelData {
     public static String[] COLUMN_NAMES = new String[]{
             ENABLE,
             NAME,
-            "Default value",
+            VALUE,
             STYLE,
             "Level"
     };

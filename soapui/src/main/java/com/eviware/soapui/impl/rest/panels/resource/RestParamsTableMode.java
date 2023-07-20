@@ -10,7 +10,8 @@ public enum RestParamsTableMode {
             new Class[]{Boolean.class, String.class, String.class}),
     MEDIUM(new String[]{RestParamsTableModelData.ENABLE, RestParamsTableModelData.NAME, RestParamsTableModelData.VALUE, RestParamsTableModelData.STYLE},
             new Class[]{Boolean.class, String.class, String.class, RestParamsPropertyHolder.ParameterStyle.class}),
-    FULL(RestParamsTableModelData.COLUMN_NAMES, RestParamsTableModelData.COLUMN_TYPES);
+    FULL(RestParamsTableModelData.COLUMN_NAMES, RestParamsTableModelData.COLUMN_TYPES),
+    REST_TEST_STEP(RestParamsTableModelData.COLUMN_NAMES, RestParamsTableModelData.COLUMN_TYPES);
 
     private final String[] columnNames;
 

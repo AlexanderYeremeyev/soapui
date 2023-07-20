@@ -18,6 +18,7 @@ package com.eviware.soapui.impl.support.http;
 
 import com.eviware.soapui.impl.rest.panels.request.views.json.actions.FormatJsonAction;
 import com.eviware.soapui.impl.rest.panels.resource.RestParamsTable;
+import com.eviware.soapui.impl.rest.panels.resource.RestParamsTableMode;
 import com.eviware.soapui.impl.rest.panels.resource.RestParamsTableModel;
 import com.eviware.soapui.impl.rest.support.RestParamProperty;
 import com.eviware.soapui.impl.rest.support.handlers.JsonXmlSerializer;
@@ -101,31 +102,9 @@ public class HttpRequestContentView extends AbstractXmlEditorView<HttpRequestDoc
     }
 
     protected RestParamsTable buildParamsTable() {
-        RestParamsTableModel restParamsTableModel = new RestParamsTableModel(httpRequest.getParams()) {
-            @Override
-            public String getColumnName(int column) {
-                return column == 0 ? "Name" : "Value";
-            }
-
-            public int getColumnCount() {
-                return 2;
-            }
-
-            public Object getValueAt(int rowIndex, int columnIndex) {
-                RestParamProperty prop = params.getPropertyAt(rowIndex);
-                return columnIndex == 0 ? prop.getName() : prop.getValue();
-            }
-
-            @Override
-            public void setValueAt(Object value, int rowIndex, int columnIndex) {
-                RestParamProperty prop = params.getPropertyAt(rowIndex);
-                if (columnIndex == 0) {
-                    prop.setName(value.toString());
-                } else {
-                    prop.setValue(value.toString());
-                }
-            }
-        };
+        RestParamsTableModel restParamsTableModel = new RestParamsTableModel(
+                httpRequest.getParams(),
+                RestParamsTableMode.MINIMAL);
         return new RestParamsTable(httpRequest.getParams(), false, restParamsTableModel, ParamLocation.RESOURCE, true, false);
     }
 

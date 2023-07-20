@@ -78,6 +78,9 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if (mode == RestParamsTableMode.REST_TEST_STEP) {
+            return columnIndex == 2;
+        }
         return true;
     }
 
@@ -100,7 +103,7 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
             case STYLE_COLUMN_INDEX:
                 return mode == RestParamsTableMode.MINIMAL ? null : prop.getStyle();
             case LOCATION_COLUMN_INDEX:
-                return mode != RestParamsTableMode.FULL ? null : prop.getParamLocation();
+                return (mode != RestParamsTableMode.FULL && mode != RestParamsTableMode.REST_TEST_STEP) ? null : prop.getParamLocation();
         }
 
         return null;
@@ -108,6 +111,9 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
 
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
+        if (mode == RestParamsTableMode.REST_TEST_STEP && columnIndex != 2) {
+            return;
+        }
         RestParamProperty prop = getParameterAt(rowIndex);
 
         switch (columnIndex) {
