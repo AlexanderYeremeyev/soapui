@@ -37,11 +37,13 @@ public class AddParamAction extends AbstractAction {
     public static final String ADD_PARAM_ACTION_NAME = "Add Param";
     private MutableTestPropertyHolder propertyHolder;
     private JTable parameterTable;
+    private int nameColumnIndex;
 
-    public AddParamAction(JTable parameterTable, MutableTestPropertyHolder propertyHolder, String description) {
+    public AddParamAction(JTable parameterTable, MutableTestPropertyHolder propertyHolder, String description, int nameColumnIndex) {
         super(ADD_PARAM_ACTION_NAME);
         this.parameterTable = parameterTable;
         this.propertyHolder = propertyHolder;
+        this.nameColumnIndex = nameColumnIndex;
         putValue(Action.SMALL_ICON, UISupport.createImageIcon("/add.png"));
         putValue(Action.SHORT_DESCRIPTION, description);
     }
@@ -56,19 +58,19 @@ public class AddParamAction extends AbstractAction {
         final int row = parameterTable.getModel().getRowCount() - 1;
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                editTableCell(row, 0);
+                editTableCell(row, nameColumnIndex);
 
-                final TableCellEditor cellEditor1 = parameterTable.getCellEditor(row, 0);
+                final TableCellEditor cellEditor1 = parameterTable.getCellEditor(row, nameColumnIndex);
                 cellEditor1.addCellEditorListener(new CellEditorListener() {
                     @Override
                     public void editingStopped(ChangeEvent e) {
                         cellEditor1.removeCellEditorListener(this);
                         if (parameterTable.getRowCount() > row &&
-                                parameterTable.getValueAt(row, 0).toString().equals(EMPTY_STRING)) {
+                                parameterTable.getValueAt(row, nameColumnIndex).toString().equals(EMPTY_STRING)) {
                             propertyHolder.removeProperty(EMPTY_STRING);
                             return;
                         }
-                        editTableCell(row, 1);
+                        editTableCell(row, nameColumnIndex + 1 /*value*/);
                     }
 
                     @Override

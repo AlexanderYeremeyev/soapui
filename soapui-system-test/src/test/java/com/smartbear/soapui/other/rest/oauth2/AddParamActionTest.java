@@ -141,7 +141,7 @@ public class AddParamActionTest {
 
     private void invokeAddParamAction() {
         ActionEvent actionEvent = Mockito.mock(ActionEvent.class);
-        new com.eviware.soapui.impl.wsdl.panels.teststeps.support.AddParamAction(paramTable, params, "Add Param").actionPerformed(actionEvent);
+        new com.eviware.soapui.impl.wsdl.panels.teststeps.support.AddParamAction(paramTable, params, "Add Param", 0).actionPerformed(actionEvent);
     }
 
     private void verifyEditingCell(int row, int column) throws InterruptedException {

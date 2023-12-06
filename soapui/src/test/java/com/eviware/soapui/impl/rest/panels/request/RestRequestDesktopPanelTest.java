@@ -112,7 +112,7 @@ public class RestRequestDesktopPanelTest {
     @Test
     public void addsNewParameterToResource() throws Exception {
         JTable restParameterTable = getRestParameterTable();
-        new AddParamAction(restParameterTable, restRequest.getParams(), "").actionPerformed(new ActionEvent(restParameterTable, 1, "Add"));
+        new AddParamAction(restParameterTable, restRequest.getParams(), "", 1).actionPerformed(new ActionEvent(restParameterTable, 1, "Add"));
         String newParamName = "newParamName";
         restParameterTable.setValueAt(newParamName, 1, NAME_COLUMN_INDEX);
         restParameterTable.setValueAt("newParamValue", 1, VALUE_COLUMN_INDEX);
