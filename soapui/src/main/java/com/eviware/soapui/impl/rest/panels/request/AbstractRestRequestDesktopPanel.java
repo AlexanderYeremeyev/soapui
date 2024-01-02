@@ -201,6 +201,11 @@ public abstract class AbstractRestRequestDesktopPanel<T extends ModelItem, T2 ex
         public void propertyRenamed(String oldName, String newName) {
             updateUiValues();
         }
+
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+            updateUiValues();
+        }
+
     }
 
 

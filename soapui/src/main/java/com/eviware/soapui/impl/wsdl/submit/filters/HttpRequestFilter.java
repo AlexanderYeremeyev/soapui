@@ -89,6 +89,9 @@ public class HttpRequestFilter extends AbstractRequestFilter {
 
         for (int c = 0; c < params.getPropertyCount(); c++) {
             RestParamProperty param = params.getPropertyAt(c);
+            if (!param.isEnable()) {
+                continue;
+            }
 
             String value = PropertyExpander.expandProperties(context, param.getValue());
             responseProperties.put(param.getName(), value);

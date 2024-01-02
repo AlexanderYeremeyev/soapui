@@ -86,7 +86,7 @@ public class RestParamsTable extends JPanel {
 
     public RestParamsTable(RestParamsPropertyHolder params, boolean showInspector, ParamLocation defaultParamLocation,
                            boolean showEditableButtons, boolean showDefaultParamsButton) {
-        this(params, showInspector, new RestParamsTableModel(params, RestParamsTableModel.Mode.MEDIUM), defaultParamLocation, showEditableButtons,
+        this(params, showInspector, new RestParamsTableModel(params, RestParamsTableMode.MEDIUM), defaultParamLocation, showEditableButtons,
                 showDefaultParamsButton);
     }
 
@@ -244,8 +244,8 @@ public class RestParamsTable extends JPanel {
     }
 
     private void initEditableButtons() {
-        addParamAction = new AddParamAction(paramsTable, params, "Adds a parameter to the parameter table");
-        removeParamAction = new RemovePropertyAction(paramsTable, params, "Removes the selected parameter");
+        addParamAction = new AddParamAction(paramsTable, params, "Adds a parameter to the parameter table", 1);
+        removeParamAction = new RemovePropertyAction(paramsTable, params, "Removes the selected parameter", 1);
         updateParamsAction = new UpdateParamsAction();
 
     }

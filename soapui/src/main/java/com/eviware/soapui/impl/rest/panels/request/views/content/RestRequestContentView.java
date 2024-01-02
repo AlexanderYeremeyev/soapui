@@ -57,16 +57,7 @@ public class RestRequestContentView extends HttpRequestContentView {
 
 
     protected RestParamsTable buildParamsTable() {
-        RestParamsTableModel model = new RestParamsTableModel(restRequest.getParams()) {
-            @Override
-            public String getColumnName(int columnIndex) {
-                if (columnIndex == 1) {
-                    return "Value";
-                }
-
-                return super.getColumnName(columnIndex);
-            }
-        };
+        RestParamsTableModel model = new RestParamsTableModel(restRequest.getParams());
         return new RestParamsTable(restRequest.getParams(), true, model, ParamLocation.RESOURCE, true, true);
     }
 

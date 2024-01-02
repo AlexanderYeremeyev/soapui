@@ -215,6 +215,11 @@ public class SecurityCheckedParameterHolder extends SecurityScanParameterListene
     }
 
     @Override
+    public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
     public void propertyRemoved(String name) {
         ArrayList<SecurityCheckedParameter> parameterToRemove = new ArrayList<SecurityCheckedParameter>();
         for (SecurityCheckedParameter param : params) {

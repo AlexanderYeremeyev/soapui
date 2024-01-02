@@ -26,37 +26,15 @@ import static com.eviware.soapui.impl.rest.actions.support.NewRestResourceAction
 
 public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<RestParamsPropertyHolder> {
 
-    private static final String NAME = "Name";
-    private static final String VALUE = "Value";
-    private static final String STYLE = "Style";
+    public static final int ENABLE_COLUMN_INDEX = 0;
+    public static final int NAME_COLUMN_INDEX = 1;
+    public static final int VALUE_COLUMN_INDEX = 2;
+    public static final int STYLE_COLUMN_INDEX = 3;
+    public static final int LOCATION_COLUMN_INDEX = 4;
 
-    public static final int NAME_COLUMN_INDEX = 0;
-    public static final int VALUE_COLUMN_INDEX = 1;
-    public static final int STYLE_COLUMN_INDEX = 2;
-    public static final int LOCATION_COLUMN_INDEX = 3;
+    private RestParamsTableMode mode;
 
-    public static enum Mode {
-        MINIMAL(new String[]{NAME, VALUE}, new Class[]{String.class, String.class}),
-        MEDIUM(new String[]{NAME, VALUE, STYLE}, new Class[]{String.class, String.class, ParameterStyle.class}),
-        FULL(COLUMN_NAMES, COLUMN_TYPES);
-
-        private final String[] columnNames;
-
-        private final Class[] columnTypes;
-
-        private Mode(String[] columnNames, Class[] columnTypes) {
-            this.columnNames = columnNames;
-            this.columnTypes = columnTypes;
-        }
-
-    }
-
-    static String[] COLUMN_NAMES = new String[]{NAME, "Default value", STYLE, "Level"};
-    static Class[] COLUMN_TYPES = new Class[]{String.class, String.class, ParameterStyle.class, ParamLocation.class};
-
-    private Mode mode;
-
-    public RestParamsTableModel(RestParamsPropertyHolder params, Mode mode) {
+    public RestParamsTableModel(RestParamsPropertyHolder params, RestParamsTableMode mode) {
         super(params);
         this.mode = mode;
 
@@ -66,16 +44,16 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
     }
 
     public RestParamsTableModel(RestParamsPropertyHolder params) {
-        this(params, Mode.FULL);
+        this(params, RestParamsTableMode.FULL);
     }
 
     public boolean isInMinimalMode() {
-        return mode == Mode.MINIMAL;
+        return mode == RestParamsTableMode.MINIMAL;
     }
 
     @Override
     public int getColumnCount() {
-        return mode.columnTypes.length;
+        return mode.getColumnTypes().length;
     }
 
     @Override
@@ -83,7 +61,7 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
         if (isColumnIndexOutOfBound(columnIndex)) {
             return null;
         }
-        return mode.columnNames[columnIndex];
+        return mode.getColumnNames()[columnIndex];
     }
 
     @Override
@@ -91,15 +69,18 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
         if (isColumnIndexOutOfBound(columnIndex)) {
             return null;
         }
-        return mode.columnTypes[columnIndex];
+        return mode.getColumnTypes()[columnIndex];
     }
 
     private boolean isColumnIndexOutOfBound(int columnIndex) {
-        return columnIndex < 0 || columnIndex >= mode.columnTypes.length;
+        return columnIndex < 0 || columnIndex >= mode.getColumnTypes().length;
     }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if (mode == RestParamsTableMode.REST_TEST_STEP) {
+            return columnIndex == 2;
+        }
         return true;
     }
 
@@ -113,14 +94,16 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
         RestParamProperty prop = getParameterAt(rowIndex);
 
         switch (columnIndex) {
+            case ENABLE_COLUMN_INDEX:
+                return prop.isEnable();
             case NAME_COLUMN_INDEX:
                 return prop.getName();
             case VALUE_COLUMN_INDEX:
                 return prop.getValue();
             case STYLE_COLUMN_INDEX:
-                return mode == Mode.MINIMAL ? null : prop.getStyle();
+                return mode == RestParamsTableMode.MINIMAL ? null : prop.getStyle();
             case LOCATION_COLUMN_INDEX:
-                return mode != Mode.FULL ? null : prop.getParamLocation();
+                return (mode != RestParamsTableMode.FULL && mode != RestParamsTableMode.REST_TEST_STEP) ? null : prop.getParamLocation();
         }
 
         return null;
@@ -128,9 +111,16 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
 
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
+        if (mode == RestParamsTableMode.REST_TEST_STEP && columnIndex != 2) {
+            return;
+        }
         RestParamProperty prop = getParameterAt(rowIndex);
 
         switch (columnIndex) {
+            case ENABLE_COLUMN_INDEX: {
+                prop.setEnable(Boolean.valueOf(value.toString()));
+            }
+            return;
             case NAME_COLUMN_INDEX:
                 if (propertyExists(value, prop)) {
                     return;
@@ -146,12 +136,12 @@ public class RestParamsTableModel extends DirectAccessPropertyHolderTableModel<R
                 prop.setValue(value.toString());
                 return;
             case STYLE_COLUMN_INDEX:
-                if (mode != Mode.MINIMAL) {
+                if (mode != RestParamsTableMode.MINIMAL) {
                     prop.setStyle((ParameterStyle) value);
                 }
                 return;
             case LOCATION_COLUMN_INDEX:
-                if (mode == Mode.FULL) {
+                if (mode == RestParamsTableMode.FULL) {
                     if (params.getModelItem() != null && params.getModelItem() instanceof RestRequest) {
                         this.isLastChangeParameterLevelChange = true;
                     }

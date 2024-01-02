@@ -240,6 +240,9 @@ public class RestUtils {
         StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < params.getPropertyCount(); i++) {
             RestParamProperty param = params.getPropertyAt(i);
+            if (!param.isEnable()) {
+                continue;
+            }
             String value = param.getValue();
             if (param.getStyle() == ParameterStyle.MATRIX) {
                 if (param.getType().equals(XmlBoolean.type.getName())) {
@@ -268,6 +271,9 @@ public class RestUtils {
 
         for (int c = 0; c < params.getPropertyCount(); c++) {
             RestParamProperty param = params.getPropertyAt(c);
+            if (!param.isEnable()) {
+                continue;
+            }
             String value = param.getValue();
             List<String> valueParts = splitMultipleParameters(value, request.getMultiValueDelimiter());
 

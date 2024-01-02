@@ -599,6 +599,11 @@ public class HttpTestRequestStep extends WsdlTestStepWithProperties implements H
         }
 
         @Override
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+            HttpTestRequestStep.this.firePropertyEnableStateChanged(name, oldValue, newValue);
+        }
+
+        @Override
         public void propertyMoved(String name, int oldIndex, int newIndex) {
             HttpTestRequestStep.this.firePropertyMoved(name, oldIndex, newIndex);
         }

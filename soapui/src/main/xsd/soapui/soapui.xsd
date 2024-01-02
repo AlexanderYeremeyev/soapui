@@ -757,13 +757,10 @@
 
     <xsd:complexType name="StringToStringMap">
         <xsd:sequence>
-            <xsd:element name="entry" maxOccurs="unbounded"
-                         minOccurs="0">
+            <xsd:element name="entry" maxOccurs="unbounded" minOccurs="0">
                 <xsd:complexType>
-                    <xsd:attribute name="key" type="xsd:string">
-                    </xsd:attribute>
-                    <xsd:attribute name="value" type="xsd:string">
-                    </xsd:attribute>
+                    <xsd:attribute name="key" type="xsd:string"/>
+                    <xsd:attribute name="value" type="xsd:string"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -1588,6 +1585,8 @@
 
             <xsd:element name="description" type="xsd:string"
                          maxOccurs="1" minOccurs="0"></xsd:element>
+            <xsd:element name="enable" type="xsd:boolean" maxOccurs="1" minOccurs="0"></xsd:element>
+            <xsd:element name="defaultEnable" type="xsd:boolean" maxOccurs="1" minOccurs="0"></xsd:element>
         </xsd:sequence>
         <xsd:attribute name="required" type="xsd:boolean"></xsd:attribute>
         <xsd:attribute name="repeating" type="xsd:boolean"></xsd:attribute>
@@ -2130,9 +2129,9 @@
         <xsd:complexContent>
             <xsd:extension base="tns:AbstractRequest">
                 <xsd:sequence>
-                    <xsd:element name="parameters" type="tns:StringToStringMap">
-                    </xsd:element>
+                    <xsd:element name="parameters" type="tns:StringToStringMap"/>
                     <xsd:element name="parameterOrder" type="tns:StringList" minOccurs="0"/>
+                    <xsd:element name="parametersEnable" type="tns:StringToStringMap"/>
                 </xsd:sequence>
                 <xsd:attribute name="wadlId" type="xsd:string"></xsd:attribute>
                 <xsd:attribute name="fullPath" type="xsd:string"></xsd:attribute>

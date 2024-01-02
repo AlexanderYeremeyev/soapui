@@ -704,6 +704,11 @@ public class PropertyTransfersDesktopPanel extends ModelItemDesktopPanel<Propert
 
             combo.insertItemAt(property, newIndex);
         }
+
+        @Override
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+
+        }
     }
 
     /**

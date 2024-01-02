@@ -44,6 +44,7 @@ import java.util.Set;
 
 public class RestRequestParamsPropertyHolder implements RestParamsPropertyHolder, TestPropertyListener {
     private StringToStringMap values;
+    private StringToStringMap paramEnableStates;
     private RestParamsPropertyHolder methodParams;
     private List<String> sortedPropertyNames;
     private RestRequest restRequest;
@@ -51,12 +52,16 @@ public class RestRequestParamsPropertyHolder implements RestParamsPropertyHolder
     private Map<RestParamProperty, InternalRestParamProperty> wrappers = new HashMap<RestParamProperty, InternalRestParamProperty>();
     private String parameterBeingMoved;
 
-    public RestRequestParamsPropertyHolder(RestParamsPropertyHolder methodParams, RestRequest restRequest,
-                                           StringToStringMap values) {
+    public RestRequestParamsPropertyHolder(
+            RestParamsPropertyHolder methodParams,
+            RestRequest restRequest,
+            StringToStringMap values,
+            StringToStringMap paramEnableStates) {
         this.methodParams = methodParams;
         this.restRequest = restRequest;
         buildPropertyNameList();
         this.values = values;
+        this.paramEnableStates = paramEnableStates;
         methodParams.addTestPropertyListener(this);
     }
 
@@ -397,6 +402,13 @@ public class RestRequestParamsPropertyHolder implements RestParamsPropertyHolder
         }
     }
 
+    private void firePropertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+        TestPropertyListener[] listenersArray = listeners.toArray(new TestPropertyListener[listeners.size()]);
+        for (TestPropertyListener listener : listenersArray) {
+            listener.propertyEnableStateChanged(name, oldValue, newValue);
+        }
+    }
+
     private void saveParameterOrder() {
         StringListConfig mapConfig = StringListConfig.Factory.newInstance();
         mapConfig.setEntryArray(keySet().toArray(new String[keySet().size()]));
@@ -445,10 +457,19 @@ public class RestRequestParamsPropertyHolder implements RestParamsPropertyHolder
         }
     }
 
+    @Override
     public void propertyValueChanged(String name, String oldValue, String newValue) {
         if (!values.containsKey(name)) {
             values.put(name, newValue);
             firePropertyValueChanged(name, oldValue, newValue);
+        }
+    }
+
+    @Override
+    public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+        if (!paramEnableStates.containsKey(name)) {
+            paramEnableStates.put(name, newValue);
+            firePropertyEnableStateChanged(name, oldValue, newValue);
         }
     }
 
@@ -615,6 +636,35 @@ public class RestRequestParamsPropertyHolder implements RestParamsPropertyHolder
             return overriddenProp.getSchemaType();
         }
 
+        @Override
+        public void setEnable(boolean enable) {
+            boolean oldValue = isEnable();
+            if (isDefaultEnable() == enable) {
+                paramEnableStates.remove(getName());
+            } else {
+                paramEnableStates.put(getName(), enable);
+            }
+            firePropertyEnableStateChanged(getName(), oldValue, isEnable());
+        }
+
+        @Override
+        public boolean isEnable() {
+            String name = getName();
+            if (paramEnableStates.containsKey(name) && paramEnableStates.get(name) != null) {
+                return paramEnableStates.getBoolean(name);
+            }
+            return isDefaultEnable();
+        }
+
+        @Override
+        public void setDefaultEnable(boolean enable) {
+            // no any internal default values.
+        }
+
+        @Override
+        public boolean isDefaultEnable() {
+            return overriddenProp.isDefaultEnable();
+        }
     }
 
     public List<TestProperty> getPropertyList() {

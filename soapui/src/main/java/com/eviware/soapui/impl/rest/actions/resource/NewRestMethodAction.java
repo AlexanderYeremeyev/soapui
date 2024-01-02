@@ -23,6 +23,7 @@ import com.eviware.soapui.impl.rest.RestRequestInterface;
 import com.eviware.soapui.impl.rest.RestResource;
 import com.eviware.soapui.impl.rest.panels.resource.RestParamsTable;
 import com.eviware.soapui.impl.rest.panels.resource.RestParamsTableModel;
+import com.eviware.soapui.impl.rest.panels.resource.RestParamsTableMode;
 import com.eviware.soapui.impl.rest.support.RestParamProperty;
 import com.eviware.soapui.impl.rest.support.RestParamsPropertyHolder;
 import com.eviware.soapui.impl.rest.support.XmlBeansRestParamsTestPropertyHolder;
@@ -72,7 +73,7 @@ public class NewRestMethodAction extends AbstractSoapUIAction<RestResource> {
         }
 
 
-        RestParamsTableModel paramsTableModel = new RestParamsTableModel(params, RestParamsTableModel.Mode.MEDIUM);
+        RestParamsTableModel paramsTableModel = new RestParamsTableModel(params, RestParamsTableMode.MEDIUM);
         RestParamsTable paramsTable = new RestParamsTable(params, false, paramsTableModel, ParamLocation.METHOD, true, false);
 
         dialog.getFormField(Form.PARAMSTABLE).setProperty("component", paramsTable);

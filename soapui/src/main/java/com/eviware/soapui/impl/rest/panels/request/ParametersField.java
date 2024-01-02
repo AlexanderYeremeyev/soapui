@@ -21,6 +21,7 @@ import com.eviware.soapui.impl.rest.RestRequestInterface;
 import com.eviware.soapui.impl.rest.actions.support.NewRestResourceActionBase;
 import com.eviware.soapui.impl.rest.panels.resource.RestParamsTable;
 import com.eviware.soapui.impl.rest.panels.resource.RestParamsTableModel;
+import com.eviware.soapui.impl.rest.panels.resource.RestParamsTableMode;
 import com.eviware.soapui.impl.rest.support.RestUtils;
 
 import javax.swing.Action;
@@ -117,7 +118,7 @@ class ParametersField extends JPanel {
 
     private void openPopup(final String selectedParameter) {
         RestParamsTable restParamsTable = new RestParamsTable(request.getParams(), false, new RestParamsTableModel(
-                request.getParams(), RestParamsTableModel.Mode.MINIMAL),
+                request.getParams(), RestParamsTableMode.MINIMAL),
                 NewRestResourceActionBase.ParamLocation.RESOURCE, true, true);
         showParametersTableInWindow(restParamsTable, selectedParameter);
     }

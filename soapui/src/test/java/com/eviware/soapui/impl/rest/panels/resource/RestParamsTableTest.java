@@ -43,7 +43,7 @@ public class RestParamsTableTest {
     @Before
     public void setUp() throws Exception {
         params = ModelItemFactory.makeRestRequest().getParams();
-        paramTable = new RestParamsTable(params, false, new RestParamsTableModel(params, RestParamsTableModel.Mode.FULL), NewRestResourceActionBase.ParamLocation.RESOURCE, false, false).paramsTable;
+        paramTable = new RestParamsTable(params, false, new RestParamsTableModel(params, RestParamsTableMode.FULL), NewRestResourceActionBase.ParamLocation.RESOURCE, false, false).paramsTable;
     }
 
     @Test

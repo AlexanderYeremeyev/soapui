@@ -155,6 +155,13 @@ public class XmlBeansRestParamsTestPropertyHolder implements RestParamsPropertyH
         }
     }
 
+    private void firePropertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+        TestPropertyListener[] listenersArray = listeners.toArray(new TestPropertyListener[listeners.size()]);
+        for (TestPropertyListener listener : listenersArray) {
+            listener.propertyEnableStateChanged(name, oldValue, newValue);
+        }
+    }
+
     public RestParamProperty addProperty(String name) {
         if (hasProperty(name)) {
             return getProperty(name);
@@ -529,6 +536,35 @@ public class XmlBeansRestParamsTestPropertyHolder implements RestParamsPropertyH
             return XmlBeans.getBuiltinTypeSystem().findType(getType());
         }
 
+        @Override
+        public void setEnable(boolean enable) {
+            boolean oldValue = isEnable();
+            propertyConfig.setEnable(enable);
+            firePropertyEnableStateChanged(getName(), oldValue, enable);
+        }
+
+        @Override
+        public boolean isEnable() {
+            if (propertyConfig.isSetEnable()) {
+                return propertyConfig.getEnable();
+            }
+            return true;
+        }
+
+        @Override
+        public void setDefaultEnable(boolean enable) {
+            boolean old = enable;
+            propertyConfig.setDefaultEnable(enable);
+            propertySupport.firePropertyChange("defaultEnable", old, enable);
+        }
+
+        @Override
+        public boolean isDefaultEnable() {
+            if (propertyConfig.isSetDefaultEnable()) {
+                return propertyConfig.getDefaultEnable();
+            }
+            return true;
+        }
     }
 
     /*

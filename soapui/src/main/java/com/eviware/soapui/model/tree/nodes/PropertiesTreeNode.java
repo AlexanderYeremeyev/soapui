@@ -143,6 +143,11 @@ public class PropertiesTreeNode<T extends ModelItem> extends AbstractModelItemTr
 
             getTreeModel().notifyNodeInserted(node);
         }
+
+        @Override
+        public void propertyEnableStateChanged(String name, boolean oldValue, boolean newValue) {
+            //TODO:
+        }
     }
 
     public ActionList getActions() {
