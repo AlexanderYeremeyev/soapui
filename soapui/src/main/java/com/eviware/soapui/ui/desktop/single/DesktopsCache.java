@@ -46,12 +46,28 @@ public class DesktopsCache implements Releasable {
         }
 
         ModelItem modelItem = modelItemsList.get(modelItemsList.size() - 1);
+        removeItem(modelItem);
+        return true;
+    }
+
+    boolean removeItem(DesktopPanel desktopPanel) {
+        for (Map.Entry<ModelItem, DesktopPanel> pair: modelItemsMap.entrySet()) {
+            if (desktopPanel == pair.getValue()) {
+                return removeItem(pair.getKey());
+            }
+        }
+        return false;
+    }
+
+    boolean removeItem(ModelItem modelItem) {
         if (modelItemsMap.containsKey(modelItem)) {
             onClearItemEvent.accept(modelItemsMap.get(modelItem));
             modelItemsMap.remove(modelItem);
+
+            modelItemsList.remove(modelItem);
+            return true;
         }
-        modelItemsList.remove(modelItem);
-        return true;
+        return false;
     }
 
     /**
@@ -80,7 +96,7 @@ public class DesktopsCache implements Releasable {
     }
 
     public DesktopPanel[] getItems() {
-        DesktopPanel[] array = new DesktopPanel[modelItemsList.size()];
-        return modelItemsList.toArray(array);
+        DesktopPanel[] array = new DesktopPanel[modelItemsMap.size()];
+        return modelItemsMap.values().toArray(array);
     }
 }
