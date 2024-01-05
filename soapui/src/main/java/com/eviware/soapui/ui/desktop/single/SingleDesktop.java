@@ -29,7 +29,16 @@ public class SingleDesktop extends AbstractSoapUIDesktop {
 
     @Override
     public boolean closeDesktopPanel(DesktopPanel desktopPanel) {
-        return false;
+        boolean result = desktopsCache.removeItem(desktopPanel);
+        fireDesktopPanelClosed(desktopPanel);
+        clearMainPanel();
+        addToMainPanel(noImplementationComponent);
+        return result;
+    }
+
+    @Override
+    public boolean closeDesktopPanel(ModelItem modelItem) {
+        return desktopsCache.removeItem(modelItem);
     }
 
     @Override
@@ -81,11 +90,6 @@ public class SingleDesktop extends AbstractSoapUIDesktop {
             Toolkit.getDefaultToolkit().beep();
         }
         return currentPanel;
-    }
-
-    @Override
-    public boolean closeDesktopPanel(ModelItem modelItem) {
-        return false;
     }
 
     @Override
