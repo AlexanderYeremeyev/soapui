@@ -1,10 +1,11 @@
-﻿# SoapUI Open Source 5.7.2-SHADOW-EDITION-SNAPSHOT
+﻿# SoapUI Open Source 5.7.2-SHADOW-EDITION
 
-#### on Released on **** ####
+#### on Released on 11-01-2024 ####
 
 ### Overall improvements ###
 * update mockito to support java 17.
 * implement single window mode
+* add ability to handle property enable state at API
 
 -------------------------------------------------------------------------------
 
