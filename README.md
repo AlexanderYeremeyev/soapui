@@ -33,7 +33,6 @@ By downloading our software, you agree to our [license](https://www.soapui.org/d
 ## Structure and submodules
 
 * *[soapui](soapui)* - The core module that creates the soapui.jar file.
-* *[soapui-system-test](soapui-system-test)* - Integration and system tests for SoapUI.
 * *[soapui-installer](soapui-installer)* - Creates SoapUI distributions, such as installers and archives.
 * *[soapui-maven-plugin](soapui-maven-plugin)* – A Maven plugin used to run SoapUI in a Continuous integration environment (such as [Jenkins](http://jenkins-ci.org)).
 * *[soapui-maven-plugin-tester](soapui-maven-plugin-tester)* - A test pom.xml file used to test the *soapui-maven-plugin*.
