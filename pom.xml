@@ -126,7 +126,6 @@
         <install4j-maven-plugin.version>1.1.1</install4j-maven-plugin.version>
         <info.cukes.version>1.1.5</info.cukes.version>
         <picocontainer.version>2.14.3</picocontainer.version>
-        <fest-swing.version>1.2.1</fest-swing.version>
         <maven-checksum-plugin.version>1.0</maven-checksum-plugin.version>
         <jackson-version>2.13.0</jackson-version>
 
@@ -143,7 +142,6 @@
         <module>soapui-maven-plugin</module>
         <module>soapui-installer</module>
         <module>soapui-maven-plugin-tester</module>
-        <module>soapui-system-test</module>
     </modules>
 
     <build>
