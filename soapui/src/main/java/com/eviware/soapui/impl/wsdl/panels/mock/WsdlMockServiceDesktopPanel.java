@@ -62,6 +62,7 @@ import com.eviware.soapui.support.swing.ModelItemListKeyListener;
 import com.eviware.soapui.support.swing.ModelItemListMouseListener;
 import com.eviware.soapui.ui.support.JProgressBarWrapper;
 import com.eviware.soapui.ui.support.KeySensitiveModelItemDesktopPanel;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import org.apache.commons.collections.list.TreeList;
 
 import javax.swing.AbstractAction;
@@ -191,7 +192,7 @@ public class WsdlMockServiceDesktopPanel<MockServiceType extends MockService>
     }
 
     private JComponent buildContent() {
-        JTabbedPane tabs = new JTabbedPane();
+        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
         inspectorPanel = JInspectorPanelFactory.build(buildOperationList());
 
         String title = getModelItem() instanceof RestMockService ? "Actions" : "Operations";

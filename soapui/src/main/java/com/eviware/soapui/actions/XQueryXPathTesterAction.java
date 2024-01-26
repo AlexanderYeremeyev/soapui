@@ -21,6 +21,7 @@ import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.xml.SyntaxEditorUtil;
 import com.eviware.soapui.support.xml.XmlUtils;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
@@ -38,6 +39,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -125,10 +127,9 @@ public class XQueryXPathTesterAction extends AbstractAction {
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(createToolbar(), BorderLayout.NORTH);
 
-        queryTabs = new JTabbedPane();
+        queryTabs = TabbedPaneFactory.createDefaultTabbedPane(SwingConstants.BOTTOM);
         queryTabs.addTab("XQuery query", buildXQueryArea());
         queryTabs.addTab("XPath query", buildXPathArea());
-        queryTabs.setTabPlacement(JTabbedPane.BOTTOM);
 
         panel.setBackground(Color.LIGHT_GRAY);
         panel.add(queryTabs, BorderLayout.CENTER);

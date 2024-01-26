@@ -421,6 +421,12 @@
             <version>soapui</version>
         </dependency>
         <dependency>
+            <!-- https://github.com/AlexanderYeremeyev/yeremeyev-java-swing-gui -->
+            <groupId>com.yeremeyev.java</groupId>
+            <artifactId>yeremeyev-java-swing-gui</artifactId>
+            <version>${yeremeyev-java-swing-gui.version}</version>
+        </dependency>
+        <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>${commons-codec.version}</version> <!--HttpClient with version 4.5.5 and higher needs minimum 1.10 version-->

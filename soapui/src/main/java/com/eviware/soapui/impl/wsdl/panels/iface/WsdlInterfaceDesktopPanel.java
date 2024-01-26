@@ -49,6 +49,7 @@ import com.eviware.x.dialogs.Worker;
 import com.eviware.x.dialogs.XProgressDialog;
 import com.eviware.x.dialogs.XProgressMonitor;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
@@ -147,7 +148,7 @@ public class WsdlInterfaceDesktopPanel extends ModelItemDesktopPanel<WsdlInterfa
     }
 
     private void buildUI() {
-        JTabbedPane tabs = new JTabbedPane();
+        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
         tabs.addTab("Overview", buildInterfaceOverviewTab());
         tabs.addTab("Service Endpoints", buildEndpointsTab());
         tabs.addTab("WSDL Content", buildWsdlContentTab());
@@ -224,7 +225,7 @@ public class WsdlInterfaceDesktopPanel extends ModelItemDesktopPanel<WsdlInterfa
     }
 
     private JComponent buildWsdlContentTab() {
-        partTabs = new JTabbedPane();
+        partTabs = TabbedPaneFactory.createDefaultTabbedPane();
         partTabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
         rootNode = new DefaultMutableTreeNode(iface.getName());

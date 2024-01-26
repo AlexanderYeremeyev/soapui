@@ -52,6 +52,7 @@ import com.eviware.soapui.support.components.JUndoableTextArea;
 import com.eviware.soapui.support.components.JXToolBar;
 import com.eviware.soapui.support.types.StringToObjectMap;
 import com.eviware.soapui.ui.support.KeySensitiveModelItemDesktopPanel;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -194,7 +195,7 @@ public class WsdlTestSuiteDesktopPanel extends KeySensitiveModelItemDesktopPanel
     }
 
     private JComponent buildTabs() {
-        JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
+        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
         testCaseListInspectorPanel = JInspectorPanelFactory.build(buildTestCaseList(getModelItem()));
 
         tabs.addTab("TestCases", testCaseListInspectorPanel.getComponent());

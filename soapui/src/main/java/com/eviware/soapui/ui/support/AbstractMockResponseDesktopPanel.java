@@ -40,6 +40,7 @@ import com.eviware.soapui.support.editor.EditorDocument;
 import com.eviware.soapui.support.editor.views.xml.source.XmlSourceEditorView;
 import com.eviware.soapui.support.editor.xml.XmlDocument;
 import com.eviware.soapui.support.swing.SoapUISplitPaneUI;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
 import javax.swing.AbstractAction;
@@ -201,7 +202,7 @@ public abstract class AbstractMockResponseDesktopPanel<ModelItemType extends Mod
         tabsButton = new JToggleButton(new ChangeToTabsAction());
         tabsButton.setPreferredSize(UISupport.TOOLBAR_BUTTON_DIMENSION);
         requestEditor = buildRequestEditor();
-        requestTabs = new JTabbedPane();
+        requestTabs = TabbedPaneFactory.createDefaultTabbedPane();
         requestTabPanel = UISupport.createTabPanel(requestTabs, true);
 
         if (mockResponse.getSettings().getBoolean(UISettings.START_WITH_REQUEST_TABS)) {

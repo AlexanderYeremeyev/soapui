@@ -23,9 +23,11 @@ import com.eviware.soapui.support.components.JInspectorPanelFactory;
 import com.eviware.soapui.support.components.VTextIcon;
 import com.eviware.soapui.support.components.VerticalMetalTabbedPaneUI;
 import com.eviware.soapui.support.components.VerticalWindowsTabbedPaneUI;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -59,7 +61,7 @@ public class Editor<T extends EditorDocument> extends JPanel implements Property
         document.addPropertyChangeListener(EditorDocument.DOCUMENT_PROPERTY, this);
 
         setBackground(Color.WHITE);
-        inputTabs = new JTabbedPane(JTabbedPane.LEFT, JTabbedPane.SCROLL_TAB_LAYOUT);
+        inputTabs = TabbedPaneFactory.createDefaultTabbedPane(SwingConstants.LEFT);
 
         prettifyTabbedPaneUI();
 

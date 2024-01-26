@@ -25,6 +25,7 @@ import com.eviware.soapui.support.xml.XmlUtils;
 import com.eviware.soapui.ui.desktop.DesktopPanel;
 import com.eviware.soapui.ui.support.DefaultDesktopPanel;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
@@ -80,7 +81,7 @@ public class ViewWsdlMockResultAction extends AbstractAction {
     }
 
     private JComponent buildContent() {
-        JTabbedPane messageTabs = new JTabbedPane();
+        JTabbedPane messageTabs = TabbedPaneFactory.createDefaultTabbedPane();
         messageTabs.addTab("Request", buildRequestTab());
         messageTabs.addTab("Response", buildResponseTab());
         messageTabs.setPreferredSize(new Dimension(500, 400));

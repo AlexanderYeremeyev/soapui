@@ -57,6 +57,7 @@ import com.eviware.soapui.support.components.MetricsPanel;
 import com.eviware.soapui.support.components.MetricsPanel.MetricType;
 import com.eviware.soapui.support.components.MetricsPanel.MetricsSection;
 import com.eviware.soapui.ui.support.ModelItemDesktopPanel;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -65,6 +66,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.text.Document;
@@ -111,7 +113,7 @@ public class WsdlProjectDesktopPanel extends ModelItemDesktopPanel<WsdlProject> 
     }
 
     private Component buildTabbedPane() {
-        JTabbedPane mainTabs = new JTabbedPane();
+        JTabbedPane mainTabs = TabbedPaneFactory.createDefaultTabbedPane();
         addTabs(mainTabs);
         return UISupport.createTabPanel(mainTabs, true);
     }

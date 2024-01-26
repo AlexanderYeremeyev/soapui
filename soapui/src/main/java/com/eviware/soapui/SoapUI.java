@@ -126,6 +126,10 @@ import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.looks.HeaderStyle;
 import com.jgoodies.looks.Options;
 import com.smartbear.analytics.AnalyticsManager;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
+import com.yeremeyev.java.common.windows.awt.fonts.FontBuilder;
+import com.yeremeyev.java.common.windows.common.Colors;
+import com.yeremeyev.java.common.windows.swing.components.base.tabbedpane.TabbedPaneSettings;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.PosixParser;
@@ -165,6 +169,7 @@ import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.Rectangle;
@@ -178,6 +183,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.font.TextAttribute;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -916,9 +922,26 @@ public class SoapUI {
         UIManager.put("ScrollPane.background", Color.WHITE);
     }
 
+    private static void implementComponentStyles() {
+        // Default tabbed pane
+        UIManager.put(TabbedPaneSettings.getTextColorName(), Colors.BLACK_EARTH);
+        UIManager.put(TabbedPaneSettings.getSelectedTextColorName(), Colors.BLACK_EARTH);
+        UIManager.put(TabbedPaneSettings.getBackgroundColorName(), Colors.GRAY_HARBOR);
+        UIManager.put(TabbedPaneSettings.getSelectedBackgroundColorName(), Color.WHITE);
+        UIManager.put(TabbedPaneSettings.getBorderColorName(), Colors.LIGHT_SLATE_GRAY);
+        UIManager.put(TabbedPaneSettings.getSelectedBorderColorName(), Colors.DEEP_BLACK_SEA);
+        UIManager.put(TabbedPaneSettings.getContentBorderColorName(), Colors.DEEP_BLACK_SEA);
+        UIManager.put(TabbedPaneSettings.getContentBorderWidthName(), 1);
+        UIManager.put(TabbedPaneSettings.getTabItemHeightName(), 28);
+        UIManager.put(TabbedPaneSettings.getTabItemArcName(), 8);
+        UIManager.put(TabbedPaneSettings.getTabAreaInsetsName(), new Insets(4, 3, 0, 0));
+        UIManager.put(TabbedPaneSettings.getContentBorderInsetsName(), new Insets(1, 1, 1, 1));
+    }
+
     public static void main(String[] args) throws Exception {
         WebstartUtilCore.init();
         setBackgroundsToWhite();
+        implementComponentStyles();
         mainArgs = args;
 
         SecureTools.setTrustSSL();
@@ -1275,7 +1298,7 @@ public class SoapUI {
                 if (panelBuilder != null && panelBuilder.hasOverviewPanel()) {
                     Component overviewPanel = panelBuilder.buildOverviewPanel(modelItem);
                     if (selectedPropertyHolderTable != null) {
-                        JTabbedPane tabs = new JTabbedPane();
+                        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
                         tabs.setName(PROPERTIES_TAB_PANEL_NAME);
                         if (overviewPanel instanceof JPropertiesTable<?>) {
                             JPropertiesTable<?> t = (JPropertiesTable<?>) overviewPanel;

@@ -73,6 +73,7 @@ import com.eviware.soapui.support.scripting.SoapUIScriptEngine;
 import com.eviware.soapui.support.scripting.SoapUIScriptEngineRegistry;
 import com.eviware.soapui.support.swing.SoapUISplitPaneUI;
 import com.eviware.soapui.ui.support.ModelItemDesktopPanel;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -90,6 +91,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -182,8 +184,7 @@ public class AMFRequestTestStepDesktopPanel extends ModelItemDesktopPanel<AMFReq
         addAssertionButton = UISupport.createToolbarButton(new AddAssertionAction(amfRequestTestStep));
         addAssertionButton.setEnabled(true);
 
-        requestTabs = new JTabbedPane();
-        requestTabs.setTabPlacement(JTabbedPane.LEFT);
+        requestTabs = TabbedPaneFactory.createDefaultTabbedPane(SwingConstants.LEFT);
         requestTabs.addChangeListener(new ChangeListener() {
 
             public void stateChanged(ChangeEvent e) {

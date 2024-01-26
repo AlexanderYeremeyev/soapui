@@ -30,6 +30,7 @@ import com.eviware.x.form.XFormFieldListener;
 import com.eviware.x.form.support.ADialogBuilder;
 import com.eviware.x.form.support.XFormRadioGroup;
 import com.eviware.x.impl.swing.JFormDialog;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -120,7 +121,7 @@ public class SecurityConfigurationDialog extends SimpleDialog {
     }
 
     protected Component buildTabs() {
-        tabs = new JTabbedPane();
+        tabs = TabbedPaneFactory.createDefaultTabbedPane();
         securityAssertionPanel = new SecurityAssertionPanel(securityCheck);
         tabs.addTab("Assertions", securityAssertionPanel);
         tabs.addTab("Strategy", buildStrategyTab());

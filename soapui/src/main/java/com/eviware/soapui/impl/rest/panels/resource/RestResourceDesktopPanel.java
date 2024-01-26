@@ -26,6 +26,7 @@ import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.action.swing.SwingActionDelegate;
 import com.eviware.soapui.support.components.JXToolBar;
 import com.eviware.soapui.ui.support.ModelItemDesktopPanel;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import org.apache.commons.lang.mutable.MutableBoolean;
 
 import javax.swing.JLabel;
@@ -54,7 +55,7 @@ public class RestResourceDesktopPanel extends ModelItemDesktopPanel<RestResource
     }
 
     private Component buildContent() {
-        JTabbedPane tabs = new JTabbedPane();
+        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
         paramsTable = new RestParamsTable(getModelItem().getParams(), true, ParamLocation.RESOURCE, true, false);
         tabs.addTab("Resource Parameters", paramsTable);
         return UISupport.createTabPanel(tabs, false);

@@ -31,6 +31,7 @@ import com.eviware.soapui.support.swing.JTableFactory;
 import com.eviware.soapui.support.types.StringToStringMap;
 import com.eviware.soapui.ui.desktop.DesktopPanel;
 import com.eviware.soapui.ui.support.DefaultDesktopPanel;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import org.jdesktop.swingx.JXTable;
 
 import javax.swing.AbstractAction;
@@ -87,7 +88,7 @@ public class ShowMessageExchangeAction extends AbstractAction {
     }
 
     private JComponent buildContent() {
-        JTabbedPane messageTabs = new JTabbedPane();
+        JTabbedPane messageTabs = TabbedPaneFactory.createDefaultTabbedPane();
         messageTabs.addTab("Request Message", buildRequestTab());
         messageTabs.addTab("Response Message", buildResponseTab());
         messageTabs.addTab("Properties", buildPropertiesTab());
