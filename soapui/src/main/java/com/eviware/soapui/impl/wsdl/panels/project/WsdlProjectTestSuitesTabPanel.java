@@ -42,6 +42,7 @@ import com.eviware.soapui.support.components.JInspectorPanel;
 import com.eviware.soapui.support.components.JInspectorPanelFactory;
 import com.eviware.soapui.support.components.JXToolBar;
 import com.eviware.soapui.support.types.StringToObjectMap;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -180,7 +181,7 @@ public class WsdlProjectTestSuitesTabPanel extends JPanel {
     }
 
     private JComponent buildTabs() {
-        JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
+        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
         testSuiteListInspectorPanel = JInspectorPanelFactory.build(buildTestSuiteList(project));
 
         tabs.addTab("TestSuites", testSuiteListInspectorPanel.getComponent());

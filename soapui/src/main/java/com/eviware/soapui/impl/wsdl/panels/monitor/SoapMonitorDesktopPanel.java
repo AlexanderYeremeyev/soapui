@@ -24,6 +24,7 @@ import com.eviware.soapui.model.ModelItem;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.components.JXToolBar;
 import com.eviware.soapui.ui.support.DefaultDesktopPanel;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -40,7 +41,7 @@ public class SoapMonitorDesktopPanel extends DefaultDesktopPanel implements Soap
         this.project = project;
 
         JPanel p = (JPanel) getComponent();
-        JTabbedPane tabs = new JTabbedPane();
+        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
 
         JXToolBar toolbar = UISupport.createToolbar();
         soapMonitor = new SoapMonitor(project, sourcePort, incomingRequestWss, incomingResponseWss, toolbar, setAsProxy,

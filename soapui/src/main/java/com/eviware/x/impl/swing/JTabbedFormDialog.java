@@ -25,6 +25,7 @@ import com.eviware.x.form.ValidationMessage;
 import com.eviware.x.form.XForm;
 import com.eviware.x.form.XFormDialog;
 import com.eviware.x.form.XFormField;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -47,7 +48,7 @@ public class JTabbedFormDialog extends SwingXFormDialog {
 
     public JTabbedFormDialog(String name, XForm[] forms, ActionList actions, String description, ImageIcon icon) {
         dialog = new JDialog(UISupport.getMainFrame(), name, true);
-        tabs = new JTabbedPane();
+        tabs = TabbedPaneFactory.createDefaultTabbedPane();
         for (XForm form : forms) {
             SwingXFormImpl swingFormImpl = ((SwingXFormImpl) form);
             this.forms.add(swingFormImpl);

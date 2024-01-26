@@ -65,6 +65,7 @@ import com.eviware.soapui.support.dnd.JListDragAndDropable;
 import com.eviware.soapui.support.swing.ComponentBag;
 import com.eviware.soapui.support.types.StringToObjectMap;
 import com.eviware.soapui.ui.support.KeySensitiveModelItemDesktopPanel;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -257,7 +258,7 @@ public class SecurityTestDesktopPanel extends KeySensitiveModelItemDesktopPanel<
     }
 
     private JComponent buildContent() {
-        JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
+        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
         testStepListInspectorPanel = JInspectorPanelFactory.build(buildTestStepList(), SwingConstants.BOTTOM);
 
         tabs.addTab("TestSteps", testStepListInspectorPanel.getComponent());

@@ -36,6 +36,7 @@ import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.components.JXToolBar;
 import com.eviware.soapui.support.swing.JTableFactory;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.annotation.Nonnull;
 import javax.swing.AbstractAction;
@@ -138,7 +139,7 @@ public class WSSTabPanel extends JPanel {
     }
 
     private JComponent buildContent() {
-        JTabbedPane tabs = new JTabbedPane();
+        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
         tabs.addTab("Outgoing WS-Security Configurations", buildOutgoingConfigurationsTab());
         tabs.addTab("Incoming WS-Security Configurations", buildIncomingConfigurationsTab());
         tabs.addTab("Keystores", buildCryptoTable(CryptoType.KEYSTORE));

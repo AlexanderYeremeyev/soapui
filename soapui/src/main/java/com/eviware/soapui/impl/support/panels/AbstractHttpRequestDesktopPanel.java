@@ -49,6 +49,7 @@ import com.eviware.soapui.support.editor.views.xml.source.XmlSourceEditorView.JE
 import com.eviware.soapui.support.editor.xml.XmlDocument;
 import com.eviware.soapui.support.swing.SoapUISplitPaneUI;
 import com.eviware.soapui.ui.support.ModelItemDesktopPanel;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -240,7 +241,7 @@ public abstract class AbstractHttpRequestDesktopPanel<T extends ModelItem, T2 ex
         requestEditor = buildRequestEditor();
         responseEditor = buildResponseEditor();
 
-        requestTabs = new JTabbedPane();
+        requestTabs = TabbedPaneFactory.createDefaultTabbedPane();
         requestTabs.addChangeListener(new ChangeListener() {
 
             public void stateChanged(ChangeEvent e) {

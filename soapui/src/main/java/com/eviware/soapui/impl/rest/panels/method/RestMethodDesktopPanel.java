@@ -28,6 +28,7 @@ import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.action.swing.SwingActionDelegate;
 import com.eviware.soapui.support.components.JXToolBar;
 import com.eviware.soapui.ui.support.ModelItemDesktopPanel;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
@@ -54,7 +55,7 @@ public class RestMethodDesktopPanel extends ModelItemDesktopPanel<RestMethod> {
     }
 
     private Component buildContent() {
-        JTabbedPane tabs = new JTabbedPane();
+        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
 
         paramsTable = new RestParamsTable(getModelItem().getParams(), true, ParamLocation.METHOD, true, false);
 

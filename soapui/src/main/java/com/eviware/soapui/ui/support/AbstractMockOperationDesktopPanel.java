@@ -37,6 +37,7 @@ import com.eviware.soapui.support.swing.ExtendedComboBoxModel;
 import com.eviware.soapui.support.swing.ModelItemListKeyListener;
 import com.eviware.soapui.support.swing.ModelItemListMouseListener;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
+import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
@@ -118,7 +119,7 @@ public abstract class AbstractMockOperationDesktopPanel<MockOperationType extend
         responseList.setCellRenderer(new ResponseListCellRenderer());
 
         JScrollPane scrollPane = new JScrollPane(responseList);
-        JTabbedPane tabs = new JTabbedPane();
+        JTabbedPane tabs = TabbedPaneFactory.createDefaultTabbedPane();
         tabs.addTab("MockResponses", UISupport.buildPanelWithToolbar(buildMockResponseListToolbar(), scrollPane));
 
         return UISupport.createTabPanel(tabs, true);
