@@ -127,7 +127,6 @@ import com.jgoodies.looks.HeaderStyle;
 import com.jgoodies.looks.Options;
 import com.smartbear.analytics.AnalyticsManager;
 import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
-import com.yeremeyev.java.common.windows.awt.fonts.FontBuilder;
 import com.yeremeyev.java.common.windows.common.Colors;
 import com.yeremeyev.java.common.windows.swing.components.base.tabbedpane.TabbedPaneSettings;
 import org.apache.commons.cli.CommandLine;

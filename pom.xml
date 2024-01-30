@@ -43,18 +43,15 @@
         <groovy-all.version>3.0.19</groovy-all.version>
 
         <!-- org.apache.maven.plugins -->
-        <maven-enforcer-plugin-version>3.0.0-M2</maven-enforcer-plugin-version>
-        <maven-clean-plugin-version>3.1.0</maven-clean-plugin-version>
-        <maven-compiler-plugin-version>3.8.1</maven-compiler-plugin-version>
+        <maven-enforcer-plugin-version>3.4.1</maven-enforcer-plugin-version>
+        <maven-clean-plugin-version>3.3.2</maven-clean-plugin-version>
+        <maven-compiler-plugin-version>3.12.1</maven-compiler-plugin-version>
         <maven-javadoc-plugin-version>3.1.0</maven-javadoc-plugin-version>
-        <maven-deploy-plugin-version>3.0.0-M1</maven-deploy-plugin-version>
-        <maven-install-plugin-version>3.0.0-M1</maven-install-plugin-version>
         <maven-site-plugin-version>3.7.1</maven-site-plugin-version>
         <maven-jar-plugin-version>3.1.2</maven-jar-plugin-version>
         <maven-surefire-plugin-version>3.0.0-M3</maven-surefire-plugin-version>
         <maven-plugin-plugin-version>3.10.2</maven-plugin-plugin-version>
-        <maven-failsafe-plugin-version>3.0.0-M3</maven-failsafe-plugin-version>
-        <maven-assembly-plugin-version>3.1.1</maven-assembly-plugin-version>
+        <maven-assembly-plugin-version>3.6.0</maven-assembly-plugin-version>
         <!-- org.apache.xmlbeans -->
         <xmlbeans-version>3.1.1-sb-fixed</xmlbeans-version>
         <xmlbeans-xpath-version>2.6.0</xmlbeans-xpath-version>
@@ -124,8 +121,6 @@
         <animal-sniffer-annotations.version>1.11</animal-sniffer-annotations.version>
         <reflections.version>0.9.9-RC1</reflections.version>
         <install4j-maven-plugin.version>1.1.1</install4j-maven-plugin.version>
-        <info.cukes.version>1.1.5</info.cukes.version>
-        <picocontainer.version>2.14.3</picocontainer.version>
         <maven-checksum-plugin.version>1.0</maven-checksum-plugin.version>
         <jackson-version>2.13.0</jackson-version>
 
@@ -228,18 +223,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-<!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven-deploy-plugin-version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>${maven-install-plugin-version}</version>
-            </plugin>
--->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
