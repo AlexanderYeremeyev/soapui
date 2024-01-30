@@ -16,18 +16,13 @@
 
 package com.eviware.soapui.support.editor;
 
-import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.components.Inspector;
 import com.eviware.soapui.support.components.JInspectorPanel;
 import com.eviware.soapui.support.components.JInspectorPanelFactory;
-import com.eviware.soapui.support.components.VTextIcon;
-import com.eviware.soapui.support.components.VerticalMetalTabbedPaneUI;
-import com.eviware.soapui.support.components.VerticalWindowsTabbedPaneUI;
 import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -45,9 +40,10 @@ import java.util.List;
  */
 
 @SuppressWarnings("serial")
-public class Editor<T extends EditorDocument> extends JPanel implements PropertyChangeListener,
-        EditorLocationListener<T> {
-    public final static String OUTLINE_TABLE_PROPERTY = Editor.class.getSimpleName() + "@outlineTable";
+public class Editor<T extends EditorDocument>
+        extends JPanel
+        implements PropertyChangeListener, EditorLocationListener<T>
+{
     private JTabbedPane inputTabs;
     private List<EditorView<T>> views = new ArrayList<EditorView<T>>();
     private EditorView<T> currentView;
@@ -61,11 +57,8 @@ public class Editor<T extends EditorDocument> extends JPanel implements Property
         document.addPropertyChangeListener(EditorDocument.DOCUMENT_PROPERTY, this);
 
         setBackground(Color.WHITE);
-        inputTabs = TabbedPaneFactory.createDefaultTabbedPane(SwingConstants.LEFT);
+        inputTabs = TabbedPaneFactory.createDefaultTabbedPane();
 
-        prettifyTabbedPaneUI();
-
-        inputTabs.setFont(inputTabs.getFont().deriveFont(8));
         inputTabsChangeListener = new InputTabsChangeListener();
         inputTabs.addChangeListener(inputTabsChangeListener);
 
@@ -73,26 +66,11 @@ public class Editor<T extends EditorDocument> extends JPanel implements Property
         add(inspectorPanel.getComponent(), BorderLayout.CENTER);
     }
 
-    private void prettifyTabbedPaneUI() {
-        if (!UISupport.isMac()) {
-            // For some reason the tabs get very wide in some L&Fs. Workaround is to replace the UI.
-            if (inputTabs.getUI().getClass().getSimpleName().equals("WindowsTabbedPaneUI")) {
-                inputTabs.setUI(new VerticalWindowsTabbedPaneUI());
-            } else {
-                inputTabs.setUI(new VerticalMetalTabbedPaneUI());
-            }
-        }
-    }
-
     public void addEditorView(EditorView<T> editorView) {
         views.add(editorView);
 
-        if (UISupport.isMac()) {
-            inputTabs.addTab(editorView.getTitle(), editorView.getComponent());
-        } else {
-            inputTabs.addTab(null, new VTextIcon(inputTabs, editorView.getTitle(), VTextIcon.ROTATE_LEFT),
-                    editorView.getComponent());
-        }
+        inputTabs.addTab(editorView.getTitle(), editorView.getComponent());
+
         editorView.addPropertyChangeListener(this);
         editorView.addLocationListener(this);
         editorView.setDocument(document);
