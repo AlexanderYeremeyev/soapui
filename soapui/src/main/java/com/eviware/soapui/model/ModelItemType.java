@@ -39,8 +39,9 @@ public enum ModelItemType {
     GROOVY_SCRYPT_TEST_STEP(30, "Debuggable wsdl groovy scrypt test step", "Debuggable wsdl groovy scrypt test step"),
     DELAY_TEST_STEP(31, "Wsdl delay test step", "Wsdl delay test step"),
     SOAP_MOCK_RESPONSE_TEST_STEP(32, "SOAP mock response test step", "SOAP mock response test step"),
-    MANUAL_TEST_STEP(33, "Manual test step", "Manual test step");
-    // LAST ID = 33
+    MANUAL_TEST_STEP(33, "Manual test step", "Manual test step"),
+    TELEGRAM_SEND_BOT_MESSAGE_TEST_STEP(34, "Telegram send bot message test step", "Sent message from bot to specific channel");
+    // LAST ID = 34
 
     private int id;
     private String name;

@@ -19,6 +19,7 @@ package com.eviware.soapui.impl.wsdl.teststeps.registry;
 import com.eviware.soapui.SoapUI;
 import com.eviware.soapui.config.TestStepConfig;
 import com.eviware.soapui.support.factory.SoapUIFactoryRegistryListener;
+import com.yeremeyev.apiservant.teststeps.telegram.bot.TelegramSendBotMessageToChatStepFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,7 @@ public class WsdlTestStepRegistry implements SoapUIFactoryRegistryListener {
         addFactory(new DelayStepFactory());
         addFactory(new WsdlMockResponseStepFactory());
         addFactory(new ManualTestStepFactory());
+        addFactory(new TelegramSendBotMessageToChatStepFactory());
 
         for (WsdlTestStepFactory factory : SoapUI.getFactoryRegistry().getFactories(WsdlTestStepFactory.class)) {
             addFactory(factory);

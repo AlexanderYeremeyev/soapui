@@ -23,6 +23,7 @@ import com.eviware.soapui.config.SoapUIActionGroupConfig;
 import com.eviware.soapui.config.SoapUIActionMappingConfig;
 import com.eviware.soapui.config.SoapUIActionsConfig;
 import com.eviware.soapui.config.SoapuiActionsDocumentConfig;
+import com.eviware.soapui.impl.wsdl.actions.teststep.WsdlTestStepSoapUIActionGroup;
 import com.eviware.soapui.model.ModelItem;
 import com.eviware.soapui.support.action.support.AbstractSoapUIAction;
 import com.eviware.soapui.support.action.support.DefaultActionMapping;
@@ -131,6 +132,9 @@ public class SoapUIActionRegistry {
     public SoapUIActionRegistry(InputStream config) {
         // default actions
         addAction(SeperatorAction.SOAPUI_ACTION_ID, SeperatorAction.INSTANCE);
+
+        // test step actions
+        addActionGroup(new WsdlTestStepSoapUIActionGroup("TelegramSendBotMessageToChatTestStep", "group for telegram bot send message to chat"), "TelegramSendBotMessageToChatTestStepActions");
 
         if (config != null) {
             addConfig(config, SoapUI.class.getClassLoader());

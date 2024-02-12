@@ -87,6 +87,8 @@ import com.eviware.soapui.model.PanelBuilder;
 import com.eviware.soapui.security.SecurityTest;
 import com.eviware.soapui.security.panels.SecurityTestPanelBuilder;
 import com.eviware.soapui.support.factory.SoapUIFactoryRegistryListener;
+import com.yeremeyev.apiservant.teststeps.telegram.bot.TelegramSendBotMessageToChatTestStep;
+import com.yeremeyev.apiservant.teststeps.telegram.bot.ui.TelegramSendBotMessageToChatStepPanelBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -143,6 +145,7 @@ public class PanelBuilderRegistry {
         register(JdbcRequestTestStep.class, new JdbcRequestTestStepPanelBuilder());
         register(AMFRequestTestStep.class, new AMFRequestTestStepPanelBuilder());
         register(SecurityTest.class, new SecurityTestPanelBuilder<SecurityTest>());
+        register(TelegramSendBotMessageToChatTestStep.class, new TelegramSendBotMessageToChatStepPanelBuilder());
 
         for (PanelBuilderFactory factory : SoapUI.getFactoryRegistry().getFactories(PanelBuilderFactory.class)) {
             register(factory.getTargetModelItem(), factory.createPanelBuilder());
