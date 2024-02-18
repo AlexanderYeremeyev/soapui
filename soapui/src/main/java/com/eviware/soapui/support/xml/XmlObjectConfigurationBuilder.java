@@ -76,4 +76,9 @@ public class XmlObjectConfigurationBuilder {
             add(name, value);
         }
     }
+
+    public XmlObjectConfigurationBuilder addAttribute(String name, String value) {
+        cursor.insertAttributeWithValue(name, value);
+        return this;
+    }
 }

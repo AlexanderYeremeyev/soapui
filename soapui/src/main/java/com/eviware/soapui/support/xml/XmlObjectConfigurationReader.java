@@ -114,4 +114,16 @@ public class XmlObjectConfigurationReader {
             return def;
         }
     }
+
+    public String readAttribute(String name, String defaultValue) {
+        if (config == null) {
+            return defaultValue;
+        }
+
+        XmlObject attributeObject = config.selectAttribute(null, name);
+        if (attributeObject == null) {
+            return defaultValue;
+        }
+        return attributeObject.getDomNode().getNodeValue();
+    }
 }

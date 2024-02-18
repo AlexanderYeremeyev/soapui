@@ -1,5 +1,6 @@
 package com.yeremeyev.apiservant.teststeps.telegram.bot.ui;
 
+import com.eviware.soapui.support.DocumentListenerAdapter;
 import com.eviware.soapui.support.ListDataChangeListener;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.components.JXToolBar;
@@ -9,6 +10,8 @@ import com.yeremeyev.apiservant.teststeps.telegram.bot.TelegramSendBotMessageToC
 import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import com.yeremeyev.java.common.windows.common.Colors;
 import com.yeremeyev.java.common.windows.swing.layouts.tools.GridBagConstraintsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
@@ -23,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.text.Document;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,6 +35,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -38,6 +44,7 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
         extends ModelItemDesktopPanel<TelegramSendBotMessageToChatTestStep>
         implements PropertyChangeListener
 {
+    private final static String UNEXPECTED_MISTAKE = "Unexpected mistake";
     private RunAction runAction;
     private JTextField apiTokenBotTextField;
     private JTextField channelNameTextField;
@@ -45,6 +52,7 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
     private RSyntaxTextArea editArea;
     private JLabel responseTextLabel;
     private JLogList logArea;
+    private Logger logger;
 
     private JComponent buildToolbar() {
         JXToolBar toolBar = UISupport.createToolbar();
@@ -67,10 +75,22 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
         JLabel settingsTitleLabel = new JLabel("Settings");
 
         JLabel apiTokenBotLabel = new JLabel("Enter api token bot");
-        apiTokenBotTextField = new JTextField("", 30);
+        apiTokenBotTextField = new JTextField(getModelItem().getApiTokenBot(), 30);
+        apiTokenBotTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                getModelItem().setApiTokenBot(apiTokenBotTextField.getText());
+            }
+        });
 
         JLabel channelNameLabel = new JLabel("Enter channel name/id");
-        channelNameTextField = new JTextField("", 30);
+        channelNameTextField = new JTextField(getModelItem().getChannelName(), 30);
+        channelNameTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                getModelItem().setChannelName(channelNameTextField.getText());
+            }
+        });
 
         JPanel settingsPanel = new JPanel(new GridBagLayout());
         settingsPanel.setBackground(Colors.TRANSPARENT_COLOR);
@@ -121,6 +141,14 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
         editArea.setEnabled(true);
         editArea.setEditable(true);
         editArea.setBorder(BorderFactory.createMatteBorder(0, 2, 0, 0, Color.WHITE));
+        editArea.setText(getModelItem().getSendMessage());
+
+        editArea.getDocument().addDocumentListener(new DocumentListenerAdapter() {
+            @Override
+            public void update(Document document) {
+                getModelItem().setSendMessage(editArea.getText());
+            }
+        });
 
         resultPanel.add(editArea);
 
@@ -139,6 +167,7 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
         responsePanel.add(responseTextLabel);
 
         logArea = new JLogList("Request Log");
+        logArea.addLogger(getModelItem().getName() + "#" + hashCode(), true);
         logArea.getLogList().getModel().addListDataListener(new ListDataChangeListener() {
 
             public void dataChanged(ListModel model) {
@@ -166,7 +195,8 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
     public TelegramSendBotMessageToChatStepDesktopPanel(TelegramSendBotMessageToChatTestStep telegramSendMessageTestStep) {
         super(telegramSendMessageTestStep);
 
-        runAction = new RunAction(getModelItem());
+        logger = LogManager.getLogger(getModelItem().getName() + "#" + hashCode());
+        runAction = new RunAction(getModelItem(), logger);
 
         buildUI();
         setPreferredSize(new Dimension(600, 440));
@@ -179,13 +209,17 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
     }
 
     public boolean onClose(boolean canCancel) {
+        logArea.removeLogger(logger.getName());
+        logger = null;
+
         return super.release();
     }
 
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
         String propertyName = propertyChangeEvent.getPropertyName();
         if (propertyName.equals(TelegramSendBotMessageToChatTestStep.RESPONSE_MESSAGE_EXPAND_PROPERTY_NAME)) {
-            responseTextLabel.setText(propertyChangeEvent.getNewValue().toString());
+            String message = propertyChangeEvent.getNewValue() == null ? UNEXPECTED_MISTAKE : propertyChangeEvent.getNewValue().toString();
+            responseTextLabel.setText(message);
         }
 
         super.propertyChange(propertyChangeEvent);

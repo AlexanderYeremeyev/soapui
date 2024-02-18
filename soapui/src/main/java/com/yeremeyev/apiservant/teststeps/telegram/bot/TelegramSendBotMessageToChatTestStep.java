@@ -2,6 +2,7 @@ package com.yeremeyev.apiservant.teststeps.telegram.bot;
 
 import com.eviware.soapui.SoapUI;
 import com.eviware.soapui.config.TestStepConfig;
+import com.eviware.soapui.impl.wsdl.panels.support.AbstractMockTestRunner;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepResult;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepWithProperties;
@@ -13,8 +14,9 @@ import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.xml.XmlObjectConfigurationBuilder;
 import com.eviware.soapui.support.xml.XmlObjectConfigurationReader;
+import com.yeremeyev.apiservant.http.tools.QueryParameterTools;
 
-import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -24,9 +26,17 @@ import java.time.Duration;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 public class TelegramSendBotMessageToChatTestStep extends WsdlTestStepWithProperties /*implements PropertyExpansionContainer*/ {
-    private static final String API_TOKEN_BOT_CONFIG_PROPERTY_NAME = "api-token-bot";
-    private static final String CHANNEL_NAME_CONFIG_PROPERTY_NAME = "channel-name";
-    private static final String SEND_MESSAGE_CONFIG_PROPERTY_NAME = "send-message";
+    private static final String CONNECTION_MISTAKE_ERROR_MESSAGE = "Connection mistake. Please choose internet access";
+    private static final String CANCELLED_ERROR_MESSAGE = "Cancelled";
+    private static final String SUCCESS_MESSAGE = "Success";
+
+    private static final String EMPTY_TOKEN_ERROR_MESSAGE = "Empty token value";
+    private static final String EMPTY_CHANNEL_NAME_ERROR_MESSAGE = "Empty channel name value";
+    private static final String EMPTY_MESSAGE_ERROR_MESSAGE = "Empty message";
+
+    private static final String API_TOKEN_BOT_CONFIG_ATTRIBUTE_NAME = "apiTokenBot";
+    private static final String CHANNEL_NAME_CONFIG_ATTRIBUTE_NAME = "channelName";
+    private static final String SEND_MESSAGE_CONFIG_ATTRIBUTE_NAME = "sendMessage";
 
     public static final String API_TOKEN_BOT_EXPAND_PROPERTY_NAME = "apiTokenBot";
     public static final String CHANNEL_NAME_EXPAND_PROPERTY_NAME = "channelName";
@@ -39,22 +49,26 @@ public class TelegramSendBotMessageToChatTestStep extends WsdlTestStepWithProper
 
     private boolean canceled;
     private boolean error;
+    private String errorMessage;
 
     private String responseMessage;
 
     private void saveConfig(TestStepConfig config) {
         XmlObjectConfigurationBuilder builder = new XmlObjectConfigurationBuilder();
-        builder.add(API_TOKEN_BOT_CONFIG_PROPERTY_NAME, apiTokenBot);
-        builder.add(CHANNEL_NAME_CONFIG_PROPERTY_NAME, channelName);
-        builder.add(SEND_MESSAGE_CONFIG_PROPERTY_NAME, sendMessage);
+
+        builder.addAttribute(API_TOKEN_BOT_CONFIG_ATTRIBUTE_NAME, apiTokenBot);
+        builder.addAttribute(CHANNEL_NAME_CONFIG_ATTRIBUTE_NAME, channelName);
+        builder.addAttribute(SEND_MESSAGE_CONFIG_ATTRIBUTE_NAME, sendMessage);
+
         config.setConfig(builder.finish());
     }
 
     private void readConfig(TestStepConfig config) {
         XmlObjectConfigurationReader reader = new XmlObjectConfigurationReader(config.getConfig());
-        apiTokenBot = reader.readString(API_TOKEN_BOT_CONFIG_PROPERTY_NAME, StringUtils.EMPTY);
-        channelName = reader.readString(CHANNEL_NAME_CONFIG_PROPERTY_NAME, StringUtils.EMPTY);
-        sendMessage = reader.readString(SEND_MESSAGE_CONFIG_PROPERTY_NAME, StringUtils.EMPTY);
+
+        apiTokenBot = reader.readAttribute(API_TOKEN_BOT_CONFIG_ATTRIBUTE_NAME, StringUtils.EMPTY);
+        channelName = reader.readAttribute(CHANNEL_NAME_CONFIG_ATTRIBUTE_NAME, StringUtils.EMPTY);
+        sendMessage = reader.readAttribute(SEND_MESSAGE_CONFIG_ATTRIBUTE_NAME, StringUtils.EMPTY);
     }
 
     private void initializeConfig(TestStepConfig config, boolean forLoadTest) {
@@ -111,40 +125,123 @@ public class TelegramSendBotMessageToChatTestStep extends WsdlTestStepWithProper
         readConfig(config);
     }
 
-    /*public void setDelayString(String delayString) {
-        if (this.delayString.equals(delayString)) {
-            return;
-        }
+    public TestStepResult run(TestCaseRunner testRunner, TestCaseRunContext context) {
+        WsdlTestStepResult result = new WsdlTestStepResult(this);
 
-        String oldLabel = getLabel();
+        String apiTokenBotExpandValue = context.expand(apiTokenBot);
+        String channelNameExpandValue = context.expand(channelName);
+        String sendMessageExpandValue = context.expand(sendMessage);
+        sendMessageExpandValue = QueryParameterTools.encode(sendMessageExpandValue);
 
-        this.delayString = delayString;
-        saveDelay(getConfig());
-        notifyPropertyChanged(WsdlTestStep.LABEL_PROPERTY, oldLabel, getLabel());
-        // FIXME This should not be hard coded
-        firePropertyValueChanged("delay", oldLabel, getLabel());
-    }*/
+        result.startTimer();
 
-    /*public String getDelayString() {
-        return delayString;
-    }*/
-
-    /*public int getDelay() {
+        HttpResponse response = null;
+        errorMessage = StringUtils.EMPTY;
         try {
-            return Integer.parseInt(PropertyExpander.expandProperties(this, delayString));
-        } catch (NumberFormatException e) {
-            return -1;
+            canceled = false;
+            error = false;
+
+            validateParameters(apiTokenBotExpandValue, channelNameExpandValue, sendMessageExpandValue);
+
+            String urlString = String.format(
+                    "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s",
+                    apiTokenBotExpandValue,
+                    channelNameExpandValue,
+                    sendMessageExpandValue
+            );
+            // https://api.telegram.org/bot[API_TOKEN_BOT]/sendMessage?chat_id=[CHANNEL_NAME]&text=Test
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create(urlString))
+                    .timeout(Duration.of(30, SECONDS))
+                    .GET()
+                    .build();
+            response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        } catch (Exception exception) {
+            loggingMistake(exception);
         }
-    }*/
 
-    /*public void setDelay(int delay) {
-        String oldLabel = getLabel();
+        result.stopTimer();
+        result.setStatus(calculateStatus(response));
 
-        this.delayString = String.valueOf(delay);
-        saveDelay(getConfig());
-        notifyPropertyChanged(WsdlTestStep.LABEL_PROPERTY, oldLabel, getLabel());
-        firePropertyValueChanged("delay", oldLabel, getLabel());
-    }*/
+        String responseMessage = error ? errorMessage : response.body().toString();
+        if (error) {
+            testRunner.fail(responseMessage);
+        } else if (canceled) {
+            testRunner.cancel(CANCELLED_ERROR_MESSAGE);
+        } else {
+            ((AbstractMockTestRunner) testRunner).getLog().info(SUCCESS_MESSAGE);
+        }
+        setResponseMessage(responseMessage);
+
+        return result;
+    }
+
+    private void validateParameters(String apiTokenBotValue, String channelNameValue, String sendMessageValue) throws Exception {
+        if (StringUtils.isNullOrEmpty(apiTokenBotValue)) {
+            throw new Exception(EMPTY_TOKEN_ERROR_MESSAGE);
+        }
+        if (StringUtils.isNullOrEmpty(channelNameValue)) {
+            throw new Exception(EMPTY_CHANNEL_NAME_ERROR_MESSAGE);
+        }
+        if (StringUtils.isNullOrEmpty(sendMessageValue)) {
+            throw new Exception(EMPTY_MESSAGE_ERROR_MESSAGE);
+        }
+    }
+
+    private void loggingMistake(Exception exception) {
+        error = true;
+        if (exception instanceof ConnectException) {
+            errorMessage = CONNECTION_MISTAKE_ERROR_MESSAGE;
+        } else {
+            errorMessage = exception.getMessage();
+        }
+        SoapUI.logError(exception);
+    }
+
+    @Override
+    public void beforeSave() {
+        super.beforeSave();
+
+        saveConfig(getConfig());
+    }
+
+    @Override
+    public boolean cancel() {
+        canceled = true;
+        return true;
+    }
+
+    private TestStepResult.TestStepStatus calculateStatus(HttpResponse response) {
+        if (error || response.statusCode() != 200) {
+            return TestStepResult.TestStepStatus.FAILED;
+        }
+        return canceled ? TestStepResult.TestStepStatus.CANCELED : TestStepResult.TestStepStatus.OK;
+    }
+
+    public String getApiTokenBot() {
+        return apiTokenBot;
+    }
+
+    public void setApiTokenBot(String apiTokenBot) {
+        this.apiTokenBot = apiTokenBot;
+    }
+
+    public String getChannelName() {
+        return channelName;
+    }
+
+    public void setChannelName(String channelName) {
+        this.channelName = channelName;
+    }
+
+    public String getSendMessage() {
+        return sendMessage;
+    }
+
+    public void setSendMessage(String sendMessage) {
+        this.sendMessage = sendMessage;
+    }
 
     public String getResponseMessage() {
         return responseMessage;
@@ -155,50 +252,5 @@ public class TelegramSendBotMessageToChatTestStep extends WsdlTestStepWithProper
         this.responseMessage = responseMessage;
 
         notifyPropertyChanged(RESPONSE_MESSAGE_EXPAND_PROPERTY_NAME, oldResponseMessage, responseMessage);
-        //RESPONSE_MESSAGE_EXPAND_PROPERTY_NAME
-    }
-
-    public TestStepResult run(TestCaseRunner testRunner, TestCaseRunContext context) {
-        WsdlTestStepResult result = new WsdlTestStepResult(this);
-        result.startTimer();
-
-        HttpResponse response = null;
-        try {
-            canceled = false;
-            error = false;
-
-            String urlString = String.format("https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s", apiTokenBot, channelName, sendMessage);
-            // https://api.telegram.org/bot[API_TOKEN_BOT]/sendMessage?chat_id=[CHANNEL_NAME]&text=Test
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(URI.create(urlString))
-                    .timeout(Duration.of(30, SECONDS))
-                    .GET()
-                    .build();
-            response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException exception) {
-            error = true;
-            SoapUI.logError(exception);
-        }
-
-        result.stopTimer();
-        result.setStatus(calculateStatus(response.statusCode()));
-
-        setResponseMessage(response.body().toString());
-
-        return result;
-    }
-
-    @Override
-    public boolean cancel() {
-        canceled = true;
-        return true;
-    }
-
-    private TestStepResult.TestStepStatus calculateStatus(int statusCode) {
-        if (error || statusCode != 200) {
-            return TestStepResult.TestStepStatus.FAILED;
-        }
-        return canceled ? TestStepResult.TestStepStatus.CANCELED : TestStepResult.TestStepStatus.OK;
     }
 }
