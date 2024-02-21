@@ -4,9 +4,12 @@ import com.eviware.soapui.SoapUI;
 import com.eviware.soapui.config.TestStepConfig;
 import com.eviware.soapui.impl.wsdl.panels.support.AbstractMockTestRunner;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
+import com.eviware.soapui.impl.wsdl.teststeps.WsdlMessageAssertion;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepResult;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepWithProperties;
 import com.eviware.soapui.model.ModelItemType;
+import com.eviware.soapui.model.testsuite.Assertable;
+import com.eviware.soapui.model.testsuite.TestAssertion;
 import com.eviware.soapui.model.testsuite.TestCaseRunContext;
 import com.eviware.soapui.model.testsuite.TestCaseRunner;
 import com.eviware.soapui.model.testsuite.TestStepResult;
@@ -14,7 +17,16 @@ import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.xml.XmlObjectConfigurationBuilder;
 import com.eviware.soapui.support.xml.XmlObjectConfigurationReader;
+import com.yeremeyev.apiservant.configs.ConfigConstants;
 import com.yeremeyev.apiservant.http.tools.QueryParameterTools;
+import com.yeremeyev.java.core.tools.StringTools;
+import com.yeremeyev.java.core.tools.languages.xml.creator.XmlNode;
+import com.yeremeyev.java.core.tools.languages.xml.exceptions.XmlException;
+import com.yeremeyev.java.core.tools.languages.xml.reader.XmlNodeReadable;
+import com.yeremeyev.java.core.tools.languages.xml.reader.XmlReader;
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.impl.xb.xsdschema.SchemaDocument;
+import org.json.XML;
 
 import java.net.ConnectException;
 import java.net.URI;
@@ -22,10 +34,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.List;
+import java.util.Map;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
-public class TelegramSendBotMessageToChatTestStep extends WsdlTestStepWithProperties /*implements PropertyExpansionContainer*/ {
+public class TelegramSendBotMessageToChatTestStep
+        extends WsdlTestStepWithProperties {
     private static final String CONNECTION_MISTAKE_ERROR_MESSAGE = "Connection mistake. Please choose internet access";
     private static final String CANCELLED_ERROR_MESSAGE = "Cancelled";
     private static final String SUCCESS_MESSAGE = "Success";
@@ -37,6 +52,7 @@ public class TelegramSendBotMessageToChatTestStep extends WsdlTestStepWithProper
     private static final String API_TOKEN_BOT_CONFIG_ATTRIBUTE_NAME = "apiTokenBot";
     private static final String CHANNEL_NAME_CONFIG_ATTRIBUTE_NAME = "channelName";
     private static final String SEND_MESSAGE_CONFIG_ATTRIBUTE_NAME = "sendMessage";
+    private static final String ASSERTIONS_CONFIG_PROPTERTY_NAME = "assertions";
 
     public static final String API_TOKEN_BOT_EXPAND_PROPERTY_NAME = "apiTokenBot";
     public static final String CHANNEL_NAME_EXPAND_PROPERTY_NAME = "channelName";
@@ -53,14 +69,85 @@ public class TelegramSendBotMessageToChatTestStep extends WsdlTestStepWithProper
 
     private String responseMessage;
 
+    private TelegramSendBotMessageAssertableAdapter assertableAdapter;
+
+    private void addXmlAsChildren(XmlNode node, XmlNodeReadable nodeReadable) throws XmlException {
+        XmlNode currentNode = node.appendChild(nodeReadable.getName());
+
+        Map<String, String> attributesMap = nodeReadable.getAttributesMap();
+        attributesMap.entrySet().stream().forEach(entry -> currentNode.setAttribute(entry.getKey(), entry.getValue()));
+
+        String textValue = nodeReadable.getValue();
+        if (!StringTools.isNullOrEmpty(textValue)) {
+            currentNode.setValue(textValue);
+        }
+
+        int childrensCount = nodeReadable.getChildrensCount();
+        for (int index = 0; index < childrensCount; index++) {
+            XmlNodeReadable child = nodeReadable.getItem(index);
+            addXmlAsChildren(currentNode, child);
+        }
+    }
+
+    private boolean saveAssertion(XmlNode node, TestAssertion testAssertion) throws XmlException {
+        if (!(testAssertion instanceof WsdlMessageAssertion)) {
+            return false;
+        }
+        XmlNode assertionNode = node.appendChild(ConfigConstants.ASSERTION_TAG_NAME);
+        assertionNode.setAttribute(ConfigConstants.TYPE_ATTRIBUTE_NAME, testAssertion.getLabel());
+        assertionNode.setAttribute(ConfigConstants.ID_ATTRIBUTE_NAME, testAssertion.getId());
+        assertionNode.setAttribute(ConfigConstants.NAME_ATTRIBUTE_NAME, testAssertion.getName());
+
+        XmlNode configurationNode = assertionNode.appendChild(ConfigConstants.CONFIGURATION_TAG_NAME);
+
+        WsdlMessageAssertion wsdlMessageAssertion = (WsdlMessageAssertion) testAssertion;
+        String customConfig = wsdlMessageAssertion.getConfiguration().toString();
+        XmlNodeReadable nodeReadable = XmlReader.readXml(customConfig);
+        addXmlAsChildren(configurationNode, nodeReadable);
+
+        return true;
+    }
+
     private void saveConfig(TestStepConfig config) {
-        XmlObjectConfigurationBuilder builder = new XmlObjectConfigurationBuilder();
+
+        try {
+            //XmlNode xmlConfigNode = new XmlNode(ConfigConstants.CONFIG_TAG_NAME);
+            XmlNode xmlConfigNode = new XmlNode("xml-fragment");
+
+            xmlConfigNode.setAttribute(API_TOKEN_BOT_CONFIG_ATTRIBUTE_NAME, apiTokenBot);
+            xmlConfigNode.setAttribute(CHANNEL_NAME_CONFIG_ATTRIBUTE_NAME, channelName);
+            xmlConfigNode.setAttribute(SEND_MESSAGE_CONFIG_ATTRIBUTE_NAME, sendMessage);
+
+            int assertionsCount = assertableAdapter.getAssertionCount();
+            //int assertionsCount = 0;
+            if (assertionsCount > 0) {
+                XmlNode assertionsNode = xmlConfigNode.appendChild(ASSERTIONS_CONFIG_PROPTERTY_NAME);
+                List<TestAssertion> assertionList = assertableAdapter.getAssertionList();
+                for (TestAssertion testAssertion : assertionList) {
+                    saveAssertion(assertionsNode, testAssertion);
+                }
+            }
+
+            xmlConfigNode.setAttribute(ConfigConstants.SOAPUI_NAMESPACE_ATTRIBUTE_NAME, ConfigConstants.SOAPUI_NAMESPACE_ATTRIBUTE_VALUE);
+
+            String resultXml = xmlConfigNode.toXml();
+            XmlObject xmlObject = XmlObject.Factory.parse(resultXml);
+            //XmlObject xmlObject = SchemaDocument.Factory.parse(resultXml);
+
+            config.setConfig(xmlObject);
+        } catch (XmlException | org.apache.xmlbeans.XmlException createXmlException) {
+            SoapUI.logError(createXmlException);
+        }
+
+
+        /*XmlObjectConfigurationBuilder builder = new XmlObjectConfigurationBuilder();
 
         builder.addAttribute(API_TOKEN_BOT_CONFIG_ATTRIBUTE_NAME, apiTokenBot);
         builder.addAttribute(CHANNEL_NAME_CONFIG_ATTRIBUTE_NAME, channelName);
         builder.addAttribute(SEND_MESSAGE_CONFIG_ATTRIBUTE_NAME, sendMessage);
 
-        config.setConfig(builder.finish());
+        XmlObject qwe = builder.finish();
+        config.setConfig(qwe);*/
     }
 
     private void readConfig(TestStepConfig config) {
@@ -87,6 +174,8 @@ public class TelegramSendBotMessageToChatTestStep extends WsdlTestStepWithProper
         apiTokenBot = StringUtils.EMPTY;
         channelName = StringUtils.EMPTY;
         sendMessage = StringUtils.EMPTY;
+
+        assertableAdapter = new TelegramSendBotMessageAssertableAdapter(this);
 
         if (!forLoadTest) {
             setIcon(UISupport.createImageIcon(TelegramSendBotMessageToChatStepFactory.ICON));
@@ -123,6 +212,10 @@ public class TelegramSendBotMessageToChatTestStep extends WsdlTestStepWithProper
     public void resetConfigOnMove(TestStepConfig config) {
         super.resetConfigOnMove(config);
         readConfig(config);
+    }
+
+    public Assertable getAssertable() {
+        return assertableAdapter;
     }
 
     public TestStepResult run(TestCaseRunner testRunner, TestCaseRunContext context) {

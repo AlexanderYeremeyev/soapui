@@ -1,5 +1,8 @@
 package com.yeremeyev.apiservant.teststeps.telegram.bot.ui;
 
+import com.eviware.soapui.impl.wsdl.panels.teststeps.AssertionsPanel;
+import com.eviware.soapui.impl.wsdl.teststeps.WsdlMessageAssertion;
+import com.eviware.soapui.model.testsuite.AssertionsListener;
 import com.eviware.soapui.support.DocumentListenerAdapter;
 import com.eviware.soapui.support.ListDataChangeListener;
 import com.eviware.soapui.support.UISupport;
@@ -53,6 +56,7 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
     private JLabel responseTextLabel;
     private JLogList logArea;
     private Logger logger;
+    private AssertionsPanel assertionsPanel;
 
     private JComponent buildToolbar() {
         JXToolBar toolBar = UISupport.createToolbar();
@@ -171,12 +175,15 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
         logArea.getLogList().getModel().addListDataListener(new ListDataChangeListener() {
 
             public void dataChanged(ListModel model) {
-                tabbedPane.setTitleAt(1, "Request Log (" + model.getSize() + ")");
+                tabbedPane.setTitleAt(2, "Request Log (" + model.getSize() + ")");
             }
         });
 
+        assertionsPanel = new AssertionsPanel(getModelItem().getAssertable());
+
+        tabbedPane.add("Assertions", assertionsPanel);
         tabbedPane.add("Response", responsePanel);
-        tabbedPane.add("Rquest Log", logArea);
+        tabbedPane.add("Request Log", logArea);
 
         return tabbedPane;
     }

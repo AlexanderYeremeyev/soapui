@@ -429,6 +429,12 @@
             <version>soapui</version>
         </dependency>
         <dependency>
+            <!-- https://github.com/AlexanderYeremeyev/yeremeyev-java-core -->
+            <groupId>com.yeremeyev.java</groupId>
+            <artifactId>yeremeyev-java-core</artifactId>
+            <version>${yeremeyev-java-core.version}</version>
+        </dependency>
+        <dependency>
             <!-- https://github.com/AlexanderYeremeyev/yeremeyev-java-swing-gui -->
             <groupId>com.yeremeyev.java</groupId>
             <artifactId>yeremeyev-java-swing-gui</artifactId>
