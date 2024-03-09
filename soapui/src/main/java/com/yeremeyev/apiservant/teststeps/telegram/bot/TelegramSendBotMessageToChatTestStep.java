@@ -4,24 +4,20 @@ import com.eviware.soapui.SoapUI;
 import com.eviware.soapui.config.TestStepConfig;
 import com.eviware.soapui.impl.wsdl.panels.support.AbstractMockTestRunner;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
-import com.eviware.soapui.impl.wsdl.teststeps.WsdlMessageAssertion;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepResult;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepWithProperties;
 import com.eviware.soapui.model.ModelItemType;
-import com.eviware.soapui.model.testsuite.TestAssertion;
 import com.eviware.soapui.model.testsuite.TestCaseRunContext;
 import com.eviware.soapui.model.testsuite.TestCaseRunner;
 import com.eviware.soapui.model.testsuite.TestStepResult;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.UISupport;
-import com.eviware.soapui.support.xml.XmlObjectConfigurationReader;
 import com.yeremeyev.apiservant.configs.ConfigConstants;
 import com.yeremeyev.apiservant.http.tools.QueryParameterTools;
 import com.yeremeyev.java.core.tools.languages.xml.creator.XmlNode;
 import com.yeremeyev.java.core.tools.languages.xml.exceptions.XmlException;
 import com.yeremeyev.java.core.tools.languages.xml.reader.XmlNodeReadable;
 import com.yeremeyev.java.core.tools.languages.xml.reader.XmlReader;
-import com.yeremeyev.java.core.tools.strings.StringTools;
 import org.apache.xmlbeans.XmlObject;
 
 import java.net.ConnectException;
@@ -30,8 +26,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.List;
-import java.util.Map;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
@@ -54,6 +48,9 @@ public class TelegramSendBotMessageToChatTestStep
     public static final String CHANNEL_NAME_EXPAND_PROPERTY_NAME = "channelName";
     public static final String SEND_MESSAGE_EXPAND_PROPERTY_NAME = "sendMessage";
     public static final String RESPONSE_MESSAGE_EXPAND_PROPERTY_NAME = "responseMessage";
+
+    public static final String TG_API_URL_TEMPLATE = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
+    public static final int DEFAULT_TIMEOUT_SECONDS = 30;
 
     private String apiTokenBot;
     private String channelName;
@@ -121,31 +118,12 @@ public class TelegramSendBotMessageToChatTestStep
         }
 
         initializeConfig(config, forLoadTest);
-
-        /*addProperty(new DefaultTestStepProperty("delay", true, new DefaultTestStepProperty.PropertyHandlerAdapter() {
-
-            @Override
-            public String getValue(DefaultTestStepProperty property) {
-                return getDelayString();
-            }
-
-            @Override
-            public void setValue(DefaultTestStepProperty property, String value) {
-                setDelayString(value);
-            }
-        }, this));*/
     }
 
     @Override
     public int getTypeId() {
         return ModelItemType.TELEGRAM_SEND_BOT_MESSAGE_TEST_STEP.getId();
     }
-
-    /*public PropertyExpansion[] getPropertyExpansions() {
-        List<PropertyExpansion> result = new ArrayList<PropertyExpansion>();
-        result.addAll(PropertyExpansionUtils.extractPropertyExpansions(this, this, "delayString"));
-        return result.toArray(new PropertyExpansion[result.size()]);
-    }*/
 
     @Override
     public void resetConfigOnMove(TestStepConfig config) {
@@ -172,16 +150,15 @@ public class TelegramSendBotMessageToChatTestStep
             validateParameters(apiTokenBotExpandValue, channelNameExpandValue, sendMessageExpandValue);
 
             String urlString = String.format(
-                    "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s",
+                    TG_API_URL_TEMPLATE,
                     apiTokenBotExpandValue,
                     channelNameExpandValue,
                     sendMessageExpandValue
             );
-            // https://api.telegram.org/bot[API_TOKEN_BOT]/sendMessage?chat_id=[CHANNEL_NAME]&text=Test
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(urlString))
-                    .timeout(Duration.of(30, SECONDS))
+                    .timeout(Duration.of(DEFAULT_TIMEOUT_SECONDS, SECONDS))
                     .GET()
                     .build();
             response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());

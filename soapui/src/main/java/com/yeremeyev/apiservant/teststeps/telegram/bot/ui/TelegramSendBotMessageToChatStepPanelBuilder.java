@@ -9,6 +9,7 @@ public class TelegramSendBotMessageToChatStepPanelBuilder extends EmptyPanelBuil
     public TelegramSendBotMessageToChatStepPanelBuilder() {
     }
 
+    @Override
     public DesktopPanel buildDesktopPanel(TelegramSendBotMessageToChatTestStep testStep) {
         return new TelegramSendBotMessageToChatStepDesktopPanel(testStep);
     }
