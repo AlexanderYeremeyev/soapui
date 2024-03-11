@@ -97,6 +97,14 @@
                     <mainClass>com.eviware.soapui.SoapUI</mainClass>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -419,6 +427,12 @@
             <groupId>swingx</groupId>
             <artifactId>swingx</artifactId>
             <version>soapui</version>
+        </dependency>
+        <dependency>
+            <!-- https://github.com/AlexanderYeremeyev/yeremeyev-java-core -->
+            <groupId>com.yeremeyev.java</groupId>
+            <artifactId>yeremeyev-java-core</artifactId>
+            <version>${yeremeyev-java-core.version}</version>
         </dependency>
         <dependency>
             <!-- https://github.com/AlexanderYeremeyev/yeremeyev-java-swing-gui -->

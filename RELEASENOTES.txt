@@ -5,6 +5,7 @@
 ### Overall improvements ###
 * remove fest-swing dependency and whole test module
 * use styled TabbedPane component
+* add telegram bot send message test step
 
 -------------------------------------------------------------------------------
 

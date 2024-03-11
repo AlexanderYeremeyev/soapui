@@ -129,7 +129,8 @@
         <io.swagger.swagger-parser.version>1.0.54</io.swagger.swagger-parser.version>
         <io.swagger.swagger-core.version>1.6.2</io.swagger.swagger-core.version>
 
-        <yeremeyev-java-swing-gui.version>1.0.0-SNAPSHOT</yeremeyev-java-swing-gui.version>
+        <yeremeyev-java-core.version>1.0.0</yeremeyev-java-core.version>
+        <yeremeyev-java-swing-gui.version>1.0.0</yeremeyev-java-swing-gui.version>
     </properties>
 
     <modules>
