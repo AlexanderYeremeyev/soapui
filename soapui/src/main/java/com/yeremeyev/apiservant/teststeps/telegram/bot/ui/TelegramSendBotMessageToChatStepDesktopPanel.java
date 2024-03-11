@@ -51,6 +51,8 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
     private final static String LOGGER_NAME_TEMPLATE = "%s#%d";
     private final static String DEFAULT_LOGGER_TAB_NAME = "Request Log";
     private final static String LOGGER_TAB_NAME_TEMPLATE = "Request Log (%s)";
+    private final static String SETTINGS_TOOLTIP_MESSAGE = "<html>setting must have valid values</html>";
+    private final static int DEFAULT_TOKEN_COLUMNS = 30;
 
     private RunAction runAction;
     private JTextField apiTokenBotTextField;
@@ -69,7 +71,7 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
         JButton runButton = UISupport.createToolbarButton(runAction);
         toolBar.add(runButton);
         toolBar.add(Box.createHorizontalGlue());
-        JLabel label = new JLabel("<html>setting must have valid values</html>");
+        JLabel label = new JLabel(SETTINGS_TOOLTIP_MESSAGE);
         label.setToolTipText(label.getText());
         label.setMaximumSize(label.getPreferredSize());
 
@@ -85,7 +87,7 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
         JLabel settingsTitleLabel = new JLabel(SETTINGS_TITLE);
 
         JLabel apiTokenBotLabel = new JLabel(ENTER_API_TOKEN_BOT_MESSAGE);
-        apiTokenBotTextField = new JTextField(getModelItem().getApiTokenBot(), 30);
+        apiTokenBotTextField = new JTextField(getModelItem().getApiTokenBot(), DEFAULT_TOKEN_COLUMNS);
         apiTokenBotTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -94,7 +96,7 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
         });
 
         JLabel channelNameLabel = new JLabel(ENTER_CHANNEL_NAME_MESSAGE);
-        channelNameTextField = new JTextField(getModelItem().getChannelName(), 30);
+        channelNameTextField = new JTextField(getModelItem().getChannelName(), DEFAULT_TOKEN_COLUMNS);
         channelNameTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
