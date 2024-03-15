@@ -1,6 +1,6 @@
-﻿# SoapUI Open Source 5.7.3-SHADOW-EDITION-SNAPSHOT
+﻿# SoapUI Open Source 5.7.3-SHADOW-EDITION
 
-#### on Released on **** ####
+#### Released on 15-03-2024 ####
 
 ### Overall improvements ###
 * remove fest-swing dependency and whole test module
