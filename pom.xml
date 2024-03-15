@@ -7,7 +7,7 @@
     <groupId>com.smartbear.soapui</groupId>
     <artifactId>soapui-project</artifactId>
     <name>SoapUI project</name>
-    <version>5.7.3-SHADOW-EDITION</version>
+    <version>5.7.4-SHADOW-EDITION-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <repositories>

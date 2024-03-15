@@ -1,4 +1,13 @@
-﻿# SoapUI Open Source 5.7.3-SHADOW-EDITION
+﻿# SoapUI Open Source 5.7.4-SHADOW-EDITION-SNAPSHOT
+
+#### Released on ---- ####
+
+### Overall improvements ###
+* TODO:
+
+-------------------------------------------------------------------------------
+
+# SoapUI Open Source 5.7.3-SHADOW-EDITION
 
 #### Released on 15-03-2024 ####
 
