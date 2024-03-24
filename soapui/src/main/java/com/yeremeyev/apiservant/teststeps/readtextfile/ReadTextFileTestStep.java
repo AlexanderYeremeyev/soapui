@@ -7,6 +7,7 @@ import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepResult;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepWithProperties;
 import com.eviware.soapui.model.ModelItemType;
+import com.eviware.soapui.model.propertyexpansion.PropertyExpander;
 import com.eviware.soapui.model.testsuite.TestCaseRunContext;
 import com.eviware.soapui.model.testsuite.TestCaseRunner;
 import com.eviware.soapui.model.testsuite.TestStepResult;
@@ -107,7 +108,8 @@ public class ReadTextFileTestStep
     public TestStepResult run(TestCaseRunner testRunner, TestCaseRunContext context) {
         WsdlTestStepResult result = new WsdlTestStepResult(this);
 
-        String filePathValue = filePath;
+        String filePathValue = PropertyExpander.expandProperties(filePath);
+
         // expand environment variables
 
         result.startTimer();
