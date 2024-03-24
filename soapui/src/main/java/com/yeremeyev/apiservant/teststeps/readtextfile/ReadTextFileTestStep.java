@@ -8,6 +8,7 @@ import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepResult;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepWithProperties;
 import com.eviware.soapui.model.ModelItemType;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpander;
+import com.eviware.soapui.model.support.DefaultTestStepProperty;
 import com.eviware.soapui.model.testsuite.TestCaseRunContext;
 import com.eviware.soapui.model.testsuite.TestCaseRunner;
 import com.eviware.soapui.model.testsuite.TestStepResult;
@@ -35,6 +36,8 @@ public class ReadTextFileTestStep
     private static final String FILE_PATH_CONFIG_ATTRIBUTE_NAME = "filePath";
 
     public static final String FILE_CONTENT_EXPAND_PROPERTY_NAME = "fileContent";
+
+    public static final String FILE_CONTENT_USER_VISIBLE_PROPERTY_NAME = "File Content";
 
     private String filePath;
 
@@ -84,6 +87,13 @@ public class ReadTextFileTestStep
     public ReadTextFileTestStep(WsdlTestCase testCase, TestStepConfig config, boolean forLoadTest) {
         super(testCase, config, true, forLoadTest);
 
+        addProperty(new DefaultTestStepProperty(FILE_CONTENT_USER_VISIBLE_PROPERTY_NAME, true, this) {
+            @Override
+            public String getValue() {
+                return fileContent;
+            }
+        });
+
         filePath = StringUtils.EMPTY;
         fileContent = StringUtils.EMPTY;
 
@@ -109,8 +119,6 @@ public class ReadTextFileTestStep
         WsdlTestStepResult result = new WsdlTestStepResult(this);
 
         String filePathValue = PropertyExpander.expandProperties(filePath);
-
-        // expand environment variables
 
         result.startTimer();
 
