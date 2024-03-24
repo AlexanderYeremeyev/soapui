@@ -26,8 +26,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-
-import static java.time.temporal.ChronoUnit.SECONDS;
+import java.time.temporal.ChronoUnit;
 
 public class TelegramSendBotMessageToChatTestStep
         extends WsdlTestStepWithProperties {
@@ -158,7 +157,7 @@ public class TelegramSendBotMessageToChatTestStep
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(urlString))
-                    .timeout(Duration.of(DEFAULT_TIMEOUT_SECONDS, SECONDS))
+                    .timeout(Duration.of(DEFAULT_TIMEOUT_SECONDS, ChronoUnit.SECONDS))
                     .GET()
                     .build();
             response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
