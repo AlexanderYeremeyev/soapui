@@ -1,4 +1,4 @@
-package com.yeremeyev.apiservant.teststeps.telegram.bot.ui;
+package com.yeremeyev.apiservant.teststeps.readtextfile.ui;
 
 import com.eviware.soapui.support.ListDataChangeListener;
 import com.eviware.soapui.support.UISupport;
@@ -6,12 +6,9 @@ import com.eviware.soapui.support.components.JXToolBar;
 import com.eviware.soapui.support.log.JLogList;
 import com.eviware.soapui.ui.support.ModelItemDesktopPanel;
 import com.yeremeyev.apiservant.teststeps.common.actions.RunAction;
-import com.yeremeyev.apiservant.teststeps.common.messages.RequestMessage;
 import com.yeremeyev.apiservant.teststeps.common.messages.ResponseMessage;
-import com.yeremeyev.apiservant.teststeps.common.messages.interfaces.UpdateSimpleMessageListener;
-import com.yeremeyev.apiservant.teststeps.common.ui.content.RequestResponseContentPanel;
-import com.yeremeyev.apiservant.teststeps.common.ui.content.views.PossibleViews;
-import com.yeremeyev.apiservant.teststeps.telegram.bot.TelegramSendBotMessageToChatTestStep;
+import com.yeremeyev.apiservant.teststeps.common.ui.content.views.raw.RawMessageView;
+import com.yeremeyev.apiservant.teststeps.readtextfile.ReadTextFileTestStep;
 import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import com.yeremeyev.java.common.windows.common.Colors;
 import com.yeremeyev.java.common.windows.swing.layouts.tools.GridBagConstraintsConstructor;
@@ -19,7 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -40,43 +36,33 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Set;
 
-public class TelegramSendBotMessageToChatStepDesktopPanel
-        extends ModelItemDesktopPanel<TelegramSendBotMessageToChatTestStep>
-        implements PropertyChangeListener, UpdateSimpleMessageListener {
+public class ReadTextFileStepDesktopPanel
+        extends ModelItemDesktopPanel<ReadTextFileTestStep>
+        implements PropertyChangeListener {
     private final static String UNEXPECTED_MISTAKE = "Unexpected mistake";
     private final static String SETTINGS_TITLE = "Settings";
-    private final static String ENTER_API_TOKEN_BOT_MESSAGE = "Enter api token bot";
-    private final static String ENTER_CHANNEL_NAME_MESSAGE = "Enter channel name/id";
+    private final static String ENTER_FILE_PATH_MESSAGE = "Enter file path";
     private final static String LOGGER_NAME_TEMPLATE = "%s#%d";
     private final static String DEFAULT_LOGGER_TAB_NAME = "Request Log";
     private final static String LOGGER_TAB_NAME_TEMPLATE = "Request Log (%s)";
-    private final static String SETTINGS_TOOLTIP_MESSAGE = "<html>setting must have valid values</html>";
-    private final static int DEFAULT_TOKEN_COLUMNS = 30;
+    private final static int DEFAULT_FILE_PATH_COLUMNS = 30;
 
     private RunAction runAction;
-    private JTextField apiTokenBotTextField;
-    private JTextField channelNameTextField;
-    private RequestResponseContentPanel requestResponseContentPanel;
+    private JTextField filePathTextField;
+    private JButton browseButton;
+    private RawMessageView rawMessageView;
 
     private String loggerUniqueName;
     private JLogList logArea;
     private Logger logger;
 
-    private RequestMessage requestMessage;
     private ResponseMessage responseMessage;
 
     private JComponent buildToolbar() {
         JXToolBar toolBar = UISupport.createToolbar();
         JButton runButton = UISupport.createToolbarButton(runAction);
         toolBar.add(runButton);
-        toolBar.add(Box.createHorizontalGlue());
-        JLabel label = new JLabel(SETTINGS_TOOLTIP_MESSAGE);
-        label.setToolTipText(label.getText());
-        label.setMaximumSize(label.getPreferredSize());
-
-        toolBar.add(label);
 
         return toolBar;
     }
@@ -87,23 +73,20 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
 
         JLabel settingsTitleLabel = new JLabel(SETTINGS_TITLE);
 
-        JLabel apiTokenBotLabel = new JLabel(ENTER_API_TOKEN_BOT_MESSAGE);
-        apiTokenBotTextField = new JTextField(getModelItem().getApiTokenBot(), DEFAULT_TOKEN_COLUMNS);
-        apiTokenBotTextField.addKeyListener(new KeyAdapter() {
+        JLabel filePathLabel = new JLabel(ENTER_FILE_PATH_MESSAGE);
+        filePathTextField = new JTextField(getModelItem().getFilePath(), DEFAULT_FILE_PATH_COLUMNS);
+        filePathTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                getModelItem().setApiTokenBot(apiTokenBotTextField.getText());
+                getModelItem().setFilePath(filePathTextField.getText());
             }
         });
 
-        JLabel channelNameLabel = new JLabel(ENTER_CHANNEL_NAME_MESSAGE);
-        channelNameTextField = new JTextField(getModelItem().getChannelName(), DEFAULT_TOKEN_COLUMNS);
-        channelNameTextField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                getModelItem().setChannelName(channelNameTextField.getText());
-            }
-        });
+        browseButton = new JButton("Browse");
+
+        JPanel browseFilePanel = new JPanel(new BorderLayout());
+        browseFilePanel.add(browseButton, BorderLayout.EAST);
+        browseFilePanel.add(filePathTextField);
 
         JPanel settingsPanel = new JPanel(new GridBagLayout());
         settingsPanel.setBackground(Colors.TRANSPARENT_COLOR);
@@ -112,11 +95,8 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
                 .setAnchor(GridBagConstraints.LINE_START)
                 .setInsets(new Insets(4, 10, 4, 8));
 
-        settingsPanel.add(apiTokenBotLabel, constraintsConstructor);
-        settingsPanel.add(apiTokenBotTextField, constraintsConstructor.nextCell());
-
-        settingsPanel.add(channelNameLabel, constraintsConstructor.nextRow().fillNone());
-        settingsPanel.add(channelNameTextField, constraintsConstructor.nextCell());
+        settingsPanel.add(filePathLabel, constraintsConstructor);
+        settingsPanel.add(browseFilePanel, constraintsConstructor.nextCell());
 
         JPanel settingsContainer = new JPanel(new BorderLayout());
         settingsContainer.setBackground(Colors.TRANSPARENT_COLOR);
@@ -140,15 +120,10 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
         return resultPanel;
     }
 
-    private JPanel buildContentPanel() {
-        requestResponseContentPanel = new RequestResponseContentPanel(
-                requestMessage,
-                responseMessage,
-                Set.of(PossibleViews.TEXT),
-                Set.of(PossibleViews.RAW, PossibleViews.JSON)
-        );
+    private JComponent buildContentPanel() {
+        rawMessageView = new RawMessageView(responseMessage);
 
-        return requestResponseContentPanel;
+        return rawMessageView.getComponent();
     }
 
     private JComponent buildResponsePanel() {
@@ -178,13 +153,10 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
         add(rootPanel);
     }
 
-    public TelegramSendBotMessageToChatStepDesktopPanel(TelegramSendBotMessageToChatTestStep telegramSendMessageTestStep) {
-        super(telegramSendMessageTestStep);
+    public ReadTextFileStepDesktopPanel(ReadTextFileTestStep readTextFileTestStep) {
+        super(readTextFileTestStep);
 
-        requestMessage = new RequestMessage();
-        requestMessage.setMessage(getModelItem().getSendMessage());
         responseMessage = new ResponseMessage();
-        requestMessage.addListener(this);
 
         loggerUniqueName = String.format(LOGGER_NAME_TEMPLATE, getModelItem().getName(), hashCode());
         logger = LogManager.getLogger(loggerUniqueName);
@@ -195,33 +167,25 @@ public class TelegramSendBotMessageToChatStepDesktopPanel
 
         addFocusListener(new FocusAdapter() {
             public void focusGained(FocusEvent e) {
-                requestResponseContentPanel.requestFocusInWindow();
+                rawMessageView.getComponent().requestFocusInWindow();
             }
         });
-    }
-
-    @Override
-    public void onMessageSimpleUpdate(String message) {
-        // request editor update
-        getModelItem().setSendMessage(message);
     }
 
     public boolean onClose(boolean canCancel) {
         logArea.removeLogger(logger.getName());
         logger = null;
 
-        requestResponseContentPanel.release();
-
-        requestMessage.removeListener(this);
-        requestMessage.release();
+        rawMessageView.release();
         responseMessage.release();
 
         return super.release();
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
         String propertyName = propertyChangeEvent.getPropertyName();
-        if (propertyName.equals(TelegramSendBotMessageToChatTestStep.RESPONSE_MESSAGE_EXPAND_PROPERTY_NAME)) {
+        if (propertyName.equals(ReadTextFileTestStep.FILE_CONTENT_EXPAND_PROPERTY_NAME)) {
             String message = propertyChangeEvent.getNewValue() == null ? UNEXPECTED_MISTAKE : propertyChangeEvent.getNewValue().toString();
             responseMessage.setMessage(message);
         }

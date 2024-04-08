@@ -40,8 +40,10 @@ public enum ModelItemType {
     DELAY_TEST_STEP(31, "Wsdl delay test step", "Wsdl delay test step"),
     SOAP_MOCK_RESPONSE_TEST_STEP(32, "SOAP mock response test step", "SOAP mock response test step"),
     MANUAL_TEST_STEP(33, "Manual test step", "Manual test step"),
-    TELEGRAM_SEND_BOT_MESSAGE_TEST_STEP(34, "Telegram send bot message test step", "Sent message from bot to specific channel");
-    // LAST ID = 34
+    TELEGRAM_SEND_BOT_MESSAGE_TEST_STEP(34, "Telegram send bot message test step", "Sent message from bot to specific channel"),
+    READ_TEXT_FILE_TEST_STEP(35, "Read text file test step", "Read simple text file content. For example credentials")
+    ;
+    // LAST ID = 35
 
     private int id;
     private String name;

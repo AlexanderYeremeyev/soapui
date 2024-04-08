@@ -1,27 +1,27 @@
-package com.yeremeyev.apiservant.teststeps.telegram.bot.ui;
+package com.yeremeyev.apiservant.teststeps.common.actions;
 
 import com.eviware.soapui.impl.wsdl.panels.support.MockTestRunContext;
 import com.eviware.soapui.impl.wsdl.panels.support.MockTestRunner;
+import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStep;
 import com.eviware.soapui.impl.wsdl.teststeps.WsdlTestStepResult;
 import com.eviware.soapui.support.UISupport;
-import com.yeremeyev.apiservant.teststeps.telegram.bot.TelegramSendBotMessageToChatTestStep;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import java.awt.event.ActionEvent;
 
-class RunAction extends AbstractAction {
+public class RunAction extends AbstractAction {
     private Logger logger;
-    private TelegramSendBotMessageToChatTestStep testStep;
+    private WsdlTestStep testStep;
     private Thread runThread;
 
-    public RunAction(TelegramSendBotMessageToChatTestStep testStep, Logger logger) {
+    public RunAction(WsdlTestStep testStep, Logger logger) {
         this.logger = logger;
         this.testStep = testStep;
 
         putValue(Action.SMALL_ICON, UISupport.createImageIcon("/run.png"));
-        putValue(Action.SHORT_DESCRIPTION, "Runs this script in a seperate thread using a mock testRunner and testContext");
+        putValue(Action.SHORT_DESCRIPTION, "Run test step");
     }
 
     @Override
