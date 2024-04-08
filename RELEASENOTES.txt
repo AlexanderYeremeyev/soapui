@@ -3,7 +3,7 @@
 #### Released on ---- ####
 
 ### Overall improvements ###
-* TODO:
+* read text file test step
 
 -------------------------------------------------------------------------------
 
