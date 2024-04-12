@@ -41,7 +41,8 @@ public enum ModelItemType {
     SOAP_MOCK_RESPONSE_TEST_STEP(32, "SOAP mock response test step", "SOAP mock response test step"),
     MANUAL_TEST_STEP(33, "Manual test step", "Manual test step"),
     TELEGRAM_SEND_BOT_MESSAGE_TEST_STEP(34, "Telegram send bot message test step", "Sent message from bot to specific channel"),
-    READ_TEXT_FILE_TEST_STEP(35, "Read text file test step", "Read simple text file content. For example credentials")
+    READ_TEXT_FILE_TEST_STEP(35, "Read text file test step", "Read simple text file content. For example credentials"),
+    ITERABLE_DATA_READER_TEST_STEP(36, "Iterable data reader test step", "Read data from source step by step")
     ;
     // LAST ID = 35
 

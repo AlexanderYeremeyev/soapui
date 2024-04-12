@@ -4,6 +4,7 @@
 
 ### Overall improvements ###
 * read text file test step
+* start working on iterable data reader
 
 -------------------------------------------------------------------------------
 
