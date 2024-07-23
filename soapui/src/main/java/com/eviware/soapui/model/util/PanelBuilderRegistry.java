@@ -69,7 +69,6 @@ import com.eviware.soapui.impl.wsdl.panels.testsuite.WsdlTestSuitePanelBuilder;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
 import com.eviware.soapui.impl.wsdl.teststeps.AMFRequestTestStep;
 import com.eviware.soapui.impl.wsdl.teststeps.GraphQLRequestTestStep;
-import com.eviware.soapui.impl.wsdl.teststeps.GraphQLTestRequest;
 import com.eviware.soapui.impl.wsdl.teststeps.HttpTestRequestStep;
 import com.eviware.soapui.impl.wsdl.teststeps.JdbcRequestTestStep;
 import com.eviware.soapui.impl.wsdl.teststeps.ManualTestStep;
@@ -87,6 +86,8 @@ import com.eviware.soapui.model.PanelBuilder;
 import com.eviware.soapui.security.SecurityTest;
 import com.eviware.soapui.security.panels.SecurityTestPanelBuilder;
 import com.eviware.soapui.support.factory.SoapUIFactoryRegistryListener;
+import com.yeremeyev.apiservant.teststeps.iterable.datareader.DataReaderTestStep;
+import com.yeremeyev.apiservant.teststeps.iterable.datareader.ui.DataReaderStepPanelBuilder;
 import com.yeremeyev.apiservant.teststeps.readtextfile.ReadTextFileTestStep;
 import com.yeremeyev.apiservant.teststeps.readtextfile.ui.ReadTextFileStepPanelBuilder;
 import com.yeremeyev.apiservant.teststeps.telegram.bot.TelegramSendBotMessageToChatTestStep;
@@ -149,6 +150,7 @@ public class PanelBuilderRegistry {
         register(SecurityTest.class, new SecurityTestPanelBuilder<SecurityTest>());
         register(TelegramSendBotMessageToChatTestStep.class, new TelegramSendBotMessageToChatStepPanelBuilder());
         register(ReadTextFileTestStep.class, new ReadTextFileStepPanelBuilder());
+        register(DataReaderTestStep.class, new DataReaderStepPanelBuilder());
 
         for (PanelBuilderFactory factory : SoapUI.getFactoryRegistry().getFactories(PanelBuilderFactory.class)) {
             register(factory.getTargetModelItem(), factory.createPanelBuilder());

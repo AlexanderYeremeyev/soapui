@@ -1,4 +1,4 @@
-package com.yeremeyev.apiservant.teststeps.iterabledatareader.ui;
+package com.yeremeyev.apiservant.teststeps.iterable.datareader.ui;
 
 import com.eviware.soapui.support.ListDataChangeListener;
 import com.eviware.soapui.support.UISupport;
@@ -8,37 +8,22 @@ import com.eviware.soapui.ui.support.ModelItemDesktopPanel;
 import com.yeremeyev.apiservant.teststeps.common.actions.RunAction;
 import com.yeremeyev.apiservant.teststeps.common.messages.ResponseMessage;
 import com.yeremeyev.apiservant.teststeps.common.ui.content.views.raw.RawMessageView;
+import com.yeremeyev.apiservant.teststeps.iterable.datareader.DataReaderTestStep;
 import com.yeremeyev.apiservant.teststeps.readtextfile.ReadTextFileTestStep;
 import com.yeremeyev.apiservant.ui.components.factories.TabbedPaneFactory;
 import com.yeremeyev.java.common.windows.common.Colors;
-import com.yeremeyev.java.common.windows.swing.layouts.tools.GridBagConstraintsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class IterableDataReaderStepDesktopPanel
-        extends ModelItemDesktopPanel<ReadTextFileTestStep>
+public class DataReaderStepDesktopPanel
+        extends ModelItemDesktopPanel<DataReaderTestStep>
         implements PropertyChangeListener {
     private final static String UNEXPECTED_MISTAKE = "Unexpected mistake";
     private final static String SETTINGS_TITLE = "Settings";
@@ -70,43 +55,6 @@ public class IterableDataReaderStepDesktopPanel
     private JPanel buildSettings() {
         JPanel resultPanel = new JPanel(new BorderLayout());
         resultPanel.setBackground(Colors.SMOKY_WHITE);
-
-        JLabel settingsTitleLabel = new JLabel(SETTINGS_TITLE);
-
-        JLabel filePathLabel = new JLabel(ENTER_FILE_PATH_MESSAGE);
-        filePathTextField = new JTextField(getModelItem().getFilePath(), DEFAULT_FILE_PATH_COLUMNS);
-        filePathTextField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                getModelItem().setFilePath(filePathTextField.getText());
-            }
-        });
-
-        browseButton = new JButton("Browse");
-
-        JPanel browseFilePanel = new JPanel(new BorderLayout());
-        browseFilePanel.add(browseButton, BorderLayout.EAST);
-        browseFilePanel.add(filePathTextField);
-
-        JPanel settingsPanel = new JPanel(new GridBagLayout());
-        settingsPanel.setBackground(Colors.TRANSPARENT_COLOR);
-
-        GridBagConstraintsConstructor constraintsConstructor = new GridBagConstraintsConstructor()
-                .setAnchor(GridBagConstraints.LINE_START)
-                .setInsets(new Insets(4, 10, 4, 8));
-
-        settingsPanel.add(filePathLabel, constraintsConstructor);
-        settingsPanel.add(browseFilePanel, constraintsConstructor.nextCell());
-
-        JPanel settingsContainer = new JPanel(new BorderLayout());
-        settingsContainer.setBackground(Colors.TRANSPARENT_COLOR);
-        settingsContainer.add(settingsPanel, BorderLayout.WEST);
-
-        Border border = BorderFactory.createMatteBorder(0, 0, 1, 0, Colors.SHADOW);
-        resultPanel.setBorder(border);
-
-        resultPanel.add(settingsTitleLabel, BorderLayout.NORTH);
-        resultPanel.add(settingsContainer);
 
         return resultPanel;
     }
@@ -153,8 +101,8 @@ public class IterableDataReaderStepDesktopPanel
         add(rootPanel);
     }
 
-    public IterableDataReaderStepDesktopPanel(ReadTextFileTestStep readTextFileTestStep) {
-        super(readTextFileTestStep);
+    public DataReaderStepDesktopPanel(DataReaderTestStep dataReaderTestStep) {
+        super(dataReaderTestStep);
 
         responseMessage = new ResponseMessage();
 

@@ -136,6 +136,7 @@ public class SoapUIActionRegistry {
         // test step actions
         addActionGroup(new WsdlTestStepSoapUIActionGroup("TelegramSendBotMessageToChatTestStep", "group for telegram bot send message to chat"), "TelegramSendBotMessageToChatTestStepActions");
         addActionGroup(new WsdlTestStepSoapUIActionGroup("ReadTextFileTestStep", "group for read text file text step"), "ReadTextFileTestStepActions");
+        addActionGroup(new WsdlTestStepSoapUIActionGroup("DataReaderTestStep", "group for iterable data reader text step"), "DataReaderTestStepActions");
 
         if (config != null) {
             addConfig(config, SoapUI.class.getClassLoader());
